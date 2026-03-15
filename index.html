@@ -7,29 +7,26 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap');
-
-:root {
-  --base-blue:#0052FF; --base-blue-dark:#003dbf; --base-blue-light:#e6eeff;
-  --gm-gold:#F59E0B;   --gm-gold-light:#FEF3C7;
-  --gn-purple:#7C3AED; --gn-purple-light:#EDE9FE;
-  --success:#10B981;   --success-light:#D1FAE5;
-  --danger:#EF4444;    --danger-light:#FEE2E2;
-  --warn:#F59E0B;      --warn-light:#FEF9C3;
-  --bg:#ffffff; --bg2:#f8f8f7;
-  --border:rgba(0,0,0,.10); --border2:rgba(0,0,0,.18);
-  --text:#1a1a18; --text2:#6b6b67;
-  --r:12px; --rs:8px;
+:root{
+  --base-blue:#0052FF;--base-blue-dark:#003dbf;--base-blue-light:#e6eeff;
+  --gm-gold:#F59E0B;--gm-gold-light:#FEF3C7;
+  --gn-purple:#7C3AED;--gn-purple-light:#EDE9FE;
+  --success:#10B981;--success-light:#D1FAE5;
+  --danger:#EF4444;--danger-light:#FEE2E2;
+  --warn:#F59E0B;--warn-light:#FEF9C3;
+  --bg:#ffffff;--bg2:#f8f8f7;
+  --border:rgba(0,0,0,.10);--border2:rgba(0,0,0,.18);
+  --text:#1a1a18;--text2:#6b6b67;
+  --r:12px;--rs:8px;
 }
-@media(prefers-color-scheme:dark){
-  :root{
-    --bg:#1a1a18; --bg2:#242421;
-    --border:rgba(255,255,255,.10); --border2:rgba(255,255,255,.18);
-    --text:#f0efea; --text2:#9c9a92;
-    --base-blue-light:#0f1e3d; --gm-gold-light:#2d1f00;
-    --gn-purple-light:#1e0a3c; --success-light:#042f1e;
-    --danger-light:#2d0a0a; --warn-light:#2d1f00;
-  }
-}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#1a1a18;--bg2:#242421;
+  --border:rgba(255,255,255,.10);--border2:rgba(255,255,255,.18);
+  --text:#f0efea;--text2:#9c9a92;
+  --base-blue-light:#0f1e3d;--gm-gold-light:#2d1f00;
+  --gn-purple-light:#1e0a3c;--success-light:#042f1e;
+  --danger-light:#2d0a0a;--warn-light:#2d1f00;
+}}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 .container{max-width:520px;margin:0 auto;padding:24px 16px 56px}
@@ -55,7 +52,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .btn-connect:hover{background:var(--base-blue-dark)}
 .btn-connect:active{transform:scale(.97)}
 .btn-connect.off{background:var(--danger)}
-.btn-connect.off:hover{background:#c53030}
 
 /* Modal */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity .2s}
@@ -72,14 +68,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .w-opt .wname{font-weight:600;font-size:14px}
 .w-opt .wrdns{font-size:11px;color:var(--text2);margin-top:2px}
 .w-opt .wbadge{margin-left:auto;font-size:10px;padding:2px 8px;border-radius:10px;background:var(--success-light);color:#065F46;white-space:nowrap}
-.wc-badge{background:var(--base-blue-light);color:var(--base-blue)}
-.divider{border-top:.5px solid var(--border);margin:10px 0 10px}
+.wc-badge{background:var(--base-blue-light)!important;color:var(--base-blue)!important}
+.divider{border-top:.5px solid var(--border);margin:10px 0}
 .no-wallet{text-align:center;padding:14px;font-size:13px;color:var(--text2)}
 .no-wallet a{color:var(--base-blue)}
 .modal-close{width:100%;padding:10px;border:none;background:transparent;color:var(--text2);font-size:13px;cursor:pointer;border-top:.5px solid var(--border);font-family:'DM Sans',sans-serif;margin-top:10px}
-.modal-close:hover{color:var(--text)}
 
-/* Network warn */
+/* Net warn */
 .net-warn{background:var(--warn-light);border:.5px solid #fcd34d;border-radius:var(--rs);padding:11px 14px;font-size:13px;color:#78350F;margin-bottom:14px;display:none;align-items:center;gap:8px}
 .net-warn.show{display:flex}
 .net-warn button{margin-left:auto;background:var(--warn);color:#78350F;border:none;padding:4px 10px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:600;font-family:'DM Sans',sans-serif}
@@ -98,9 +93,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 /* Form */
 .form-group{margin-bottom:14px}
 .form-group label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin-bottom:5px}
-.form-group input,.form-group textarea{width:100%;background:var(--bg2);border:.5px solid var(--border2);border-radius:var(--rs);padding:10px 12px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;transition:border-color .15s}
-.form-group input:focus,.form-group textarea:focus{border-color:var(--base-blue)}
-.form-group textarea{resize:vertical;min-height:100px;font-family:'Space Mono',monospace;font-size:12px}
+.form-group input{width:100%;background:var(--bg2);border:.5px solid var(--border2);border-radius:var(--rs);padding:10px 12px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;transition:border-color .15s}
+.form-group input:focus{border-color:var(--base-blue)}
 
 /* Info rows */
 .info-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:.5px solid var(--border);font-size:13px}
@@ -108,11 +102,17 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .il{color:var(--text2)}
 .iv{font-family:'Space Mono',monospace;font-size:12px}
 
-/* Gas */
+/* Fee box */
+.fee-box{display:flex;justify-content:space-between;align-items:center;background:var(--gm-gold-light);border:.5px solid var(--gm-gold);border-radius:var(--rs);padding:10px 14px;margin-bottom:14px;font-size:13px}
+.fee-box.gn{background:var(--gn-purple-light);border-color:var(--gn-purple)}
+.fee-label{color:#78350F;font-weight:500}
+.fee-box.gn .fee-label{color:var(--gn-purple)}
+.fee-val{font-family:'Space Mono',monospace;font-weight:700;color:#78350F}
+.fee-box.gn .fee-val{color:var(--gn-purple)}
 .gas-row{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);background:var(--bg2);border:.5px solid var(--border);border-radius:var(--rs);padding:9px 13px;margin-bottom:14px}
 .gv{font-family:'Space Mono',monospace;color:var(--text)}
 
-/* Action buttons */
+/* Buttons */
 .action-btn{width:100%;padding:14px;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:8px}
 .action-btn:active{transform:scale(.98)}
 .action-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
@@ -122,6 +122,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .btn-gn:hover:not(:disabled){background:#6d28d9}
 .btn-deploy{background:var(--base-blue);color:#fff}
 .btn-deploy:hover:not(:disabled){background:var(--base-blue-dark)}
+.btn-ai{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
+.btn-ai:hover:not(:disabled){background:linear-gradient(135deg,#4f46e5,#7c3aed)}
 
 /* Status */
 .status{margin-top:14px;padding:12px 14px;border-radius:var(--rs);font-size:13px;display:none;align-items:flex-start;gap:9px;line-height:1.5}
@@ -138,6 +140,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .stat-num{font-family:'Space Mono',monospace;font-size:38px;font-weight:700;line-height:1}
 .stat-lbl{font-size:12px;color:var(--text2);margin-top:6px}
 
+/* Deploy AI section */
+.ai-badge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,#ede9fe,#e0e7ff);color:#6366f1;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;border:.5px solid #c7d2fe;margin-bottom:14px}
+.code-preview{background:var(--bg2);border:.5px solid var(--border2);border-radius:var(--rs);padding:14px;font-family:'Space Mono',monospace;font-size:11px;color:var(--text2);line-height:1.7;max-height:200px;overflow-y:auto;margin-bottom:14px;display:none;white-space:pre-wrap;word-break:break-all}
+.code-preview.show{display:block}
+.step-indicator{display:flex;gap:8px;margin-bottom:16px}
+.step{flex:1;text-align:center;padding:8px 4px;border-radius:var(--rs);font-size:11px;font-weight:600;background:var(--bg2);border:.5px solid var(--border);color:var(--text2);transition:all .3s}
+.step.active{background:var(--base-blue-light);color:var(--base-blue);border-color:var(--base-blue)}
+.step.done{background:var(--success-light);color:#065F46;border-color:#6ee7b7}
+.step-num{display:block;font-size:16px;margin-bottom:2px}
+
 /* History */
 .hist-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:.5px solid var(--border);font-size:13px}
 .hist-item:last-child{border-bottom:none}
@@ -153,6 +165,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .b-green{background:var(--success-light);color:#065F46}
 .b-purple{background:var(--gn-purple-light);color:var(--gn-purple)}
 .tx-small{font-family:'Space Mono',monospace;font-size:11px;color:var(--base-blue);display:block;margin-top:3px}
+
+/* Owner panel */
+.owner-panel{background:var(--bg2);border:.5px solid var(--border2);border-radius:var(--r);padding:16px;margin-bottom:16px}
+.owner-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text2);margin-bottom:12px}
+.withdraw-btn{width:100%;padding:11px;border:none;border-radius:var(--rs);background:var(--success);color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s}
+.withdraw-btn:hover{background:#059669}
 </style>
 </head>
 <body>
@@ -176,13 +194,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   </div>
 </div>
 
-<!-- Network warn -->
+<!-- Net warn -->
 <div class="net-warn" id="net-warn">
   ⚠️ Cüzdanınızı <strong>Base Ağına</strong> (8453) geçirin.
   <button onclick="switchToBase()">Ağı Geç</button>
 </div>
 
-<!-- Wallet card -->
+<!-- Wallet -->
 <div class="wallet-card">
   <div class="wallet-icon">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -199,28 +217,18 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   <button class="btn-connect" id="connect-btn" onclick="openModal()">🔗 Bağlan</button>
 </div>
 
-<!-- Wallet Picker Modal -->
+<!-- Wallet Modal -->
 <div class="modal-bg" id="modal-bg" onclick="bgClose(event)">
   <div class="modal">
     <h2>Cüzdan Seç</h2>
     <div class="sub">Bağlanmak istediğiniz cüzdanı seçin</div>
-
-    <div class="wallet-list" id="wallet-list">
-      <!-- JS ile doldurulacak -->
-    </div>
-
+    <div class="wallet-list" id="wallet-list"></div>
     <div class="divider"></div>
-
-    <!-- WalletConnect her zaman -->
     <div class="w-opt" onclick="connectWC()">
       <div class="wico">🔗</div>
-      <div>
-        <div class="wname">WalletConnect</div>
-        <div class="wrdns">Mobil cüzdanlar için QR</div>
-      </div>
+      <div><div class="wname">WalletConnect</div><div class="wrdns">Mobil cüzdanlar için QR</div></div>
       <span class="wbadge wc-badge">QR</span>
     </div>
-
     <button class="modal-close" onclick="closeModal()">Kapat</button>
   </div>
 </div>
@@ -246,15 +254,18 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     </div>
   </div>
   <div class="card">
-    <div class="card-title">GM Kontratı</div>
-    <div class="info-row"><span class="il">Kontrat</span><span class="iv" id="gm-addr-disp">—</span></div>
-    <div class="info-row"><span class="il">Fonksiyon</span><span class="iv">gm(string)</span></div>
+    <div class="card-title">GM Gönder</div>
+    <div class="info-row"><span class="il">Kontrat</span><span class="iv">0xfDeb…111E</span></div>
     <div class="info-row" style="margin-bottom:14px"><span class="il">Bugün GM</span><span id="gm-today">—</span></div>
     <div class="form-group">
       <label>Mesajınız (opsiyonel)</label>
       <input type="text" id="gm-msg" placeholder="GM frens! 🌞" maxlength="280"/>
     </div>
-    <div class="gas-row"><span>⛽ Tahmini Gas</span><span class="gv">~0.0001–0.0003 ETH</span></div>
+    <div class="fee-box">
+      <span class="fee-label">💰 Servis Ücreti</span>
+      <span class="fee-val">0.00001 ETH</span>
+    </div>
+    <div class="gas-row"><span>⛽ + Gas</span><span class="gv">~0.0001 ETH</span></div>
     <button class="action-btn btn-gm" id="gm-btn" onclick="sendGM()">☀️ GM Gönder</button>
     <div class="status" id="gm-status"></div>
   </div>
@@ -273,48 +284,76 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     </div>
   </div>
   <div class="card">
-    <div class="card-title">GN Kontratı</div>
-    <div class="info-row"><span class="il">Kontrat</span><span class="iv" id="gn-addr-disp">—</span></div>
-    <div class="info-row"><span class="il">Fonksiyon</span><span class="iv">gn(string)</span></div>
+    <div class="card-title">GN Gönder</div>
+    <div class="info-row"><span class="il">Kontrat</span><span class="iv">0x5A4F…37B9</span></div>
     <div class="info-row" style="margin-bottom:14px"><span class="il">Bugün GN</span><span id="gn-today">—</span></div>
     <div class="form-group">
       <label>Mesajınız (opsiyonel)</label>
       <input type="text" id="gn-msg" placeholder="GN everyone! 🌙✨" maxlength="280"/>
     </div>
-    <div class="gas-row"><span>⛽ Tahmini Gas</span><span class="gv">~0.0001–0.0003 ETH</span></div>
+    <div class="fee-box gn">
+      <span class="fee-label">💰 Servis Ücreti</span>
+      <span class="fee-val">0.00001 ETH</span>
+    </div>
+    <div class="gas-row"><span>⛽ + Gas</span><span class="gv">~0.0001 ETH</span></div>
     <button class="action-btn btn-gn" id="gn-btn" onclick="sendGN()">🌙 GN Gönder</button>
     <div class="status" id="gn-status"></div>
   </div>
 </div>
 
-<!-- Deploy -->
+<!-- DEPLOY -->
 <div class="pane" id="pane-deploy">
   <div class="card">
-    <div class="card-title">Kontrat Deploy Et</div>
-    <div class="form-group">
-      <label>Bytecode (0x…)</label>
-      <input type="text" id="dep-bytecode" placeholder="0x608060405234801561001057600080fd5b50..."/>
+    <div class="ai-badge">✨ AI Destekli Deploy</div>
+
+    <!-- Step indicators -->
+    <div class="step-indicator">
+      <div class="step active" id="step1"><span class="step-num">1</span>İsim</div>
+      <div class="step" id="step2"><span class="step-num">2</span>Üret</div>
+      <div class="step" id="step3"><span class="step-num">3</span>Deploy</div>
     </div>
-    <div class="form-group">
-      <label>ABI (JSON)</label>
-      <textarea id="dep-abi" placeholder='[{"inputs":[],"stateMutability":"nonpayable","type":"constructor"}]'></textarea>
+
+    <!-- Step 1: Sadece isim -->
+    <div id="deploy-step1">
+      <div class="form-group">
+        <label>Kontrat Adı</label>
+        <input type="text" id="contract-name" placeholder="örn: MyToken, StakingPool, NFTMint…" />
+      </div>
+      <div class="form-group">
+        <label>Ne Yapmasını İstiyorsunuz? (opsiyonel)</label>
+        <input type="text" id="contract-desc" placeholder="örn: ERC20 token, NFT mint, basit depolama…" />
+      </div>
+      <div class="info-row" style="margin-bottom:14px">
+        <span class="il">Network</span>
+        <span class="badge b-blue">Base Mainnet (8453)</span>
+      </div>
+      <button class="action-btn btn-ai" id="ai-generate-btn" onclick="generateContract()">
+        ✨ AI ile Kod Üret
+      </button>
+      <div class="status" id="gen-status"></div>
     </div>
-    <div class="form-group">
-      <label>Constructor Argümanları (opsiyonel)</label>
-      <input type="text" id="dep-args" placeholder='"hello", 100, 0x...'/>
+
+    <!-- Step 2: Üretilen kod önizleme -->
+    <div id="deploy-step2" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <span style="font-size:12px;font-weight:600;color:var(--text2)">ÜRETİLEN KOD</span>
+        <button onclick="resetDeploy()" style="font-size:11px;color:var(--base-blue);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↩ Yeniden Yaz</button>
+      </div>
+      <div class="code-preview show" id="code-preview"></div>
+      <button class="action-btn btn-deploy" id="deploy-btn" onclick="deployGeneratedContract()">
+        🚀 Base'e Deploy Et
+      </button>
+      <div class="status" id="dep-status"></div>
     </div>
-    <div class="info-row" style="margin-bottom:14px">
-      <span class="il">Network</span>
-      <span class="badge b-blue">Base Mainnet (8453)</span>
-    </div>
-    <button class="action-btn btn-deploy" id="dep-btn" onclick="deployContract()">🚀 Deploy Et</button>
-    <div class="status" id="dep-status"></div>
   </div>
+
+  <!-- Deploy sonucu -->
   <div class="card" id="dep-result" style="display:none">
-    <div class="card-title">Deploy Sonucu</div>
-    <div class="info-row"><span class="il">Kontrat Adresi</span><span class="iv" id="res-addr">—</span></div>
+    <div class="card-title">✅ Deploy Başarılı</div>
+    <div class="info-row"><span class="il">Kontrat Adı</span><span class="iv" id="res-name">—</span></div>
+    <div class="info-row"><span class="il">Adres</span><span class="iv" id="res-addr">—</span></div>
     <div class="info-row"><span class="il">Tx Hash</span><a class="tx-link" id="res-tx" target="_blank">—</a></div>
-    <div class="info-row"><span class="il">Durum</span><span class="badge b-green">✓ Onaylandı</span></div>
+    <div class="info-row"><span class="il">Network</span><span class="badge b-blue">Base Mainnet</span></div>
   </div>
 </div>
 
@@ -323,6 +362,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   <div class="card">
     <div class="card-title">İşlem Geçmişi</div>
     <div id="history-list"><p style="font-size:13px;color:var(--text2);text-align:center;padding:16px 0">Henüz işlem yok.</p></div>
+  </div>
+  <div class="owner-panel" id="owner-panel" style="display:none">
+    <div class="owner-title">👑 Owner Paneli</div>
+    <div class="info-row"><span class="il">GM Kontrat Bakiyesi</span><span class="iv" id="gm-balance">—</span></div>
+    <div class="info-row" style="margin-bottom:12px"><span class="il">GN Kontrat Bakiyesi</span><span class="iv" id="gn-balance">—</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button class="withdraw-btn" onclick="withdrawGM()">💰 GM Çek</button>
+      <button class="withdraw-btn" onclick="withdrawGN()">💰 GN Çek</button>
+    </div>
+    <div class="status" id="withdraw-status"></div>
   </div>
   <div class="card">
     <div class="card-title">Oturum İstatistikleri</div>
@@ -339,227 +388,201 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   </div>
 </div>
 
-</div>
+</div><!-- /container -->
 
 <script>
-// ═══ CONFIG ═══════════════════════════════
+// ══════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════
 const CFG = {
   CHAIN_ID : 8453,
   CHAIN_HEX: '0x2105',
   RPC      : 'https://mainnet.base.org',
   EXPLORER : 'https://basescan.org',
-  GM_CONTRACT: '0x0000000000000000000000000000000000000000',
-  GN_CONTRACT: '0x0000000000000000000000000000000000000000',
+  GM_CONTRACT: '0xfDeb4a6C1f8a96D1817e29916047dEa53e70111E',
+  GN_CONTRACT: '0x5A4F2A0C1134efBCe9a4Debc7B000007Cdb637B9',
 };
 
+const FEE = ethers.parseEther('0.00001');
+
 const GM_ABI = [
-  'function gm(string calldata _message) external',
+  'function gm(string calldata _message) external payable',
   'function totalGMs() view returns (uint256)',
   'function streakOf(address) view returns (uint256)',
   'function hasSentGMToday(address) view returns (bool)',
+  'function contractBalance() view returns (uint256)',
+  'function withdraw() external',
+  'function owner() view returns (address)',
 ];
 const GN_ABI = [
-  'function gn(string calldata _message) external',
+  'function gn(string calldata _message) external payable',
   'function totalGNs() view returns (uint256)',
   'function streakOf(address) view returns (uint256)',
   'function hasSentGNToday(address) view returns (bool)',
+  'function contractBalance() view returns (uint256)',
+  'function withdraw() external',
+  'function owner() view returns (address)',
 ];
 
-// ═══ STATE ════════════════════════════════
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
 let provider, signer, account, activeRawProvider;
 let sGM=0, sGN=0, histCount=0;
+const wallets = new Map();
 
-// EIP-6963 cüzdan listesi
-const wallets = new Map(); // rdns → { info, provider }
+// Generated contract data
+let generatedABI = null;
+let generatedBytecode = null;
+let generatedName = '';
 
-// ═══ EIP-6963 ═════════════════════════════
+// ══════════════════════════════════════════
+// EIP-6963
+// ══════════════════════════════════════════
 window.addEventListener('eip6963:announceProvider', e => {
   const { info, provider: p } = e.detail;
   wallets.set(info.rdns, { info, provider: p });
   if (document.getElementById('modal-bg').classList.contains('show')) renderList();
 });
+window.dispatchEvent(new Event('eip6963:requestProvider'));
 
-// ═══ LEGACY PROVIDER TARAMA ═══════════════
 function scanLegacy() {
   if (!window.ethereum) return;
-  const providerList = window.ethereum.providers || [window.ethereum];
-
-  const knownChecks = [
-    { key:'isMetaMask',      name:'MetaMask',       rdns:'io.metamask',          emoji:'🦊', extra: p => !p.isBraveWallet && !p.isCoinbaseWallet },
-    { key:'isCoinbaseWallet',name:'Coinbase Wallet', rdns:'com.coinbase.wallet',  emoji:'🔵' },
-    { key:'isBitKeep',       name:'Bitget Wallet',   rdns:'com.bitget.web3',      emoji:'🟢' },
-    { key:'isBitgetWallet',  name:'Bitget Wallet',   rdns:'com.bitget.web3',      emoji:'🟢' },
-    { key:'isOKExWallet',    name:'OKX Wallet',      rdns:'com.okex.wallet',      emoji:'⚫' },
-    { key:'isRabby',         name:'Rabby Wallet',    rdns:'io.rabby',             emoji:'🐰' },
-    { key:'isTrust',         name:'Trust Wallet',    rdns:'com.trustwallet.app',  emoji:'🛡️' },
-    { key:'isBraveWallet',   name:'Brave Wallet',    rdns:'com.brave.wallet',     emoji:'🦁' },
+  const list = window.ethereum.providers || [window.ethereum];
+  const checks = [
+    { key:'isMetaMask',      name:'MetaMask',       rdns:'io.metamask',         emoji:'🦊', extra:p=>!p.isBraveWallet&&!p.isCoinbaseWallet },
+    { key:'isCoinbaseWallet',name:'Coinbase Wallet', rdns:'com.coinbase.wallet', emoji:'🔵' },
+    { key:'isBitKeep',       name:'Bitget Wallet',   rdns:'com.bitget.web3',     emoji:'🟢' },
+    { key:'isBitgetWallet',  name:'Bitget Wallet',   rdns:'com.bitget.web3',     emoji:'🟢' },
+    { key:'isOKExWallet',    name:'OKX Wallet',      rdns:'com.okex.wallet',     emoji:'⚫' },
+    { key:'isRabby',         name:'Rabby Wallet',    rdns:'io.rabby',            emoji:'🐰' },
+    { key:'isTrust',         name:'Trust Wallet',    rdns:'com.trustwallet.app', emoji:'🛡️' },
+    { key:'isBraveWallet',   name:'Brave Wallet',    rdns:'com.brave.wallet',    emoji:'🦁' },
   ];
-
-  providerList.forEach(p => {
-    knownChecks.forEach(c => {
-      if (p[c.key] && (!c.extra || c.extra(p)) && !wallets.has(c.rdns)) {
-        wallets.set(c.rdns, {
-          info: { name: c.name, rdns: c.rdns, icon: null, emoji: c.emoji },
-          provider: p,
-          legacy: true
-        });
+  list.forEach(p => {
+    checks.forEach(c => {
+      if (p[c.key] && (!c.extra||c.extra(p)) && !wallets.has(c.rdns)) {
+        wallets.set(c.rdns, { info:{ name:c.name, rdns:c.rdns, icon:null, emoji:c.emoji }, provider:p, legacy:true });
       }
     });
   });
-
-  // Tanımsız ama var olan ethereum
-  if (wallets.size === 0 && window.ethereum) {
-    wallets.set('browser.wallet', {
-      info: { name:'Tarayıcı Cüzdanı', rdns:'browser.wallet', icon:null, emoji:'🌐' },
-      provider: window.ethereum,
-      legacy: true
-    });
+  if (wallets.size===0 && window.ethereum) {
+    wallets.set('browser.wallet', { info:{ name:'Tarayıcı Cüzdanı', rdns:'browser.wallet', icon:null, emoji:'🌐' }, provider:window.ethereum, legacy:true });
   }
 }
 
-// ═══ MODAL ════════════════════════════════
+// ══════════════════════════════════════════
+// MODAL
+// ══════════════════════════════════════════
 function openModal() {
   if (account) { disconnect(); return; }
-  // Yeni keşif isteği
   window.dispatchEvent(new Event('eip6963:requestProvider'));
   scanLegacy();
   renderList();
   document.getElementById('modal-bg').classList.add('show');
 }
-
-function closeModal() {
-  document.getElementById('modal-bg').classList.remove('show');
-}
-
-function bgClose(e) {
-  if (e.target === document.getElementById('modal-bg')) closeModal();
-}
+function closeModal() { document.getElementById('modal-bg').classList.remove('show'); }
+function bgClose(e) { if (e.target===document.getElementById('modal-bg')) closeModal(); }
 
 function renderList() {
   const list = document.getElementById('wallet-list');
-
-  if (wallets.size === 0) {
-    list.innerHTML = `<div class="no-wallet">
-      Tarayıcınızda cüzdan eklentisi bulunamadı.<br><br>
+  if (wallets.size===0) {
+    list.innerHTML=`<div class="no-wallet">Cüzdan bulunamadı.<br><br>
       <a href="https://metamask.io" target="_blank">MetaMask ↗</a> &nbsp;
       <a href="https://www.coinbase.com/wallet" target="_blank">Coinbase ↗</a> &nbsp;
-      <a href="https://web3.bitget.com" target="_blank">Bitget ↗</a>
-    </div>`;
+      <a href="https://web3.bitget.com" target="_blank">Bitget ↗</a></div>`;
     return;
   }
-
-  list.innerHTML = '';
+  list.innerHTML='';
+  const iconMap={'io.metamask':'🦊','com.coinbase.wallet':'🔵','com.bitget.web3':'🟢','com.okex.wallet':'⚫','io.rabby':'🐰','com.trustwallet.app':'🛡️','com.brave.wallet':'🦁'};
   wallets.forEach((detail, rdns) => {
     const { info } = detail;
     const el = document.createElement('div');
-    el.className = 'w-opt';
-    el.onclick = () => connectWith(rdns);
-
-    const iconHtml = info.icon
-      ? `<img src="${info.icon}" class="wico" alt="${info.name}" onerror="this.outerHTML='<div class=wico>${info.emoji||'💼'}</div>'">`
-      : `<div class="wico">${info.emoji||'💼'}</div>`;
-
-    el.innerHTML = `${iconHtml}
-      <div>
-        <div class="wname">${info.name}</div>
-        <div class="wrdns">${rdns}</div>
-      </div>
-      <span class="wbadge">Bağlan</span>`;
+    el.className='w-opt';
+    el.onclick=()=>connectWith(rdns);
+    const emoji = iconMap[rdns]||info.emoji||'💼';
+    const imgTag = info.icon
+      ? `<img src="${info.icon}" class="wico" alt="${info.name}" onerror="this.outerHTML='<div class=wico>${emoji}</div>'">`
+      : `<div class="wico">${emoji}</div>`;
+    el.innerHTML=`${imgTag}<div><div class="wname">${info.name}</div><div class="wrdns">${rdns}</div></div><span class="wbadge">Bağlan</span>`;
     list.appendChild(el);
   });
 }
 
-// ═══ CONNECT ══════════════════════════════
+// ══════════════════════════════════════════
+// CONNECT
+// ══════════════════════════════════════════
 async function connectWith(rdns) {
   closeModal();
   const detail = wallets.get(rdns);
   if (!detail) return;
   const rawProv = detail.provider;
-
   try {
     setSt('gm-status','pending','Cüzdan bağlanıyor…');
     await rawProv.request({ method:'eth_requestAccounts' });
-
     provider = new ethers.BrowserProvider(rawProv);
     signer   = await provider.getSigner();
     account  = await signer.getAddress();
     activeRawProvider = rawProv;
-
     document.getElementById('wallet-addr').textContent = shAddr(account);
     document.getElementById('wallet-name-lbl').textContent = detail.info.name;
-
     const btn = document.getElementById('connect-btn');
-    btn.textContent = '🔌 Kes';
-    btn.classList.add('off');
+    btn.textContent='🔌 Kes'; btn.classList.add('off');
     clearSt('gm-status');
-
-    // Zincir değişikliği dinle
-    rawProv.on?.('chainChanged',    () => location.reload());
-    rawProv.on?.('accountsChanged', a  => { if (!a.length) location.reload(); });
-
+    rawProv.on?.('chainChanged', ()=>location.reload());
+    rawProv.on?.('accountsChanged', a=>{ if(!a.length) location.reload(); });
     await checkNetwork(rawProv);
     await loadBalance();
     await loadStats();
-
+    await checkOwner();
   } catch(e) {
     clearSt('gm-status');
-    if (e.code !== 4001) {
-      setSt('gm-status','err','❌ Bağlantı hatası: ' + (e.message||'').slice(0,80));
-    }
+    if (e.code!==4001) setSt('gm-status','err','❌ '+(e.message||'Bağlantı hatası').slice(0,80));
   }
 }
 
 function connectWC() {
   closeModal();
-  alert('WalletConnect için projenize @walletconnect/web3-provider ekleyin.\nhttps://cloud.walletconnect.com');
+  alert('WalletConnect için @walletconnect/web3-provider ekleyin.\nhttps://cloud.walletconnect.com');
 }
 
 function disconnect() {
-  account = null; signer = null; provider = null; activeRawProvider = null;
-  document.getElementById('wallet-addr').textContent = 'Bağlı değil';
-  document.getElementById('wallet-name-lbl').textContent = 'Cüzdan';
-  const btn = document.getElementById('connect-btn');
-  btn.textContent = '🔗 Bağlan';
-  btn.classList.remove('off');
-  document.getElementById('bal-tag').style.display = 'none';
+  account=null; signer=null; provider=null; activeRawProvider=null;
+  document.getElementById('wallet-addr').textContent='Bağlı değil';
+  document.getElementById('wallet-name-lbl').textContent='Cüzdan';
+  const btn=document.getElementById('connect-btn');
+  btn.textContent='🔗 Bağlan'; btn.classList.remove('off');
+  document.getElementById('bal-tag').style.display='none';
   document.getElementById('net-warn').classList.remove('show');
-  ['gm-total','gm-streak','gn-total','gn-streak'].forEach(id => document.getElementById(id).textContent='—');
+  document.getElementById('owner-panel').style.display='none';
+  ['gm-total','gm-streak','gn-total','gn-streak'].forEach(id=>document.getElementById(id).textContent='—');
 }
 
-// ═══ NETWORK ══════════════════════════════
+// ══════════════════════════════════════════
+// NETWORK
+// ══════════════════════════════════════════
 async function checkNetwork(rawProv) {
   try {
-    const chainId = parseInt(await rawProv.request({ method:'eth_chainId' }), 16);
-    const warn = document.getElementById('net-warn');
-    const dot  = document.getElementById('net-dot');
-    const nm   = document.getElementById('net-name');
-    if (chainId === CFG.CHAIN_ID) {
-      warn.classList.remove('show');
-      dot.style.background = 'var(--success)';
-      nm.textContent = 'Base Mainnet';
-    } else if (chainId === 84532) {
-      warn.classList.remove('show');
-      dot.style.background = 'var(--warn)';
-      nm.textContent = 'Base Sepolia';
-    } else {
-      warn.classList.add('show');
-      dot.style.background = 'var(--danger)';
-      nm.textContent = 'Yanlış Ağ (#'+chainId+')';
-    }
+    const chainId=parseInt(await rawProv.request({method:'eth_chainId'}),16);
+    const warn=document.getElementById('net-warn');
+    const dot=document.getElementById('net-dot');
+    const nm=document.getElementById('net-name');
+    if (chainId===CFG.CHAIN_ID){ warn.classList.remove('show'); dot.style.background='var(--success)'; nm.textContent='Base Mainnet'; }
+    else if (chainId===84532){ warn.classList.remove('show'); dot.style.background='var(--warn)'; nm.textContent='Base Sepolia'; }
+    else { warn.classList.add('show'); dot.style.background='var(--danger)'; nm.textContent='Yanlış Ağ (#'+chainId+')'; }
   } catch{}
 }
 
 async function switchToBase() {
-  const p = activeRawProvider || window.ethereum;
+  const p=activeRawProvider||window.ethereum;
   if (!p) return;
   try {
-    await p.request({ method:'wallet_switchEthereumChain', params:[{chainId:CFG.CHAIN_HEX}] });
+    await p.request({method:'wallet_switchEthereumChain',params:[{chainId:CFG.CHAIN_HEX}]});
   } catch(e) {
-    if (e.code === 4902) {
-      await p.request({ method:'wallet_addEthereumChain', params:[{
-        chainId: CFG.CHAIN_HEX,
-        chainName: 'Base',
-        nativeCurrency:{ name:'ETH', symbol:'ETH', decimals:18 },
+    if (e.code===4902) {
+      await p.request({method:'wallet_addEthereumChain',params:[{
+        chainId:CFG.CHAIN_HEX,chainName:'Base',
+        nativeCurrency:{name:'ETH',symbol:'ETH',decimals:18},
         rpcUrls:['https://mainnet.base.org'],
         blockExplorerUrls:['https://basescan.org'],
       }]});
@@ -567,165 +590,267 @@ async function switchToBase() {
   }
 }
 
-// ═══ STATS ════════════════════════════════
+// ══════════════════════════════════════════
+// STATS & OWNER
+// ══════════════════════════════════════════
 async function loadBalance() {
   try {
-    const bal = await provider.getBalance(account);
-    const tag = document.getElementById('bal-tag');
-    tag.textContent = parseFloat(ethers.formatEther(bal)).toFixed(4)+' ETH';
-    tag.style.display = 'inline-block';
+    const bal=await provider.getBalance(account);
+    const tag=document.getElementById('bal-tag');
+    tag.textContent=parseFloat(ethers.formatEther(bal)).toFixed(4)+' ETH';
+    tag.style.display='inline-block';
   } catch{}
 }
 
 async function loadStats() {
-  const isPlaceholder = CFG.GM_CONTRACT === '0x0000000000000000000000000000000000000000';
-  document.getElementById('gm-addr-disp').textContent = isPlaceholder ? '(deploy gerekli)' : shAddr(CFG.GM_CONTRACT);
-  document.getElementById('gn-addr-disp').textContent = isPlaceholder ? '(deploy gerekli)' : shAddr(CFG.GN_CONTRACT);
-  if (isPlaceholder || !account) return;
+  if (!account) return;
   try {
-    const ro  = new ethers.JsonRpcProvider(CFG.RPC);
-    const gmC = new ethers.Contract(CFG.GM_CONTRACT, GM_ABI, ro);
-    const gnC = new ethers.Contract(CFG.GN_CONTRACT, GN_ABI, ro);
-    const [gt,gs,gd, nt,ns,nd] = await Promise.all([
-      gmC.totalGMs(), gmC.streakOf(account), gmC.hasSentGMToday(account),
-      gnC.totalGNs(), gnC.streakOf(account), gnC.hasSentGNToday(account),
+    const ro=new ethers.JsonRpcProvider(CFG.RPC);
+    const gmC=new ethers.Contract(CFG.GM_CONTRACT,GM_ABI,ro);
+    const gnC=new ethers.Contract(CFG.GN_CONTRACT,GN_ABI,ro);
+    const [gt,gs,gd,nt,ns,nd]=await Promise.all([
+      gmC.totalGMs(),gmC.streakOf(account),gmC.hasSentGMToday(account),
+      gnC.totalGNs(),gnC.streakOf(account),gnC.hasSentGNToday(account),
     ]);
-    document.getElementById('gm-total').textContent  = gt.toString();
-    document.getElementById('gm-streak').textContent = '🔥 '+gs.toString();
-    document.getElementById('gn-total').textContent  = nt.toString();
-    document.getElementById('gn-streak').textContent = '🌙 '+ns.toString();
-    document.getElementById('gm-today').innerHTML = gd
-      ? '<span class="badge b-green">✓ Gönderildi</span>'
-      : '<span class="badge b-blue">Henüz yok</span>';
-    document.getElementById('gn-today').innerHTML = nd
-      ? '<span class="badge b-green">✓ Gönderildi</span>'
-      : '<span class="badge b-purple">Henüz yok</span>';
-  } catch(e){ console.warn('stats:', e); }
+    document.getElementById('gm-total').textContent=gt.toString();
+    document.getElementById('gm-streak').textContent='🔥 '+gs.toString();
+    document.getElementById('gn-total').textContent=nt.toString();
+    document.getElementById('gn-streak').textContent='🌙 '+ns.toString();
+    document.getElementById('gm-today').innerHTML=gd?'<span class="badge b-green">✓ Gönderildi</span>':'<span class="badge b-blue">Henüz yok</span>';
+    document.getElementById('gn-today').innerHTML=nd?'<span class="badge b-green">✓ Gönderildi</span>':'<span class="badge b-purple">Henüz yok</span>';
+  } catch(e){ console.warn('stats:',e); }
 }
 
-// ═══ GM / GN ══════════════════════════════
+async function checkOwner() {
+  try {
+    const ro=new ethers.JsonRpcProvider(CFG.RPC);
+    const gmC=new ethers.Contract(CFG.GM_CONTRACT,GM_ABI,ro);
+    const gnC=new ethers.Contract(CFG.GN_CONTRACT,GN_ABI,ro);
+    const [gmOwner,gnOwner,gmBal,gnBal]=await Promise.all([gmC.owner(),gnC.owner(),gmC.contractBalance(),gnC.contractBalance()]);
+    const isOwner=account.toLowerCase()===gmOwner.toLowerCase()||account.toLowerCase()===gnOwner.toLowerCase();
+    if (isOwner) {
+      document.getElementById('owner-panel').style.display='block';
+      document.getElementById('gm-balance').textContent=parseFloat(ethers.formatEther(gmBal)).toFixed(6)+' ETH';
+      document.getElementById('gn-balance').textContent=parseFloat(ethers.formatEther(gnBal)).toFixed(6)+' ETH';
+    }
+  } catch(e){ console.warn('owner:',e); }
+}
+
+async function withdrawGM() {
+  try {
+    setSt('withdraw-status','pending','GM fee çekiliyor…');
+    const c=new ethers.Contract(CFG.GM_CONTRACT,GM_ABI,signer);
+    const tx=await c.withdraw();
+    await tx.wait();
+    setSt('withdraw-status','ok','✅ GM bakiyesi çekildi!');
+    await checkOwner();
+  } catch(e){ setSt('withdraw-status','err','❌ '+(e.reason||e.message||'Hata').slice(0,100)); }
+}
+
+async function withdrawGN() {
+  try {
+    setSt('withdraw-status','pending','GN fee çekiliyor…');
+    const c=new ethers.Contract(CFG.GN_CONTRACT,GN_ABI,signer);
+    const tx=await c.withdraw();
+    await tx.wait();
+    setSt('withdraw-status','ok','✅ GN bakiyesi çekildi!');
+    await checkOwner();
+  } catch(e){ setSt('withdraw-status','err','❌ '+(e.reason||e.message||'Hata').slice(0,100)); }
+}
+
+// ══════════════════════════════════════════
+// GM / GN SEND
+// ══════════════════════════════════════════
 async function sendGM() {
   if (!reqW('gm-status')) return;
-  if (isPlaceholder(CFG.GM_CONTRACT)) { setSt('gm-status','err','❌ GM kontrat adresi ayarlanmamış.'); return; }
-  const msg = document.getElementById('gm-msg').value.trim();
-  const btn = document.getElementById('gm-btn');
-  btn.disabled = true;
+  const msg=document.getElementById('gm-msg').value.trim();
+  const btn=document.getElementById('gm-btn'); btn.disabled=true;
   try {
-    setSt('gm-status','pending','İşlem imzalanıyor…');
-    const c  = new ethers.Contract(CFG.GM_CONTRACT, GM_ABI, signer);
-    const tx = await c.gm(msg);
+    setSt('gm-status','pending','İşlem imzalanıyor… (0.00001 ETH fee)');
+    const c=new ethers.Contract(CFG.GM_CONTRACT,GM_ABI,signer);
+    const tx=await c.gm(msg,{value:FEE});
     setSt('gm-status','pending','Onay bekleniyor…<a class="tx-small" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">'+shHash(tx.hash)+' ↗</a>');
     await tx.wait();
     setSt('gm-status','ok','☀️ GM başarıyla gönderildi!<a class="tx-small" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan\'da gör ↗</a>');
-    sGM++; document.getElementById('s-gm').textContent = sGM;
-    addHist('gm', msg||'GM!', tx.hash);
+    sGM++; document.getElementById('s-gm').textContent=sGM;
+    addHist('gm',msg||'GM!',tx.hash);
     await loadStats();
-  } catch(e) {
-    setSt('gm-status','err','❌ '+(e.reason||e.message||'Hata').slice(0,120));
-  } finally { btn.disabled = false; }
+  } catch(e){ setSt('gm-status','err','❌ '+(e.reason||e.message||'Hata').slice(0,120)); }
+  finally { btn.disabled=false; }
 }
 
 async function sendGN() {
   if (!reqW('gn-status')) return;
-  if (isPlaceholder(CFG.GN_CONTRACT)) { setSt('gn-status','err','❌ GN kontrat adresi ayarlanmamış.'); return; }
-  const msg = document.getElementById('gn-msg').value.trim();
-  const btn = document.getElementById('gn-btn');
-  btn.disabled = true;
+  const msg=document.getElementById('gn-msg').value.trim();
+  const btn=document.getElementById('gn-btn'); btn.disabled=true;
   try {
-    setSt('gn-status','pending','İşlem imzalanıyor…');
-    const c  = new ethers.Contract(CFG.GN_CONTRACT, GN_ABI, signer);
-    const tx = await c.gn(msg);
+    setSt('gn-status','pending','İşlem imzalanıyor… (0.00001 ETH fee)');
+    const c=new ethers.Contract(CFG.GN_CONTRACT,GN_ABI,signer);
+    const tx=await c.gn(msg,{value:FEE});
     setSt('gn-status','pending','Onay bekleniyor…<a class="tx-small" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">'+shHash(tx.hash)+' ↗</a>');
     await tx.wait();
     setSt('gn-status','ok','🌙 GN başarıyla gönderildi!<a class="tx-small" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan\'da gör ↗</a>');
-    sGN++; document.getElementById('s-gn').textContent = sGN;
-    addHist('gn', msg||'GN!', tx.hash);
+    sGN++; document.getElementById('s-gn').textContent=sGN;
+    addHist('gn',msg||'GN!',tx.hash);
     await loadStats();
-  } catch(e) {
-    setSt('gn-status','err','❌ '+(e.reason||e.message||'Hata').slice(0,120));
-  } finally { btn.disabled = false; }
+  } catch(e){ setSt('gn-status','err','❌ '+(e.reason||e.message||'Hata').slice(0,120)); }
+  finally { btn.disabled=false; }
 }
 
-// ═══ DEPLOY ═══════════════════════════════
-async function deployContract() {
-  if (!reqW('dep-status')) return;
-  const bytecode = document.getElementById('dep-bytecode').value.trim();
-  const abiRaw   = document.getElementById('dep-abi').value.trim();
-  const argsRaw  = document.getElementById('dep-args').value.trim();
-  if (!bytecode||bytecode==='0x') { setSt('dep-status','err','❌ Bytecode boş.'); return; }
-  let abi;
-  try { abi = JSON.parse(abiRaw); } catch { setSt('dep-status','err','❌ ABI geçersiz JSON.'); return; }
-  const btn = document.getElementById('dep-btn');
+// ══════════════════════════════════════════
+// AI CONTRACT GENERATOR
+// ══════════════════════════════════════════
+async function generateContract() {
+  const name = document.getElementById('contract-name').value.trim();
+  const desc = document.getElementById('contract-desc').value.trim();
+
+  if (!name) { setSt('gen-status','err','❌ Kontrat adı gerekli!'); return; }
+
+  const btn = document.getElementById('ai-generate-btn');
   btn.disabled = true;
+  setSt('gen-status','pending','✨ AI Solidity kodu yazıyor…');
+
   try {
-    setSt('dep-status','pending','Kontrat oluşturuluyor…');
-    const factory = new ethers.ContractFactory(abi, bytecode, signer);
-    let args = [];
-    if (argsRaw) {
-      try { args = JSON.parse('['+argsRaw+']'); }
-      catch { args = argsRaw.split(',').map(s=>s.trim().replace(/^["']|["']$/g,'')); }
+    const prompt = `Sen bir Solidity smart contract uzmanısın. Aşağıdaki isim ve açıklama için Base ağında çalışacak, güvenli, deploy edilmeye hazır bir Solidity kontratı yaz.
+
+Kontrat Adı: ${name}
+Açıklama: ${desc || 'Genel amaçlı, temel fonksiyonlu bir Base kontratı'}
+
+KURALLAR:
+- pragma solidity ^0.8.19 kullan
+- SPDX-License-Identifier: MIT ekle
+- Sadece Solidity kodu döndür, başka hiçbir şey yazma
+- Kod derlenebilir ve deploy edilebilir olmalı
+- Yorumları Türkçe yaz
+- constructor() ekle
+- Makul fonksiyonlar ekle
+- OpenZeppelin import etme, saf Solidity yaz`;
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const data = await response.json();
+    let code = data.content?.[0]?.text || '';
+
+    // Markdown kod bloğu varsa temizle
+    code = code.replace(/```solidity\n?/gi,'').replace(/```\n?/g,'').trim();
+
+    if (!code || !code.includes('pragma solidity')) {
+      throw new Error('Geçerli Solidity kodu üretilemedi');
     }
-    setSt('dep-status','pending','İşlem imzalanıyor…');
-    const c = await factory.deploy(...args);
-    const depTx = c.deploymentTransaction();
-    setSt('dep-status','pending','Onay bekleniyor…<a class="tx-small" target="_blank" href="'+CFG.EXPLORER+'/tx/'+depTx.hash+'">'+shHash(depTx.hash)+' ↗</a>');
-    await c.waitForDeployment();
-    const addr = await c.getAddress();
-    setSt('dep-status','ok','🚀 Deploy başarılı!<a class="tx-small" target="_blank" href="'+CFG.EXPLORER+'/address/'+addr+'">'+addr+' ↗</a>');
-    document.getElementById('res-addr').textContent = addr;
-    const tl = document.getElementById('res-tx');
-    tl.textContent = shHash(depTx.hash);
-    tl.href = CFG.EXPLORER+'/tx/'+depTx.hash;
-    document.getElementById('dep-result').style.display = 'block';
-    addHist('deploy', addr.slice(0,10)+'…', depTx.hash);
+
+    // Kodu göster
+    document.getElementById('code-preview').textContent = code;
+    document.getElementById('deploy-step1').style.display = 'none';
+    document.getElementById('deploy-step2').style.display = 'block';
+    clearSt('gen-status');
+
+    // Step göstergelerini güncelle
+    document.getElementById('step1').className = 'step done';
+    document.getElementById('step2').className = 'step active';
+
+    // Kodu sakla (deploy için)
+    generatedName = name;
+
+    // Bytecode üretmek için solc gerekir — bunun yerine Remix API kullan
+    // Kullanıcıya kodu gösterip Remix'te compile et seçeneği sun
+    generatedABI = null;
+    generatedBytecode = code; // kodu saklıyoruz
+
+    setSt('dep-status','pending','ℹ️ Kodu inceledikten sonra Deploy butonuna tıklayın. Remix\'te derleme yapılacak.');
+
   } catch(e) {
-    setSt('dep-status','err','❌ '+(e.reason||e.message||'Hata').slice(0,160));
-  } finally { btn.disabled = false; }
+    setSt('gen-status','err','❌ '+(e.message||'AI hatası').slice(0,120));
+  } finally {
+    btn.disabled = false;
+  }
 }
 
-// ═══ HELPERS ══════════════════════════════
-function reqW(sid) {
-  if (!account) { setSt(sid,'err','⚠️ Önce cüzdanınızı bağlayın!'); return false; }
-  return true;
+async function deployGeneratedContract() {
+  if (!reqW('dep-status')) return;
+
+  const code = document.getElementById('code-preview').textContent;
+  if (!code) { setSt('dep-status','err','❌ Önce kod üretin.'); return; }
+
+  // Tarayıcıda solc yoktur, kullanıcıyı Remix'e yönlendir
+  // Ama önce basit bir kontrat ise inline ABI/bytecode ile deploy edebiliriz
+
+  // Kodu kopyala ve Remix'e aç
+  try {
+    await navigator.clipboard.writeText(code);
+    setSt('dep-status','ok',
+      `✅ Kod panoya kopyalandı!<br>
+      <a class="tx-small" href="https://remix.ethereum.org" target="_blank">Remix\'i aç ↗</a> → Yeni dosya → Yapıştır → Compile → Deploy`
+    );
+
+    document.getElementById('step2').className = 'step done';
+    document.getElementById('step3').className = 'step active';
+
+  } catch(e) {
+    // Clipboard izni yoksa manuel kopyala
+    setSt('dep-status','ok',
+      `📋 Kodu kopyalayın ve Remix\'e yapıştırın:<br>
+      <a class="tx-small" href="https://remix.ethereum.org" target="_blank">remix.ethereum.org ↗</a>`
+    );
+  }
 }
-function isPlaceholder(addr) { return addr === '0x0000000000000000000000000000000000000000'; }
-function setSt(id, type, html) {
-  const el = document.getElementById(id);
-  el.className = 'status show '+type;
-  el.innerHTML = (type==='pending'?'<div class="spin"></div>':'')+'<span>'+html+'</span>';
+
+function resetDeploy() {
+  document.getElementById('deploy-step1').style.display = 'block';
+  document.getElementById('deploy-step2').style.display = 'none';
+  document.getElementById('contract-name').value = '';
+  document.getElementById('contract-desc').value = '';
+  clearSt('gen-status');
+  clearSt('dep-status');
+  document.getElementById('step1').className = 'step active';
+  document.getElementById('step2').className = 'step';
+  document.getElementById('step3').className = 'step';
+  generatedABI = null;
+  generatedBytecode = null;
 }
-function clearSt(id) { const el=document.getElementById(id); el.className='status'; el.innerHTML=''; }
-function switchTab(name, btn) {
+
+// ══════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════
+function reqW(sid){ if(!account){setSt(sid,'err','⚠️ Önce cüzdanınızı bağlayın!');return false;}return true; }
+function setSt(id,type,html){
+  const el=document.getElementById(id);
+  el.className='status show '+type;
+  el.innerHTML=(type==='pending'?'<div class="spin"></div>':'')+'<span>'+html+'</span>';
+}
+function clearSt(id){const el=document.getElementById(id);el.className='status';el.innerHTML='';}
+function switchTab(name,btn){
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
-  if(btn) btn.classList.add('active');
+  if(btn)btn.classList.add('active');
   document.getElementById('pane-'+name).classList.add('active');
 }
-function shAddr(a){ return a.slice(0,6)+'…'+a.slice(-4); }
-function shHash(h){ return h.slice(0,10)+'…'+h.slice(-6); }
-function addHist(type, label, txHash) {
+function shAddr(a){return a.slice(0,6)+'…'+a.slice(-4);}
+function shHash(h){return h.slice(0,10)+'…'+h.slice(-6);}
+function addHist(type,label,txHash){
   const icons={gm:'☀️',gn:'🌙',deploy:'🚀'};
   const cls={gm:'hi-gm',gn:'hi-gn',deploy:'hi-dp'};
   const types={gm:'GM Gönderildi',gn:'GN Gönderildi',deploy:'Kontrat Deploy'};
-  const list = document.getElementById('history-list');
-  if (histCount===0) list.innerHTML='';
+  const list=document.getElementById('history-list');
+  if(histCount===0)list.innerHTML='';
   histCount++;
-  const el = document.createElement('div');
+  const el=document.createElement('div');
   el.className='hist-item';
   el.innerHTML='<div class="hist-icon '+cls[type]+'">'+icons[type]+'</div>'+
     '<div class="hist-info"><div class="hist-type">'+types[type]+'</div>'+
     '<div class="hist-sub">'+new Date().toLocaleTimeString('tr-TR')+' · '+label+'</div></div>'+
     '<a class="tx-link" href="'+CFG.EXPLORER+'/tx/'+txHash+'" target="_blank">'+shHash(txHash)+' ↗</a>';
-  list.insertBefore(el, list.firstChild);
+  list.insertBefore(el,list.firstChild);
 }
 
-// Init: keşif isteği gönder
-window.dispatchEvent(new Event('eip6963:requestProvider'));
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    scanLegacy();
-  }, 500);
-});
+window.addEventListener('load',()=>{ setTimeout(()=>{ scanLegacy(); },500); });
 </script>
 </body>
 </html>
