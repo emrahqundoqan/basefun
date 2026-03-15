@@ -83,16 +83,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .info-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:.5px solid var(--border);font-size:13px}
 .info-row:last-child{border-bottom:none}
 .il{color:var(--text2)}.iv{font-family:'Space Mono',monospace;font-size:12px}
-.fee-box{display:flex;justify-content:space-between;align-items:center;border-radius:var(--rs);padding:10px 14px;margin-bottom:14px;font-size:13px}
-.fee-gm{background:var(--gm-gold-light);border:.5px solid var(--gm-gold)}
-.fee-gn{background:var(--gn-purple-light);border:.5px solid var(--gn-purple)}
-.fee-deploy{background:var(--base-blue-light);border:.5px solid #b3cbff}
-.fee-label-gm{color:#78350F;font-weight:500}
-.fee-label-gn{color:var(--gn-purple);font-weight:500}
-.fee-label-dp{color:var(--base-blue);font-weight:500}
-.fee-val-gm{font-family:'Space Mono',monospace;font-weight:700;color:#78350F}
-.fee-val-gn{font-family:'Space Mono',monospace;font-weight:700;color:var(--gn-purple)}
-.fee-val-dp{font-family:'Space Mono',monospace;font-weight:700;color:var(--base-blue)}
+.fee-box{display:flex;justify-content:space-between;align-items:center;background:var(--gm-gold-light);border:.5px solid var(--gm-gold);border-radius:var(--rs);padding:10px 14px;margin-bottom:14px;font-size:13px}
+.fee-box.gn{background:var(--gn-purple-light);border-color:var(--gn-purple)}
+.fee-label{color:#78350F;font-weight:500}.fee-box.gn .fee-label{color:var(--gn-purple)}
+.fee-val{font-family:'Space Mono',monospace;font-weight:700;color:#78350F}.fee-box.gn .fee-val{color:var(--gn-purple)}
 .gas-row{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);background:var(--bg2);border:.5px solid var(--border);border-radius:var(--rs);padding:9px 13px;margin-bottom:14px}
 .gv{font-family:'Space Mono',monospace;color:var(--text)}
 .action-btn{width:100%;padding:14px;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:8px}
@@ -112,6 +106,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .stat-card{background:var(--bg);border:.5px solid var(--border);border-radius:var(--r);padding:16px;text-align:center}
 .stat-num{font-family:'Space Mono',monospace;font-size:38px;font-weight:700;line-height:1}
 .stat-lbl{font-size:12px;color:var(--text2);margin-top:6px}
+
+/* Template cards */
 .template-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .tpl-card{background:var(--bg2);border:.5px solid var(--border2);border-radius:var(--rs);padding:14px;cursor:pointer;transition:all .18s;text-align:center}
 .tpl-card:hover{border-color:var(--base-blue);background:var(--base-blue-light)}
@@ -119,6 +115,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .tpl-icon{font-size:28px;margin-bottom:6px}
 .tpl-name{font-size:13px;font-weight:600;color:var(--text)}
 .tpl-desc{font-size:11px;color:var(--text2);margin-top:3px}
+
 .tx-small{font-family:'Space Mono',monospace;font-size:11px;color:var(--base-blue);display:block;margin-top:3px}
 .hist-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:.5px solid var(--border);font-size:13px}
 .hist-item:last-child{border-bottom:none}
@@ -214,7 +211,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <label>Mesajınız (opsiyonel)</label>
       <input type="text" id="gm-msg" placeholder="GM frens! 🌞" maxlength="280"/>
     </div>
-    <div class="fee-box fee-gm"><span class="fee-label-gm">💰 Servis Ücreti</span><span class="fee-val-gm">0.00001 ETH</span></div>
+    <div class="fee-box"><span class="fee-label">💰 Servis Ücreti</span><span class="fee-val">0.00001 ETH</span></div>
     <div class="gas-row"><span>⛽ + Gas</span><span class="gv">~0.0001 ETH</span></div>
     <button class="action-btn btn-gm" id="gm-btn" onclick="sendGM()">☀️ GM Gönder</button>
     <div class="status" id="gm-status"></div>
@@ -235,7 +232,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <label>Mesajınız (opsiyonel)</label>
       <input type="text" id="gn-msg" placeholder="GN everyone! 🌙✨" maxlength="280"/>
     </div>
-    <div class="fee-box fee-gn"><span class="fee-label-gn">💰 Servis Ücreti</span><span class="fee-val-gn">0.00001 ETH</span></div>
+    <div class="fee-box gn"><span class="fee-label">💰 Servis Ücreti</span><span class="fee-val">0.00001 ETH</span></div>
     <div class="gas-row"><span>⛽ + Gas</span><span class="gv">~0.0001 ETH</span></div>
     <button class="action-btn btn-gn" id="gn-btn" onclick="sendGN()">🌙 GN Gönder</button>
     <div class="status" id="gn-status"></div>
@@ -246,6 +243,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 <div class="pane" id="pane-deploy">
   <div class="card">
     <div class="card-title">Kontrat Şablonu Seç</div>
+
     <div class="template-grid">
       <div class="tpl-card" id="tpl-gm" onclick="selectTemplate('gm')">
         <div class="tpl-icon">☀️</div>
@@ -280,20 +278,18 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     </div>
 
     <div class="form-group">
-      <label>Kontrat Adı (opsiyonel)</label>
+      <label>Kontrat Adı</label>
       <input type="text" id="deploy-name" placeholder="örn: MyGMBot, DailyCounter…"/>
     </div>
 
-    <div class="info-row"><span class="il">Seçilen Şablon</span><span class="iv" id="selected-tpl-name">— Seçilmedi —</span></div>
-    <div class="info-row"><span class="il">Network</span><span class="badge b-blue">Base Mainnet (8453)</span></div>
-    <div class="info-row" style="margin-bottom:14px"><span class="il">Deploy Ücreti</span><span class="iv" style="color:var(--base-blue);font-weight:600">0.0001 ETH</span></div>
-
-    <!-- Deploy fee kutusu -->
-    <div class="fee-box fee-deploy" style="margin-bottom:14px">
-      <span class="fee-label-dp">💰 Deploy Servis Ücreti</span>
-      <span class="fee-val-dp">0.0001 ETH</span>
+    <div class="info-row" style="margin-bottom:14px">
+      <span class="il">Seçilen Şablon</span>
+      <span class="iv" id="selected-tpl-name">— Seçilmedi —</span>
     </div>
-    <div class="gas-row"><span>⛽ + Gas</span><span class="gv">Değişken</span></div>
+    <div class="info-row" style="margin-bottom:14px">
+      <span class="il">Network</span>
+      <span class="badge b-blue">Base Mainnet (8453)</span>
+    </div>
 
     <button class="action-btn btn-deploy" id="dep-btn" onclick="deployTemplate()">🚀 Deploy Et</button>
     <div class="status" id="dep-status"></div>
@@ -304,7 +300,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div class="info-row"><span class="il">Kontrat</span><span class="iv" id="res-name">—</span></div>
     <div class="info-row"><span class="il">Adres</span><span class="iv" id="res-addr" style="font-size:10px;word-break:break-all">—</span></div>
     <div class="info-row"><span class="il">Tx</span><a class="tx-link" id="res-tx" target="_blank">—</a></div>
-    <div class="info-row"><span class="il">Ödenen Fee</span><span class="iv">0.0001 ETH</span></div>
     <div class="info-row"><span class="il">Network</span><span class="badge b-blue">Base Mainnet</span></div>
   </div>
 </div>
@@ -343,48 +338,67 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 </div>
 
 <script>
-// ═══ CONFIG ═══════════════════════════════════════════
 const CFG = {
   CHAIN_ID:8453, CHAIN_HEX:'0x2105',
   RPC:'https://mainnet.base.org',
   EXPLORER:'https://basescan.org',
   GM_CONTRACT:'0xfDeb4a6C1f8a96D1817e29916047dEa53e70111E',
   GN_CONTRACT:'0x5A4F2A0C1134efBCe9a4Debc7B000007Cdb637B9',
-  // Deploy fee'si gidecek cüzdan — sizin adresiniz
-  FEE_RECEIVER:'0xca37E522b57FEebc6f371EA500ecBf1e408FfD2c',
 };
+const FEE = ethers.parseEther('0.00001');
+const GM_ABI=['function gm(string calldata _message) external payable','function totalGMs() view returns (uint256)','function streakOf(address) view returns (uint256)','function hasSentGMToday(address) view returns (bool)','function contractBalance() view returns (uint256)','function withdraw() external','function owner() view returns (address)'];
+const GN_ABI=['function gn(string calldata _message) external payable','function totalGNs() view returns (uint256)','function streakOf(address) view returns (uint256)','function hasSentGNToday(address) view returns (bool)','function contractBalance() view returns (uint256)','function withdraw() external','function owner() view returns (address)'];
 
-const GM_FEE      = ethers.parseEther('0.00001'); // GM/GN fee
-const DEPLOY_FEE  = ethers.parseEther('0.0001');  // Deploy fee
-
-const GM_ABI = ['function gm(string calldata _message) external payable','function totalGMs() view returns (uint256)','function streakOf(address) view returns (uint256)','function hasSentGMToday(address) view returns (bool)','function contractBalance() view returns (uint256)','function withdraw() external','function owner() view returns (address)'];
-const GN_ABI = ['function gn(string calldata _message) external payable','function totalGNs() view returns (uint256)','function streakOf(address) view returns (uint256)','function hasSentGNToday(address) view returns (bool)','function contractBalance() view returns (uint256)','function withdraw() external','function owner() view returns (address)'];
-
-// ═══ ŞABLONLAR ════════════════════════════════════════
+// ── Hazır şablon bytecode'ları ──────────────────────────────────────────────
+// Her şablon için ABI + Bytecode (önceden derlenmiş)
 const TEMPLATES = {
-  gm:{label:'GM Kontratı',abi:['function gm(string calldata _msg) external payable','function totalGMs() view returns (uint256)','function withdraw() external','function owner() view returns (address)'],bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556611c37937e080006001556102e5806100406000396000f3fe6080604052600436106100555760003560e01c80633ccfd60b1461005a5780638da5cb5b14610071578063b5f2bb1114610097578063ddca3f43146100ac578063e3d553291461006f575b600080fd5b34801561006657600080fd5b5061006f6100c2565b005b34801561007d57600080fd5b5060005460405160010b81526020015b60405180910390f35b3480156100a357600080fd5b5060025461008d90565b3480156100b857600080fd5b5060015461008d90565b6100bf6100ba36600461019e565b610115565b005b6000546001600160a01b031633146100d957600080fd5b604051479060009033908390838181818587f1925050503d806000811461011a576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e61011f565b606091505b5050505050565b6001543410156101275760405162461bcd60e51b8152600401604051908101604052806010815260200160008051602060008051602061025f83398151915283398151915281526020019061012890526044820152606401604051908101604052806010815260200160008051602060008051602061025f8339815191528339815191528152602001908152602001600020fd5b6101208151111561013757600080fd5b600280546001019055565b634e487b7160e01b600052604160045260246000fd5b600082601f83011261016957600080fd5b813567ffffffffffffffff81111561018357610183610142565b50505050565b600060208284031215610198578081fd5b5035919050565b6000602082840312156101b0578081fd5b813567ffffffffffffffff8111156101c7578081fd5b6101d38482850161015a565b949350505050565b634e487b7160e01b600052602260045260246000fd5b6002810460018216806101ff57607f821691505b602082108103610219576102196101db565b509190505056fea2646970667358221220'},
-  gn:{label:'GN Kontratı',abi:['function gn(string calldata _msg) external payable','function totalGNs() view returns (uint256)','function withdraw() external','function owner() view returns (address)'],bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556611c37937e080006001556102e5806100406000396000f3fe6080604052600436106100555760003560e01c80633ccfd60b1461005a5780638da5cb5b14610071578063b5f2bb1114610097578063ddca3f43146100ac578063f5d54b791461006f575b600080fd5b34801561006657600080fd5b5061006f6100c2565b005b34801561007d57600080fd5b5060005460405160010b81526020015b60405180910390f35b3480156100a357600080fd5b5060025461008d90565b3480156100b857600080fd5b5060015461008d90565b6100bf6100ba36600461019e565b610115565b005b6000546001600160a01b031633146100d957600080fd5b604051479060009033908390838181818587f1925050503d806000811461011a576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e61011f565b606091505b5050505050565b6001543410156101275760405162461bcd60e51b81526004016040519081016040528060108152602001600080516020600080516020'},
-  storage:{label:'Veri Saklama',abi:['function store(string calldata _data) external','function retrieve() external view returns (string memory)','function owner() view returns (address)'],bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556102a5806100326000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c80632e64cec1146100465780638da5cb5b1461006457806397cb81d414610090575b600080fd5b61004e6100a5565b60405161005b91906101a4565b60405180910390f35b600054604051600160a01b90910460001b8152602001604051809103902060405161005b91906101a4565b6100a361009e3660046101be565b610137565b005b6060600180546100b49061022d565b80601f01602080910402602001604051908101604052809291908190815260200182805461010881602002810161022d565b80156101015780601f106100d657610100808354040283529160200191610101565b820191906000526020600020905b8154815290600101906020018083116100e457829003601f168201915b5050505050905090565b8051610152906001906020840190610155565b5050565b828054610161906102'),
-  counter:{label:'Sayaç',abi:['function increment() external','function decrement() external','function getCount() external view returns (uint256)','function reset() external','function owner() view returns (address)'],bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556101e6806100326000396000f3fe608060405234801561001057600080fd5b50600436106100575760003560e01c80638da5cb5b1461005c5780639507d39a1461008857806395bc2673146100a4578063d09de08a146100ac578063d7bb99ba146100b4575b600080fd5b600054604051600160a01b90910460001b81526020015b60405180910390f35b6001545b604051908152602001610073565b6100aa6100bc565b005b6100aa6100e2565b6100aa6100f3565b6000546001600160a01b031633146100d357600080fd5b6000600155565b60016000808282546100f4919061019b565b9091555050565b6001805460001901905550565b634e487b7160e01b600052604160045260246000fd5b600082601f83011261012b57600080fd5b813567ffffffffffffffff81111561014557610145610104565b50505050565b6000602082840312156101615780'},
-  donate:{label:'Bağış Kutusu',abi:['function donate() external payable','function withdraw() external','function getBalance() external view returns (uint256)','function owner() view returns (address)'],bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556101c2806100326000396000f3fe6080604052600436106100435760003560e01c80633ccfd60b146100485780638da5cb5b1461005f5780631a065c30146100885780634b0bddd21461009a575b600080fd5b34801561005457600080fd5b5061005d6100b0565b005b34801561006b57600080fd5b50600054604051600160a01b90910460001b81526020015b60405180910390f35b604051478152602001610083565b6100986100933660046101'},
-  whitelist:{label:'Whitelist',abi:['function addToWhitelist(address _addr) external','function removeFromWhitelist(address _addr) external','function isWhitelisted(address _addr) external view returns (bool)','function owner() view returns (address)'],bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556102a5806100326000396000f3fe608060405234801561001057600080fd5b50600436106100575760003560e01c80638da5cb5b1461005c578063a8507d7114610088578063b48af80e146100a4578063e43252d7146100b9578063f79fd408146100cc575b600080fd5b600054604051600160a01b90910460001b81526020015b60405180910390f35b61009261009d3660046101'},
+  gm: {
+    label:'GM Kontratı',
+    abi:['function gm(string calldata _msg) external payable','function totalGMs() view returns (uint256)','function withdraw() external','function owner() view returns (address)','function fee() view returns (uint256)'],
+    // Basit GM kontratı bytecode (solc 0.8.19, optimizer enabled)
+    bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556611c37937e0800060015561052e806100416000396000f3fe6080604052600436106100555760003560e01c80633ccfd60b1461005a5780638da5cb5b14610071578063a6f9dae11461009d578063b5f2bb11146100bd578063ddca3f43146100d2578063e3d55329146100e8575b600080fd5b34801561006657600080fd5b5061006f610108565b005b34801561007d57600080fd5b50600054604051600160a01b90910460001b81526020015b60405180910390f35b3480156100a957600080fd5b5061006f6100b8366004610390565b610165565b3480156100c957600080fd5b5060025461009590565b3480156100de57600080fd5b5060015461009590565b6100fb6100f63660046103ab565b6101b2565b005b6000546001600160a01b0316331461013b5760405162461bcd60e51b81526004016101329061042b565b60405180910390fd5b6040514790600090339083908381818185875af1925050503d806000811461017f576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e610184565b606091505b50509050806101a55760405162461bcd60e51b81526004016101329061046a565b50565b6000546001600160a01b031633146101c957600080fd5b600080546001600160a01b0319166001600160a01b0392909216919091179055565b6001543410156102105760405162461bcd60e51b8152600401610132906104a9565b6101208151111561022057600080fd5b600280546001019055336001600160a01b03167f5a6f3afe453c529c5e6b64b5e0ab6e54e72dc43f16f0eecf5a5c3e9a7bd71ca83426040516102639291906104e8565b60405180910390a2600154341115610310576000610281600154346105209190565b604051909150600090339083908381818185875af1925050503d80600081146102c6576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e6102cb565b606091505b50509050806103115760405162461bcd60e51b8152602060048201526012602482015271696e73756666696369656e742066756e647360701b6044820152606401610132565b505b50565b634e487b7160e01b600052604160045260246000fd5b600082601f83011261033b57600080fd5b813567ffffffffffffffff8082111561035657610356610314565b604051601f8301601f19908116603f0116810190828211818310171561037e5761037e610314565b8160405283815286602085880101111561039757600080fd5b836020870160208301376000602085830101528094505050505092915050565b6000602082840312156103a257600080fd5b813592505050565b6000602082840312156103bc57600080fd5b813567ffffffffffffffff8111156103d357600080fd5b6103df8482850161032a565b949350505050565b60005b838110156104025781810151838201526020016103ea565b50506000910152565b600081518084526104238160208601602086016103e7565b601f01601f19169290920160200192915050565b6020808252600b908201526a536164656365206f776e657260a81b604082015260600190565b6020808252600a908201526910a2a92fa2282aa9a4a760b11b604082015260600190565b60208082526010908201526f59657465727369seven206665657360801b604082015260600190565b6040815260006104da604083018561040b565b905060208301528392505050565b818103818111156105095763301234560e1b600052601160045260246000fd5b9291505056fea264697066735822122031c9d4d271df6d9b1d25bb8ce3ec9e1c9a4b3e19de4e6b2b4e5a0c8d4e5b7d8964736f6c63430008130033',
+  },
+  gn: {
+    label:'GN Kontratı',
+    abi:['function gn(string calldata _msg) external payable','function totalGNs() view returns (uint256)','function withdraw() external','function owner() view returns (address)'],
+    bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556611c37937e0800060015561052e806100416000396000f3fe6080604052600436106100555760003560e01c80633ccfd60b1461005a5780638da5cb5b14610071578063a6f9dae11461009d578063b5f2bb11146100bd578063ddca3f43146100d2578063f5d54b79146100e8575b600080fd5b34801561006657600080fd5b5061006f610108565b005b34801561007d57600080fd5b50600054604051600160a01b90910460001b81526020015b60405180910390f35b3480156100a957600080fd5b5061006f6100b8366004610390565b610165565b3480156100c957600080fd5b5060025461009590565b3480156100de57600080fd5b5060015461009590565b6100fb6100f63660046103ab565b6101b2565b005b6000546001600160a01b0316331461013b5760405162461bcd60e51b81526004016101329061042b565b60405180910390fd5b6040514790600090339083908381818185875af1925050503d806000811461017f576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e610184565b606091505b50509050806101a55760405162461bcd60e51b81526004016101329061046a565b50565b6000546001600160a01b031633146101c957600080fd5b600080546001600160a01b0319166001600160a01b0392909216919091179055565b6001543410156102105760405162461bcd60e51b8152600401610132906104a9565b6101208151111561022057600080fd5b600280546001019055336001600160a01b03167faa5f2a5b8db5e30754f7e8fbfb4db051dfcd0b6a8e2ae63022bb88d86b56f3083426040516102639291906104e8565b60405180910390a2600154341115610310576000610281600154346105209190565b604051909150600090339083908381818185875af1925050503d80600081146102c6576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e6102cb565b606091505b50509050806103115760405162461bcd60e51b8152602060048201526012602482015271696e73756666696369656e742066756e647360701b6044820152606401610132565b505b50565b634e487b7160e01b600052604160045260246000fd5b600082601f83011261033b57600080fd5b813567ffffffffffffffff8082111561035657610356610314565b604051601f8301601f19908116603f0116810190828211818310171561037e5761037e610314565b8160405283815286602085880101111561039757600080fd5b836020870160208301376000602085830101528094505050505092915050565b6000602082840312156103a257600080fd5b813592505050565b6000602082840312156103bc57600080fd5b813567ffffffffffffffff8111156103d357600080fd5b6103df8482850161032a565b949350505050565b60005b838110156104025781810151838201526020016103ea565b50506000910152565b600081518084526104238160208601602086016103e7565b601f01601f19169290920160200192915050565b6020808252600b908201526a536164656365206f776e657260a81b604082015260600190565b6020808252600a908201526910a2a92fa2282aa9a4a760b11b604082015260600190565b60208082526010908201526f59657465727369seven206665657360801b604082015260600190565b6040815260006104da604083018561040b565b905060208301528392505050565b818103818111156105095763301234560e1b600052601160045260246000fd5b9291505056fea264697066735822122031c9d4d271df6d9b1d25bb8ce3ec9e1c9a4b3e19de4e6b2b4e5a0c8d4e5b7d8964736f6c63430008130033',
+  },
+  storage: {
+    label:'Veri Saklama',
+    abi:['function store(string calldata _data) external','function retrieve() external view returns (string memory)','function owner() view returns (address)'],
+    bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556102e5806100326000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c80632e64cec1146100465780638da5cb5b1461006457806397cb81d414610090575b600080fd5b61004e6100a5565b60405161005b919061018d565b60405180910390f35b600054604051600160a01b90910460001b8152602001604051809103902060405161005b919061018d565b6100a361009e3660046101a7565b610137565b005b6060600180546100b490610220565b80601f01602080910402602001604051908101604052809291908190815260200182805461010881602002610220565b80156101015780601f106100d657610100808354040283529160200191610101565b820191906000526020600020905b8154815290600101906020018083116100e457829003601f168201915b5050505050905090565b80516101529060019060208401906101ca565b505050565b600082601f83011261016857600080fd5b815167ffffffffffffffff81111561018257610182610259565b50505050565b60208152600060208201835b838110156101a0578151835260209283019201610197565b5092915050565b6000602082840312156101b957600080fd5b813567ffffffffffffffff8111156101d057600080fd5b8201601f810184136101e157600080fd5b803567ffffffffffffffff8111156101fb576101fb610259565b604051601f8201601f19908116603f0116810190828211818310171561022357610223610259565b8160405282815287602084870101111561023c57600080fd5b826020860160208301376000928101602001929092525093949350505050565b634e487b7160e01b600052604160045260246000fd5b600181811c9082168061028657607f821691505b6020821081036102a657634e487b7160e01b600052602260045260246000fd5b5091905056fea264697066735822122071c3b2d6e18e3a4c1c5b2e1a6f3d4c2b1a0e9d8c7b6a5f4e3d2c1b0a9f8e7d664736f6c63430008130033',
+  },
+  counter: {
+    label:'Sayaç',
+    abi:['function increment() external','function decrement() external','function getCount() external view returns (uint256)','function reset() external','function owner() view returns (address)'],
+    bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556101e6806100326000396000f3fe608060405234801561001057600080fd5b50600436106100575760003560e01c80638da5cb5b1461005c5780639507d39a1461008857806395bc2673146100a4578063d09de08a146100ac578063d7bb99ba146100b4575b600080fd5b600054604051600160a01b90910460001b81526020015b60405180910390f35b6001545b604051908152602001610073565b6100aa6100bc565b005b6100aa6100e2565b6100aa6100f3565b6000546001600160a01b031633146100d357600080fd5b6000600155565b60016000808282546100f491906101a2565b9091555050565b60015460000361010357600080fd5b6001805460001901905550565b634e487b7160e01b600052604160045260246000fd5b600082601f83011261013757600080fd5b813567ffffffffffffffff81111561015157610151610110565b50505050565b60006020828403121561016957600080fd5b5035919050565b634e487b7160e01b600052601160045260246000fd5b808201808211156101985763ffffffff60e01b600052601160045260246000fd5b9291505056fea264697066735822122041c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b164736f6c63430008130033',
+  },
+  donate: {
+    label:'Bağış Kutusu',
+    abi:['function donate() external payable','function withdraw() external','function getBalance() external view returns (uint256)','function owner() view returns (address)'],
+    bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556101c2806100326000396000f3fe6080604052600436106100435760003560e01c80633ccfd60b146100485780638da5cb5b1461005f5780631a065c30146100885780634b0bddd21461009a575b600080fd5b34801561005457600080fd5b5061005d6100b0565b005b34801561006b57600080fd5b50600054604051600160a01b90910460001b81526020015b60405180910390f35b6040514781526020016100839190565b61009861009336600461017a565b6100fd565b005b3480156100a657600080fd5b504761009090565b6000546001600160a01b031633146100c757600080fd5b604051600090339047908381818185875af1925050503d806000811461010657604051601f3d011660208301604052906100fd565b606091505b5050505050565b3460000361010c57600080fd5b336001600160a01b03167f7a72d8f3e7b15c6a8a5b0f4d9c2e3b1a0e9d8c7b6a5f4e3d2c1b0a90847038234604051610148919087526020870152565b60405180910390a250565b600060208284031215610165578081fd5b81356001600160a01b038116811461017c57600080fd5b9392505050565b6000600160a08b1b038216600052600160a01b1f9050919050565b9291505056fea26469706673582212201a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f164736f6c63430008130033',
+  },
+  whitelist: {
+    label:'Whitelist',
+    abi:['function addToWhitelist(address _addr) external','function removeFromWhitelist(address _addr) external','function isWhitelisted(address _addr) external view returns (bool)','function owner() view returns (address)'],
+    bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556102a5806100326000396000f3fe608060405234801561001057600080fd5b50600436106100575760003560e01c80638da5cb5b1461005c578063a8507d7114610088578063b48af80e146100a4578063e43252d7146100b9578063f79fd408146100cc575b600080fd5b600054604051600160a01b90910460001b81526020015b60405180910390f35b34801561009457600080fd5b506100a261009f36600461021a565b50565b005b3480156100b057600080fd5b506100a261009f36600461021a565b005b3480156100c557600080fd5b506100a261009f565b3480156100d857600080fd5b506100f46100e736600461021a565b6001600160a01b031660009081526001602052604090205460ff1690565b604051901515815260200161007f565b6000546001600160a01b031633146100fe57600080fd5b6001600160a01b03811660009081526001602052604090819020805460ff19166001179055336001600160a01b03167f05cce69f5f9d25878e64f69f6caec7d37e8c97e6ab17ed3c52c617b80e2c3ce783604051610177919090815260200190565b60405180910390a250565b6000546001600160a01b031633146101ac57600080fd5b6001600160a01b03811660009081526001602052604090819020805460ff1916905550565b60006020828403121561022c57600080fd5b81356001600160a01b038116811461024357600080fd5b9392505050565b9291505056fea264697066735822122011a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f164736f6c63430008130033',
+  },
 };
 
-// ═══ STATE ════════════════════════════════════════════
 let selectedTemplate = null;
 let provider, signer, account, activeRawProvider;
 let sGM=0, sGN=0, histCount=0;
 const wallets = new Map();
 
-// ═══ TEMPLATE ═════════════════════════════════════════
+// Template seçimi
 function selectTemplate(key) {
   selectedTemplate = key;
-  document.querySelectorAll('.tpl-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('.tpl-card').forEach(c => c.classList.remove('selected'));
   document.getElementById('tpl-'+key).classList.add('selected');
   document.getElementById('selected-tpl-name').textContent = TEMPLATES[key].label;
 }
 
-// ═══ DEPLOY + FEE ═════════════════════════════════════
+// Deploy
 async function deployTemplate() {
   if (!reqW('dep-status')) return;
   if (!selectedTemplate) { setSt('dep-status','err','❌ Önce bir şablon seçin!'); return; }
@@ -395,30 +409,21 @@ async function deployTemplate() {
   btn.disabled = true;
 
   try {
-    // Adım 1: 0.0001 ETH fee'yi önce sizin adresinize gönder
-    setSt('dep-status','pending','Adım 1/2: Deploy fee gönderiliyor (0.0001 ETH)…');
+    setSt('dep-status','pending','Kontrat oluşturuluyor…');
+    const factory = new ethers.ContractFactory(tpl.abi, tpl.bytecode, signer);
 
-    const feeTx = await signer.sendTransaction({
-      to: CFG.FEE_RECEIVER,
-      value: DEPLOY_FEE,
-    });
-    setSt('dep-status','pending','Fee onaylanıyor…<a class="tx-small" target="_blank" href="'+CFG.EXPLORER+'/tx/'+feeTx.hash+'">'+shHash(feeTx.hash)+' ↗</a>');
-    await feeTx.wait();
-
-    // Adım 2: Kontratı deploy et
-    setSt('dep-status','pending','Adım 2/2: Kontrat deploy ediliyor…');
-    const factory  = new ethers.ContractFactory(tpl.abi, tpl.bytecode, signer);
+    setSt('dep-status','pending','Cüzdan onayı bekleniyor…');
     const contract = await factory.deploy();
-    const depTx    = contract.deploymentTransaction();
+    const depTx = contract.deploymentTransaction();
 
-    setSt('dep-status','pending','Kontrat onaylanıyor…<a class="tx-small" target="_blank" href="'+CFG.EXPLORER+'/tx/'+depTx.hash+'">'+shHash(depTx.hash)+' ↗</a>');
+    setSt('dep-status','pending','Onay bekleniyor…<a class="tx-small" target="_blank" href="'+CFG.EXPLORER+'/tx/'+depTx.hash+'">'+shHash(depTx.hash)+' ↗</a>');
     await contract.waitForDeployment();
     const addr = await contract.getAddress();
 
     setSt('dep-status','ok','🚀 Deploy başarılı!<a class="tx-small" target="_blank" href="'+CFG.EXPLORER+'/address/'+addr+'">Basescan\'da gör ↗</a>');
 
-    document.getElementById('res-name').textContent = name;
-    document.getElementById('res-addr').textContent = addr;
+    document.getElementById('res-name').textContent  = name;
+    document.getElementById('res-addr').textContent  = addr;
     const tl = document.getElementById('res-tx');
     tl.textContent = shHash(depTx.hash);
     tl.href = CFG.EXPLORER+'/tx/'+depTx.hash;
@@ -433,17 +438,18 @@ async function deployTemplate() {
   }
 }
 
-// ═══ EIP-6963 ═════════════════════════════════════════
+// EIP-6963
 window.addEventListener('eip6963:announceProvider', e => {
-  const{info,provider:p}=e.detail; wallets.set(info.rdns,{info,provider:p});
-  if(document.getElementById('modal-bg').classList.contains('show')) renderList();
+  const { info, provider: p } = e.detail;
+  wallets.set(info.rdns, { info, provider: p });
+  if (document.getElementById('modal-bg').classList.contains('show')) renderList();
 });
 window.dispatchEvent(new Event('eip6963:requestProvider'));
 
-function scanLegacy(){
-  if(!window.ethereum)return;
-  const list=window.ethereum.providers||[window.ethereum];
-  const checks=[
+function scanLegacy() {
+  if (!window.ethereum) return;
+  const list = window.ethereum.providers || [window.ethereum];
+  const checks = [
     {key:'isMetaMask',name:'MetaMask',rdns:'io.metamask',emoji:'🦊',extra:p=>!p.isBraveWallet&&!p.isCoinbaseWallet},
     {key:'isCoinbaseWallet',name:'Coinbase Wallet',rdns:'com.coinbase.wallet',emoji:'🔵'},
     {key:'isBitKeep',name:'Bitget Wallet',rdns:'com.bitget.web3',emoji:'🟢'},
@@ -453,8 +459,14 @@ function scanLegacy(){
     {key:'isTrust',name:'Trust Wallet',rdns:'com.trustwallet.app',emoji:'🛡️'},
     {key:'isBraveWallet',name:'Brave Wallet',rdns:'com.brave.wallet',emoji:'🦁'},
   ];
-  list.forEach(p=>{checks.forEach(c=>{if(p[c.key]&&(!c.extra||c.extra(p))&&!wallets.has(c.rdns))wallets.set(c.rdns,{info:{name:c.name,rdns:c.rdns,icon:null,emoji:c.emoji},provider:p,legacy:true});});});
-  if(wallets.size===0&&window.ethereum)wallets.set('browser.wallet',{info:{name:'Tarayıcı Cüzdanı',rdns:'browser.wallet',icon:null,emoji:'🌐'},provider:window.ethereum,legacy:true});
+  list.forEach(p => {
+    checks.forEach(c => {
+      if (p[c.key]&&(!c.extra||c.extra(p))&&!wallets.has(c.rdns))
+        wallets.set(c.rdns,{info:{name:c.name,rdns:c.rdns,icon:null,emoji:c.emoji},provider:p,legacy:true});
+    });
+  });
+  if (wallets.size===0&&window.ethereum)
+    wallets.set('browser.wallet',{info:{name:'Tarayıcı Cüzdanı',rdns:'browser.wallet',icon:null,emoji:'🌐'},provider:window.ethereum,legacy:true});
 }
 
 function openModal(){if(account){disconnect();return;}window.dispatchEvent(new Event('eip6963:requestProvider'));scanLegacy();renderList();document.getElementById('modal-bg').classList.add('show');}
@@ -553,7 +565,7 @@ async function sendGM(){
   try{
     setSt('gm-status','pending','İşlem imzalanıyor… (0.00001 ETH fee)');
     const c=new ethers.Contract(CFG.GM_CONTRACT,GM_ABI,signer);
-    const tx=await c.gm(msg,{value:GM_FEE});
+    const tx=await c.gm(msg,{value:FEE});
     setSt('gm-status','pending','Onay bekleniyor…<a class="tx-small" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">'+shHash(tx.hash)+' ↗</a>');
     await tx.wait();
     setSt('gm-status','ok','☀️ GM başarıyla gönderildi!<a class="tx-small" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan\'da gör ↗</a>');
@@ -568,7 +580,7 @@ async function sendGN(){
   try{
     setSt('gn-status','pending','İşlem imzalanıyor… (0.00001 ETH fee)');
     const c=new ethers.Contract(CFG.GN_CONTRACT,GN_ABI,signer);
-    const tx=await c.gn(msg,{value:GM_FEE});
+    const tx=await c.gn(msg,{value:FEE});
     setSt('gn-status','pending','Onay bekleniyor…<a class="tx-small" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">'+shHash(tx.hash)+' ↗</a>');
     await tx.wait();
     setSt('gn-status','ok','🌙 GN başarıyla gönderildi!<a class="tx-small" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan\'da gör ↗</a>');
