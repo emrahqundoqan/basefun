@@ -931,8 +931,9 @@ async function loadHistory() {
       + '&startblock=0&endblock=99999999&page=1&offset=50&sort=desc&apikey=6PAW3CPS38MMDFR4Z6HMZD48K4QWR4JWIS';
     var res = await fetch(url);
     var data = await res.json();
+    console.log('API yaniti:', data.status, data.message, Array.isArray(data.result));
 
-    if (!data.result || data.result.length === 0) {
+    if (!data.result || !Array.isArray(data.result) || data.result.length === 0) {
       lst.innerHTML = '<p style="font-size:13px;color:var(--tx2);text-align:center;padding:16px 0">Henuz islem yok.</p>';
       return;
     }
