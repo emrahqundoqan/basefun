@@ -587,6 +587,7 @@ function switchTab(name) {
   var pe = document.getElementById('pane-' + name);
   if (el) el.classList.add('on');
   if (pe) pe.classList.add('on');
+  if (name === 'history') loadHistory();
 }
 
 function openModal() {
@@ -700,6 +701,7 @@ async function connectWith(rdns) {
     await loadStats();
     await checkOwner();
     await loadDiceStats();
+    await loadHistory();
   } catch(e) {
     clearSts('gm-sts');
     if (e.code !== 4001) setSts('gm-sts', 'err', 'Hata: ' + (e.message || 'bilinmiyor').slice(0, 80));
@@ -918,6 +920,66 @@ function clearSts(id) {
 function shA(a) { return a.slice(0, 6) + '...' + a.slice(-4); }
 function shH(h) { return h.slice(0, 10) + '...' + h.slice(-6); }
 
+async function loadHistory() {
+  if (!acct) return;
+  var lst = document.getElementById('hist-list');
+  lst.innerHTML = '<p style="font-size:13px;color:var(--tx2);text-align:center;padding:16px 0">Yukleniyor...</p>';
+
+  try {
+    // Basescan API ile son 50 işlemi çek
+    var url = 'https://api.basescan.org/api?module=account&action=txlist&address=' + acct
+      + '&startblock=0&endblock=99999999&page=1&offset=50&sort=desc&apikey=YourApiKeyToken';
+    var res = await fetch(url);
+    var data = await res.json();
+
+    if (!data.result || data.result.length === 0) {
+      lst.innerHTML = '<p style="font-size:13px;color:var(--tx2);text-align:center;padding:16px 0">Henuz islem yok.</p>';
+      return;
+    }
+
+    // Sadece GM, GN ve Dice kontratlarına yapılan işlemleri filtrele
+    var relevant = data.result.filter(function(tx) {
+      var to = (tx.to || '').toLowerCase();
+      return to === CFG.GM.toLowerCase()
+          || to === CFG.GN.toLowerCase()
+          || to === DICE_CONTRACT.toLowerCase();
+    });
+
+    if (relevant.length === 0) {
+      lst.innerHTML = '<p style="font-size:13px;color:var(--tx2);text-align:center;padding:16px 0">Henuz islem yok.</p>';
+      return;
+    }
+
+    lst.innerHTML = '';
+    relevant.forEach(function(tx) {
+      var to   = (tx.to || '').toLowerCase();
+      var type, icon, cls, label;
+      var date = new Date(parseInt(tx.timeStamp) * 1000);
+      var timeStr = date.toLocaleDateString('tr-TR') + ' ' + date.toLocaleTimeString('tr-TR');
+
+      if (to === CFG.GM.toLowerCase()) {
+        type='GM'; icon='☀️'; cls='hgm'; label='GM Gonderildi';
+      } else if (to === CFG.GN.toLowerCase()) {
+        type='GN'; icon='🌙'; cls='hgn'; label='GN Gonderildi';
+      } else {
+        type='Dice'; icon='🎲'; cls='hdp'; label='Zar Atildi';
+      }
+
+      var el = document.createElement('div');
+      el.className = 'hi';
+      el.innerHTML = '<div class="hico ' + cls + '">' + icon + '</div>'
+        + '<div class="hinfo"><div class="htype">' + label + '</div>'
+        + '<div class="hsub">' + timeStr + '</div></div>'
+        + '<a class="txl" href="' + CFG.EXPLORER + '/tx/' + tx.hash + '" target="_blank">' + tx.hash.slice(0,8)+'...'+tx.hash.slice(-6) + '</a>';
+      lst.appendChild(el);
+    });
+
+  } catch(e) {
+    lst.innerHTML = '<p style="font-size:13px;color:var(--tx2);text-align:center;padding:16px 0">Gecmis yuklenemedi.</p>';
+    console.warn('history err:', e);
+  }
+}
+
 function addHist(type, label, txHash) {
   var icons = { gm:'☀️', gn:'🌙', deploy:'🚀' };
   var cls   = { gm:'hgm', gn:'hgn', deploy:'hdp' };
@@ -1081,7 +1143,7 @@ async function rollDice(){
       resEl.textContent=dice1+' + '+dice2+' = '+(dice1+dice2)+'  →  +'+xpEarned+' XP';
       setSts('roll-sts','ok','+'+xpEarned+' XP! <a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');
     }
-    addHist('deploy','Zar: '+dice1+'+'+dice2+(isDouble?' CIFT!':''),tx.hash);
+    addHist('dice','Zar: '+dice1+'+'+dice2+(isDouble?' CIFT!':''),tx.hash);
     await loadDiceStats();
   }catch(e){
     clearInterval(animInterval);
