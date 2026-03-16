@@ -358,7 +358,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--tx); 
     <button class="abtn abtn-gm" id="gm-btn" onclick="sendGM()">☀️ GM Gonder</button>
     <div class="sts" id="gm-sts"></div>
   </div>
-
+</div>
   <div class="opnl" id="owner-pnl" style="display:none">
     <div class="otitle">Owner Paneli</div>
     <div class="irow"><span class="il">GM Bakiyesi</span><span class="iv" id="gm-bal">-</span></div>
@@ -369,7 +369,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--tx); 
     </div>
     <div class="sts" id="wd-sts"></div>
   </div>
-</div>
+
 
 <!-- GN -->
 <div class="pane" id="pane-gn">
@@ -679,6 +679,7 @@ async function connectWith(rdns) {
     await loadStats();
     await checkOwner();
     await loadDiceStats();
+    await loadHistory();
   } catch(e) {
     clearSts('gm-sts');
     if (e.code !== 4001) setSts('gm-sts', 'err', 'Hata: ' + (e.message || 'bilinmiyor').slice(0, 80));
@@ -749,33 +750,25 @@ async function loadBal() {
 
 async function loadStats() {
   if (!acct) return;
-  var RPCS = [
-    'https://base.llamarpc.com',
-    'https://mainnet.base.org',
-    'https://base-rpc.publicnode.com'
-  ];
-  for (var ri = 0; ri < RPCS.length; ri++) {
-    try {
-      var ro  = new ethers.JsonRpcProvider(RPCS[ri]);
-      var gmC = new ethers.Contract(CFG.GM, GM_ABI, ro);
-      var gnC = new ethers.Contract(CFG.GN, GN_ABI, ro);
-      var res = await Promise.all([
-        gmC.totalGMs(), gmC.streakOf(acct), gmC.hasSentGMToday(acct),
-        gnC.totalGNs(), gnC.streakOf(acct), gnC.hasSentGNToday(acct)
-      ]);
-      document.getElementById('gm-total').textContent  = res[0].toString();
-      document.getElementById('gm-streak').textContent = res[1].toString() + ' Gun';
-      document.getElementById('gn-total').textContent  = res[3].toString();
-      document.getElementById('gn-streak').textContent = res[4].toString() + ' Gun';
-      document.getElementById('gm-today').innerHTML = res[2]
-        ? '<span class="bdg bg">Gonderildi</span>'
-        : '<span class="bdg bb">Henuz yok</span>';
-      document.getElementById('gn-today').innerHTML = res[5]
-        ? '<span class="bdg bg">Gonderildi</span>'
-        : '<span class="bdg bp">Henuz yok</span>';
-      return; // başarılı, dur
-    } catch(e) { console.warn('stats err RPC '+ri+':', e); }
-  }
+  try {
+    var ro  = new ethers.JsonRpcProvider(CFG.RPC);
+    var gmC = new ethers.Contract(CFG.GM, GM_ABI, ro);
+    var gnC = new ethers.Contract(CFG.GN, GN_ABI, ro);
+    var res = await Promise.all([
+      gmC.totalGMs(), gmC.streakOf(acct), gmC.hasSentGMToday(acct),
+      gnC.totalGNs(), gnC.streakOf(acct), gnC.hasSentGNToday(acct)
+    ]);
+    document.getElementById('gm-total').textContent  = res[0].toString();
+    document.getElementById('gm-streak').textContent = res[1].toString() + ' Gun';
+    document.getElementById('gn-total').textContent  = res[3].toString();
+    document.getElementById('gn-streak').textContent = res[4].toString() + ' Gun';
+    document.getElementById('gm-today').innerHTML = res[2]
+      ? '<span class="bdg bg">Gonderildi</span>'
+      : '<span class="bdg bb">Henuz yok</span>';
+    document.getElementById('gn-today').innerHTML = res[5]
+      ? '<span class="bdg bg">Gonderildi</span>'
+      : '<span class="bdg bp">Henuz yok</span>';
+  } catch(e) { console.warn('stats err:', e); }
 }
 
 async function checkOwner() {
