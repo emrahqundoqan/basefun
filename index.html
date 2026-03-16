@@ -2,8 +2,8 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8"/>
+<meta name="talentapp:project_verification" content="9ff456b07b51ebe380e8353a57b67874a40154f96c73c1fb40349ae7dc0ec398a9fccd1eb1c70b49b32225da4afb77e055bdcda23fe607ff7daeaa940b132c9f">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="talentapp:project_verification" content="9ff456b07b51ebe380e8353a57b67874a40154f96c73c1fb40349ae7dc0ec398a9fccd1eb1c70b49b32225da4afb77e055bdcda23fe607ff7daeaa940b132c9f">
 <title>Base GM/GN dApp</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js"></script>
@@ -1219,12 +1219,12 @@ async function rollDice(){
     // OrthographicCamera yukarıdan (0,14,0) bakıyor — +Y yukarı
     // BoxGeometry yüz sırası: +X=2,-X=5,+Y=3,-Y=4,+Z=1,-Z=6
     var FR={
-      1:{x:0,        y:0,          z:0},
-      2:{x:0,        y:-Math.PI/2, z:0},
-      3:{x:-Math.PI/2, y:0,        z:0},
-      4:{x:Math.PI/2,  y:0,        z:0},
-      5:{x:0,        y:Math.PI/2,  z:0},
-      6:{x:0,        y:Math.PI,    z:0}
+      1:{x:0,          y:Math.PI,    z:0},
+      2:{x:0,          y:Math.PI/2,  z:0},
+      3:{x:Math.PI/2,  y:0,          z:0},
+      4:{x:-Math.PI/2, y:0,          z:0},
+      5:{x:0,          y:-Math.PI/2, z:0},
+      6:{x:0,          y:0,          z:0}
     };
     var r1=FR[dice1]||FR[1], r2=FR[dice2]||FR[1];
     _diceMeshes[0].rotation.set(r1.x,r1.y,r1.z);
