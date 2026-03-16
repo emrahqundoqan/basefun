@@ -1,0 +1,125 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.19;
+
+contract DiceXP {
+
+    event DiceRolled(address indexed player, uint8 dice1, uint8 dice2, bool isDouble, uint256 xpEarned, uint256 totalXP);
+    event XPAwarded(address indexed player, uint256 amount, string reason);
+    event Withdrawn(address indexed owner, uint256 amount);
+
+    uint256 public constant ROLL_FEE  = 0.00005 ether;
+    uint256 public constant XP_DOUBLE = 50;
+    uint256 public constant XP_GM_GN  = 10;
+
+    address public owner;
+    address public gmContract;
+    address public gnContract;
+
+    mapping(address => uint256) public xpOf;
+    mapping(address => uint256) public rollCountOf;
+    mapping(address => uint256) public doubleCountOf;
+
+    uint256 public totalRolls;
+    uint256 public totalDoubles;
+    uint256 public totalXPAwarded;
+
+    mapping(address => uint256) private _nonce;
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Sadece owner");
+        _;
+    }
+
+    modifier onlyGMorGN() {
+        require(
+            msg.sender == gmContract ||
+            msg.sender == gnContract ||
+            msg.sender == owner,
+            "Yetkisiz"
+        );
+        _;
+    }
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function rollDice() external payable {
+        require(msg.value >= ROLL_FEE, "0.00005 ETH gerekli");
+
+        if (msg.value > ROLL_FEE) {
+            payable(msg.sender).transfer(msg.value - ROLL_FEE);
+        }
+
+        uint256 seed = uint256(keccak256(abi.encodePacked(
+            block.timestamp,
+            block.prevrandao,
+            msg.sender,
+            _nonce[msg.sender],
+            totalRolls
+        )));
+        _nonce[msg.sender]++;
+
+        uint8 dice1 = uint8((seed        % 6) + 1);
+        uint8 dice2 = uint8(((seed >> 8) % 6) + 1);
+
+        bool isDouble = (dice1 == dice2);
+
+        // Cift = 50 XP, Normal = iki zarin toplami kadar XP
+        uint256 xp = isDouble ? XP_DOUBLE : uint256(dice1 + dice2);
+
+        xpOf[msg.sender]        += xp;
+        rollCountOf[msg.sender] += 1;
+        totalRolls              += 1;
+        totalXPAwarded          += xp;
+
+        if (isDouble) {
+            doubleCountOf[msg.sender] += 1;
+            totalDoubles              += 1;
+        }
+
+        emit DiceRolled(msg.sender, dice1, dice2, isDouble, xp, xpOf[msg.sender]);
+    }
+
+    function awardGmGnXP(address _player, string calldata _reason) external onlyGMorGN {
+        xpOf[_player]  += XP_GM_GN;
+        totalXPAwarded += XP_GM_GN;
+        emit XPAwarded(_player, XP_GM_GN, _reason);
+    }
+
+    function withdraw() external onlyOwner {
+        uint256 bal = address(this).balance;
+        require(bal > 0, "Bakiye yok");
+        payable(owner).transfer(bal);
+        emit Withdrawn(owner, bal);
+    }
+
+    function setGMContract(address _gm) external onlyOwner {
+        gmContract = _gm;
+    }
+
+    function setGNContract(address _gn) external onlyOwner {
+        gnContract = _gn;
+    }
+
+    function transferOwnership(address _new) external onlyOwner {
+        require(_new != address(0), "Gecersiz adres");
+        owner = _new;
+    }
+
+    function getPlayerStats(address _player) external view returns (
+        uint256 xp,
+        uint256 rolls,
+        uint256 doubles,
+        uint256 level
+    ) {
+        xp      = xpOf[_player];
+        rolls   = rollCountOf[_player];
+        doubles = doubleCountOf[_player];
+        level   = xp / 100;
+    }
+
+    function contractBalance() external view returns (uint256) {
+        return address(this).balance;
+    }
+}
