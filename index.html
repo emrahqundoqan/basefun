@@ -241,6 +241,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--tx); 
   <button class="tab" id="tab-gn" onclick="switchTab('gn')">🌙 GN</button>
   <button class="tab" id="tab-dp" onclick="switchTab('deploy')">🚀 Deploy</button>
   <button class="tab" id="tab-hs" onclick="switchTab('history')">📜 Gecmis</button>
+  <button class="tab" id="tab-gm2" onclick="switchTab('game')">🎲 Oyun</button>
 </div>
 
 <!-- GM -->
@@ -348,6 +349,74 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--tx); 
   </div>
 </div>
 
+
+<!-- GAME -->
+<div class="pane" id="pane-game">
+
+  <div class="g2" style="margin-bottom:16px">
+    <div class="sc">
+      <div class="sn" style="color:#f59e0b;font-size:32px" id="xp-total">0</div>
+      <div class="sl">Toplam XP</div>
+    </div>
+    <div class="sc">
+      <div class="sn" style="color:#7c3aed;font-size:32px" id="xp-level">0</div>
+      <div class="sl">Seviye</div>
+    </div>
+  </div>
+  <div class="g2" style="margin-bottom:16px">
+    <div class="sc">
+      <div class="sn" style="color:var(--blue);font-size:28px;padding-top:4px" id="dice-rolls">0</div>
+      <div class="sl">Zar Atisi</div>
+    </div>
+    <div class="sc">
+      <div class="sn" style="color:var(--green);font-size:28px;padding-top:4px" id="dice-doubles">0</div>
+      <div class="sl">Cift</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Zar At</div>
+    <div class="irow"><span class="il">Kontrat</span><span class="iv" id="dice-addr">Deploy gerekli</span></div>
+    <div class="irow" style="margin-bottom:14px"><span class="il">Maliyet</span><span class="iv" style="color:var(--blue);font-weight:600">0.00005 ETH</span></div>
+
+    <div id="dice-display" style="display:flex;justify-content:center;align-items:center;gap:24px;padding:24px 0;margin-bottom:14px">
+      <div id="d1" style="width:72px;height:72px;background:var(--bg2);border:2px solid var(--bdr2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:40px">🎲</div>
+      <div style="font-size:24px;font-weight:700;color:var(--tx2)">vs</div>
+      <div id="d2" style="width:72px;height:72px;background:var(--bg2);border:2px solid var(--bdr2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:40px">🎲</div>
+    </div>
+
+    <div id="dice-result" style="text-align:center;min-height:36px;margin-bottom:14px;font-size:15px;font-weight:600"></div>
+
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <div style="flex:1;background:var(--warn-light);border:.5px solid var(--warn);border-radius:var(--rs);padding:9px;text-align:center;font-size:12px">
+        <div style="font-weight:700;color:#78350F">+5 XP</div>
+        <div style="color:#92400e;margin-top:2px">Her atis</div>
+      </div>
+      <div style="flex:1;background:var(--purple-light);border:.5px solid var(--purple);border-radius:var(--rs);padding:9px;text-align:center;font-size:12px">
+        <div style="font-weight:700;color:var(--purple)">+100 XP</div>
+        <div style="color:var(--purple);margin-top:2px">Cift!</div>
+      </div>
+      <div style="flex:1;background:var(--green-light);border:.5px solid var(--green);border-radius:var(--rs);padding:9px;text-align:center;font-size:12px">
+        <div style="font-weight:700;color:#065F46">+10 XP</div>
+        <div style="color:#065F46;margin-top:2px">GM/GN</div>
+      </div>
+    </div>
+
+    <div class="fbox fbox-dp"><span class="fl-dp">Zar Ucreti</span><span class="fv-dp">0.00005 ETH</span></div>
+    <button class="abtn abtn-dp" id="roll-btn" onclick="rollDice()">🎲 Zar At!</button>
+    <div class="sts" id="roll-sts"></div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Seviye Sistemi</div>
+    <div class="irow"><span class="il">🥉 Bronz</span><span class="iv">0 - 999 XP</span></div>
+    <div class="irow"><span class="il">🥈 Gumus</span><span class="iv">1.000 - 4.999 XP</span></div>
+    <div class="irow"><span class="il">🥇 Altin</span><span class="iv">5.000 - 9.999 XP</span></div>
+    <div class="irow"><span class="il">💎 Platin</span><span class="iv">10.000 - 49.999 XP</span></div>
+    <div class="irow"><span class="il">👑 Elmas</span><span class="iv">50.000+ XP</span></div>
+  </div>
+
+</div>
 </div><!-- /wrap -->
 
 <script>
@@ -413,15 +482,19 @@ function selTpl(key) {
 }
 
 function switchTab(name) {
-  var tabs = ['gm','gn','deploy','history'];
-  var ids  = ['tab-gm','tab-gn','tab-dp','tab-hs'];
-  for (var i = 0; i < tabs.length; i++) {
-    document.getElementById('tab-' + (i===0?'gm':i===1?'gn':i===2?'dp':'hs')).classList.remove('on');
-    document.getElementById('pane-' + tabs[i]).classList.remove('on');
+  var allTabs  = ['tab-gm','tab-gn','tab-dp','tab-hs','tab-gm2'];
+  var allPanes = ['pane-gm','pane-gn','pane-deploy','pane-history','pane-game'];
+  for (var i = 0; i < allTabs.length; i++) {
+    var te = document.getElementById(allTabs[i]);
+    var pe = document.getElementById(allPanes[i]);
+    if (te) te.classList.remove('on');
+    if (pe) pe.classList.remove('on');
   }
-  document.getElementById('pane-' + name).classList.add('on');
-  var tabId = name==='gm'?'tab-gm':name==='gn'?'tab-gn':name==='deploy'?'tab-dp':'tab-hs';
-  document.getElementById(tabId).classList.add('on');
+  var tabMap = {'gm':'tab-gm','gn':'tab-gn','deploy':'tab-dp','history':'tab-hs','game':'tab-gm2'};
+  var el = document.getElementById(tabMap[name]);
+  var pe = document.getElementById('pane-' + name);
+  if (el) el.classList.add('on');
+  if (pe) pe.classList.add('on');
 }
 
 function openModal() {
@@ -534,6 +607,7 @@ async function connectWith(rdns) {
     await loadBal();
     await loadStats();
     await checkOwner();
+    await loadDiceStats();
   } catch(e) {
     clearSts('gm-sts');
     if (e.code !== 4001) setSts('gm-sts', 'err', 'Hata: ' + (e.message || 'bilinmiyor').slice(0, 80));
@@ -766,6 +840,130 @@ function addHist(type, label, txHash) {
     + '<div class="hsub">' + new Date().toLocaleTimeString('tr-TR') + ' - ' + label + '</div></div>'
     + '<a class="txl" href="' + CFG.EXPLORER + '/tx/' + txHash + '" target="_blank">' + shH(txHash) + '</a>';
   lst.insertBefore(el, lst.firstChild);
+}
+
+
+// ══════════════════════════════════════════════
+// DICE XP SISTEMI
+// ══════════════════════════════════════════════
+// TODO: DiceXP kontratini deploy edip bu adresi guncelleyin
+var DICE_CONTRACT = '0x1F0586558a51C50Fe07c6436e582902D721137cA';
+var DICE_FEE = ethers.parseEther('0.00005');
+
+var DICE_ABI = [
+  'function rollDice() external payable',
+  'function getPlayerStats(address) view returns (uint256 xp, uint256 rolls, uint256 doubles, uint256 level)',
+  'function xpOf(address) view returns (uint256)',
+  'function rollCountOf(address) view returns (uint256)',
+  'function doubleCountOf(address) view returns (uint256)',
+  'function contractBalance() view returns (uint256)',
+  'function withdraw() external',
+  'function owner() view returns (address)'
+];
+
+var DICE_FACES = ['', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣'];
+
+function getLevel(xp) {
+  if (xp >= 50000) return { name:'👑 Elmas',  color:'#06b6d4' };
+  if (xp >= 10000) return { name:'💎 Platin', color:'#8b5cf6' };
+  if (xp >= 5000)  return { name:'🥇 Altin',  color:'#f59e0b' };
+  if (xp >= 1000)  return { name:'🥈 Gumus',  color:'#94a3b8' };
+  return { name:'🥉 Bronz', color:'#b45309' };
+}
+
+async function loadDiceStats() {
+  if (!acct) return;
+  var isDicePlaceholder = DICE_CONTRACT === '0x0000000000000000000000000000000000000000';
+  document.getElementById('dice-addr').textContent = isDicePlaceholder ? 'Deploy gerekli' : DICE_CONTRACT.slice(0,6)+'...'+DICE_CONTRACT.slice(-4);
+  if (isDicePlaceholder) return;
+  try {
+    var ro = new ethers.JsonRpcProvider(CFG.RPC);
+    var dc = new ethers.Contract(DICE_CONTRACT, DICE_ABI, ro);
+    var stats = await dc.getPlayerStats(acct);
+    var xp = Number(stats[0]);
+    var rolls = Number(stats[1]);
+    var doubles = Number(stats[2]);
+    var lvl = getLevel(xp);
+    document.getElementById('xp-total').textContent = xp.toLocaleString();
+    document.getElementById('xp-level').textContent = Math.floor(xp / 100);
+    document.getElementById('dice-rolls').textContent = rolls;
+    document.getElementById('dice-doubles').textContent = doubles;
+    document.getElementById('xp-total').style.color = lvl.color;
+  } catch(e) { console.warn('dice stats:', e); }
+}
+
+async function rollDice() {
+  if (!requireWlt('roll-sts')) return;
+  if (DICE_CONTRACT === '0x0000000000000000000000000000000000000000') {
+    setSts('roll-sts', 'err', 'DiceXP kontrati henuz deploy edilmedi!');
+    return;
+  }
+  var btn = document.getElementById('roll-btn');
+  btn.disabled = true;
+
+  // Animasyon
+  var d1el = document.getElementById('d1');
+  var d2el = document.getElementById('d2');
+  var resEl = document.getElementById('dice-result');
+  resEl.textContent = '';
+  d1el.textContent = '🎲';
+  d2el.textContent = '🎲';
+
+  try {
+    setSts('roll-sts', 'pnd', 'Imzalaniyor... (0.00005 ETH)');
+    var dc = new ethers.Contract(DICE_CONTRACT, DICE_ABI, sgn);
+    var tx = await dc.rollDice({ value: DICE_FEE });
+    setSts('roll-sts', 'pnd', 'Onaylanıyor...<a class="txs" target="_blank" href="' + CFG.EXPLORER + '/tx/' + tx.hash + '">' + shH(tx.hash) + '</a>');
+
+    // Zar animasyonu
+    var animInterval = setInterval(function() {
+      d1el.textContent = DICE_FACES[Math.floor(Math.random()*6)+1];
+      d2el.textContent = DICE_FACES[Math.floor(Math.random()*6)+1];
+    }, 100);
+
+    var receipt = await tx.wait();
+    clearInterval(animInterval);
+
+    // Event'ten zar değerlerini oku
+    var iface = new ethers.Interface(DICE_ABI);
+    var dice1 = 1, dice2 = 1, isDouble = false, xpEarned = 5;
+    for (var log of receipt.logs) {
+      try {
+        var parsed = iface.parseLog(log);
+        if (parsed && parsed.name === 'DiceRolled') {
+          dice1 = Number(parsed.args[1]);
+          dice2 = Number(parsed.args[2]);
+          isDouble = parsed.args[3];
+          xpEarned = Number(parsed.args[4]);
+          break;
+        }
+      } catch(e) {}
+    }
+
+    d1el.textContent = DICE_FACES[dice1] || dice1;
+    d2el.textContent = DICE_FACES[dice2] || dice2;
+
+    if (isDouble) {
+      d1el.style.border = '2px solid #7c3aed';
+      d2el.style.border = '2px solid #7c3aed';
+      resEl.innerHTML = '<span style="color:#7c3aed">🎊 CIFT! +100 XP kazandın!</span>';
+      setSts('roll-sts', 'ok', '🎊 Cift geldi! +100 XP!<a class="txs" target="_blank" href="' + CFG.EXPLORER + '/tx/' + tx.hash + '">Basescan</a>');
+    } else {
+      d1el.style.border = '2px solid var(--bdr2)';
+      d2el.style.border = '2px solid var(--bdr2)';
+      resEl.innerHTML = '<span style="color:var(--tx2)">+5 XP kazandın</span>';
+      setSts('roll-sts', 'ok', '+5 XP kazandın!<a class="txs" target="_blank" href="' + CFG.EXPLORER + '/tx/' + tx.hash + '">Basescan</a>');
+    }
+
+    addHist('deploy', 'Zar: ' + dice1 + '+' + dice2 + (isDouble?' (CIFT!)':''), tx.hash);
+    await loadDiceStats();
+
+  } catch(e) {
+    document.getElementById('d1').style.border = '2px solid var(--bdr2)';
+    document.getElementById('d2').style.border = '2px solid var(--bdr2)';
+    setSts('roll-sts', 'err', 'Hata: ' + (e.reason || e.message || '').slice(0, 120));
+  }
+  btn.disabled = false;
 }
 
 window.addEventListener('load', function() {
