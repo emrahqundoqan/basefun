@@ -926,10 +926,6 @@ async function loadDiceStats() {
 
 async function rollDice() {
   if (!requireWlt('roll-sts')) return;
-  if (DICE_CONTRACT === '0x1F0586558a51C50Fe07c6436e582902D721137cA') {
-    setSts('roll-sts', 'err', 'DiceXP kontrati henuz deploy edilmedi!');
-    return;
-  }
   var btn = document.getElementById('roll-btn');
   btn.disabled = true;
 
