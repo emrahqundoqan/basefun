@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="talentapp:project_verification" content="9ff456b07b51ebe380e8353a57b67874a40154f96c73c1fb40349ae7dc0ec398a9fccd1eb1c70b49b32225da4afb77e055bdcda23fe607ff7daeaa940b132c9f">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Base Fun</title>
+<title>Base GM/GN dApp</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap');
@@ -474,9 +474,11 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--tx); 
     <div class="irow"><span class="il">Kontrat</span><span class="iv" id="dice-addr">Deploy gerekli</span></div>
     <div class="irow" style="margin-bottom:14px"><span class="il">Maliyet</span><span class="iv" style="color:var(--blue);font-weight:600">0.00005 ETH</span></div>
 
-    <!-- 3D Three.js Masa -->
-
-    <canvas id="dice-canvas" style="display:none;border-radius:16px;border:6px solid #8B6914;box-shadow:0 4px 0 #4a3008;width:100%;margin:0 auto;display:block"></canvas>
+    <!-- Masa -->
+    <div style="background:linear-gradient(145deg,#1a7a42,#0d4a28);border-radius:20px;border:8px solid #8B6914;box-shadow:0 4px 0 #4a3008,inset 0 2px 8px rgba(0,0,0,.3);padding:28px 20px;margin-bottom:14px;display:flex;justify-content:center;align-items:center;gap:40px;min-height:160px">
+      <div id="d1" style="width:80px;height:80px;display:flex;align-items:center;justify-content:center"></div>
+      <div id="d2" style="width:80px;height:80px;display:flex;align-items:center;justify-content:center"></div>
+    </div>
 
     <div id="dice-result" style="text-align:center;min-height:40px;margin:10px 0;font-size:16px;font-weight:700"></div>
 
