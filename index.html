@@ -482,7 +482,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--tx); 
         <div id="three-bar" style="height:100%;background:var(--blue);width:0%;transition:width .3s;border-radius:2px"></div>
       </div>
     </div>
-    <canvas id="dice-canvas" style="display:none;border-radius:16px;border:6px solid #8B6914;box-shadow:0 4px 0 #4a3008;width:100%"></canvas>
+    <div style="display:flex;justify-content:center;width:100%"><canvas id="dice-canvas" style="display:none;border-radius:16px;border:6px solid #8B6914;box-shadow:0 4px 0 #4a3008;width:100%;display:block"></canvas></div>
 
     <div id="dice-result" style="text-align:center;min-height:40px;margin:10px 0;font-size:16px;font-weight:700"></div>
 
@@ -1014,7 +1014,7 @@ function initThreeJS(){
   if(typeof THREE==='undefined'||typeof CANNON==='undefined'){return;}
   var cv=document.getElementById('dice-canvas');
   if(!cv)return;
-  var W=cv.parentElement.offsetWidth||360;
+  var W=cv.parentElement.parentElement.offsetWidth||360;
   cv.width=W;cv.height=W;
 
   _threeRenderer=new THREE.WebGLRenderer({canvas:cv,antialias:true});
