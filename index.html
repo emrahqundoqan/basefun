@@ -2,274 +2,131 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8"/>
-<meta name="talentapp:project_verification" content="9ff456b07b51ebe380e8353a57b67874a40154f96c73c1fb40349ae7dc0ec398a9fccd1eb1c70b49b32225da4afb77e055bdcda23fe607ff7daeaa940b132c9f">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Base Fun dApp</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%230052FF'/%3E%3Cpath d='M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12c5.435 0 10.035-3.6 11.5-8.571H16v-2.857h12.857a12 12 0 000-1.143H16v-2.857h11.5C26.035 7.6 21.435 4 16 4z' fill='white'/%3E%3C/svg%3E"/>
+<meta name="talentapp:project_verification" content="9ff456b07b51ebe380e8353a57b67874a40154f96c73c1fb40349ae7dc0ec398a9fccd1eb1c70b49b32225da4afb77e055bdcda23fe607ff7daeaa940b132c9f">
+<title>Base Fun</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap');
-:root {
-  --blue:#0052FF; --blue-dark:#003dbf; --blue-light:#e6eeff;
-  --gold:#F59E0B; --gold-light:#FEF3C7;
-  --purple:#7C3AED; --purple-light:#EDE9FE;
-  --green:#10B981; --green-light:#D1FAE5;
-  --red:#EF4444; --red-light:#FEE2E2;
-  --warn:#F59E0B; --warn-light:#FEF9C3;
-  --bg:#fff; --bg2:#f8f8f7;
-  --bdr:rgba(0,0,0,.10); --bdr2:rgba(0,0,0,.18);
-  --tx:#1a1a18; --tx2:#6b6b67;
-  --r:12px; --rs:8px;
+:root{
+  --blue:#0052FF;--blue-dark:#003dbf;--blue-light:#e6eeff;
+  --gold:#F59E0B;--gold-light:#FEF3C7;
+  --purple:#7C3AED;--purple-light:#EDE9FE;
+  --green:#10B981;--green-light:#D1FAE5;
+  --red:#EF4444;--red-light:#FEE2E2;
+  --warn:#F59E0B;--warn-light:#FEF9C3;
+  --bg:#fff;--bg2:#f8f8f7;
+  --bdr:rgba(0,0,0,.10);--bdr2:rgba(0,0,0,.18);
+  --tx:#1a1a18;--tx2:#6b6b67;
+  --r:12px;--rs:8px;
 }
-@media(prefers-color-scheme:dark) {
-  :root {
-    --bg:#1a1a18; --bg2:#242421;
-    --bdr:rgba(255,255,255,.10); --bdr2:rgba(255,255,255,.18);
-    --tx:#f0efea; --tx2:#9c9a92;
-    --blue-light:#0f1e3d; --gold-light:#2d1f00;
-    --purple-light:#1e0a3c; --green-light:#042f1e;
-    --red-light:#2d0a0a; --warn-light:#2d1f00;
-  }
+@media(prefers-color-scheme:dark){
+  :root{--bg:#1a1a18;--bg2:#242421;--bdr:rgba(255,255,255,.10);--bdr2:rgba(255,255,255,.18);--tx:#f0efea;--tx2:#9c9a92;--blue-light:#0f1e3d;--gold-light:#2d1f00;--purple-light:#1e0a3c;--green-light:#042f1e;--red-light:#2d0a0a;--warn-light:#2d1f00;}
 }
-* { box-sizing:border-box; margin:0; padding:0; }
-body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--tx); min-height:100vh; }
-.wrap { max-width:520px; margin:0 auto; padding:24px 16px 56px; }
-
-/* Header */
-.hdr { display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:16px; border-bottom:.5px solid var(--bdr); }
-.logo { width:42px; height:42px; border-radius:50%; background:var(--blue); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.logo svg { width:24px; height:24px; }
-.hdr-txt h1 { font-family:'Space Mono',monospace; font-size:17px; font-weight:700; }
-.hdr-txt p { font-size:12px; color:var(--tx2); margin-top:2px; }
-.net-pill { margin-left:auto; display:flex; align-items:center; gap:5px; background:var(--blue-light); color:var(--blue); font-size:11px; font-weight:500; padding:5px 10px; border-radius:20px; border:.5px solid #b3cbff; white-space:nowrap; }
-.dot { width:6px; height:6px; border-radius:50%; background:var(--green); animation:blink 2s infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.35} }
-
-/* Wallet */
-.wlt-card { background:var(--bg2); border:.5px solid var(--bdr); border-radius:var(--r); padding:14px 16px; margin-bottom:16px; display:flex; align-items:center; gap:12px; }
-.wlt-ico { width:38px; height:38px; border-radius:var(--rs); background:var(--blue); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.wlt-info { flex:1; }
-.wlt-info .lbl { font-size:11px; color:var(--tx2); }
-.wlt-info .adr { font-family:'Space Mono',monospace; font-size:13px; font-weight:700; margin-top:2px; }
-.bal { font-size:12px; color:var(--tx2); font-family:'Space Mono',monospace; background:var(--bg); border:.5px solid var(--bdr2); padding:4px 10px; border-radius:20px; margin-right:6px; display:none; }
-.btn-con { background:var(--blue); color:#fff; border:none; padding:9px 16px; border-radius:var(--rs); font-size:13px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; transition:background .15s; white-space:nowrap; }
-.btn-con:hover { background:var(--blue-dark); }
-.btn-con.off { background:var(--red); }
-
-/* Modal */
-.mbg { position:fixed; inset:0; background:rgba(0,0,0,.55); display:flex; align-items:center; justify-content:center; z-index:9999; opacity:0; pointer-events:none; transition:opacity .2s; }
-.mbg.on { opacity:1; pointer-events:all; }
-.mdl { background:var(--bg); border:.5px solid var(--bdr2); border-radius:16px; padding:24px; width:340px; max-width:90vw; transform:translateY(14px); transition:transform .2s; max-height:80vh; overflow-y:auto; }
-.mbg.on .mdl { transform:translateY(0); }
-.mdl h2 { font-size:16px; font-weight:600; margin-bottom:4px; }
-.mdl p { font-size:13px; color:var(--tx2); margin-bottom:16px; }
-.wlt-lst { display:flex; flex-direction:column; gap:8px; }
-.wopt { display:flex; align-items:center; gap:12px; padding:12px 14px; border:.5px solid var(--bdr2); border-radius:var(--rs); cursor:pointer; background:var(--bg2); transition:border-color .15s,background .15s; }
-.wopt:hover { border-color:var(--blue); background:var(--blue-light); }
-.wico { width:36px; height:36px; border-radius:8px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:20px; background:var(--bg); border:.5px solid var(--bdr); }
-.wopt img { width:36px; height:36px; border-radius:8px; object-fit:cover; flex-shrink:0; }
-.wopt .wnm { font-weight:600; font-size:14px; }
-.wopt .wrd { font-size:11px; color:var(--tx2); margin-top:2px; }
-.wopt .wbg { margin-left:auto; font-size:10px; padding:2px 8px; border-radius:10px; background:var(--green-light); color:#065F46; white-space:nowrap; }
-.wbg-b { background:var(--blue-light) !important; color:var(--blue) !important; }
-.mdl-div { border-top:.5px solid var(--bdr); margin:10px 0; }
-.no-wlt { text-align:center; padding:14px; font-size:13px; color:var(--tx2); }
-.no-wlt a { color:var(--blue); }
-.mdl-cls { width:100%; padding:10px; border:none; background:transparent; color:var(--tx2); font-size:13px; cursor:pointer; border-top:.5px solid var(--bdr); font-family:'DM Sans',sans-serif; margin-top:10px; }
-
-/* Net warn */
-.nwrn { background:var(--warn-light); border:.5px solid #fcd34d; border-radius:var(--rs); padding:11px 14px; font-size:13px; color:#78350F; margin-bottom:14px; display:none; align-items:center; gap:8px; }
-.nwrn.on { display:flex; }
-.nwrn button { margin-left:auto; background:var(--warn); color:#78350F; border:none; padding:4px 10px; border-radius:6px; font-size:12px; cursor:pointer; font-weight:600; font-family:'DM Sans',sans-serif; }
-
-/* Tabs */
-.tabs { display:flex; gap:3px; background:var(--bg2); border:.5px solid var(--bdr); border-radius:10px; padding:4px; margin-bottom:20px; }
-.tab { flex:1; padding:9px 4px; border:none; background:transparent; border-radius:8px; font-size:13px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; color:var(--tx2); transition:all .18s; }
-.tab.on { background:var(--bg); color:var(--tx); box-shadow:0 1px 4px rgba(0,0,0,.07); }
-.pane { display:none; }
-.pane.on { display:block; }
-
-/* Card */
-.card { background:var(--bg); border:.5px solid var(--bdr); border-radius:var(--r); padding:20px; margin-bottom:16px; }
-.ctitle { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.6px; color:var(--tx2); margin-bottom:14px; }
-
-/* Form */
-.fgrp { margin-bottom:14px; }
-.fgrp label { display:block; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; color:var(--tx2); margin-bottom:5px; }
-.fgrp input { width:100%; background:var(--bg2); border:.5px solid var(--bdr2); border-radius:var(--rs); padding:10px 12px; font-size:13px; font-family:'DM Sans',sans-serif; color:var(--tx); outline:none; transition:border-color .15s; }
-.fgrp input:focus { border-color:var(--blue); }
-
-/* Info rows */
-.irow { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:.5px solid var(--bdr); font-size:13px; }
-.irow:last-child { border-bottom:none; }
-.il { color:var(--tx2); }
-.iv { font-family:'Space Mono',monospace; font-size:12px; }
-
-/* Fee boxes */
-.fbox { display:flex; justify-content:space-between; align-items:center; border-radius:var(--rs); padding:10px 14px; margin-bottom:14px; font-size:13px; }
-.fbox-gm { background:var(--gold-light); border:.5px solid var(--gold); }
-.fbox-gn { background:var(--purple-light); border:.5px solid var(--purple); }
-.fbox-dp { background:var(--blue-light); border:.5px solid #b3cbff; }
-.fl-gm { color:#78350F; font-weight:500; }
-.fl-gn { color:var(--purple); font-weight:500; }
-.fl-dp { color:var(--blue); font-weight:500; }
-.fv-gm { font-family:'Space Mono',monospace; font-weight:700; color:#78350F; }
-.fv-gn { font-family:'Space Mono',monospace; font-weight:700; color:var(--purple); }
-.fv-dp { font-family:'Space Mono',monospace; font-weight:700; color:var(--blue); }
-.grow { display:flex; justify-content:space-between; font-size:12px; color:var(--tx2); background:var(--bg2); border:.5px solid var(--bdr); border-radius:var(--rs); padding:9px 13px; margin-bottom:14px; }
-.gv { font-family:'Space Mono',monospace; color:var(--tx); }
-
-/* Buttons */
-.abtn { width:100%; padding:14px; border:none; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all .18s; display:flex; align-items:center; justify-content:center; gap:8px; }
-.abtn:active { transform:scale(.98); }
-.abtn:disabled { opacity:.45; cursor:not-allowed; transform:none; }
-.abtn-gm { background:var(--gold); color:#78350F; }
-.abtn-gm:hover:not(:disabled) { background:#d97706; }
-.abtn-gn { background:var(--purple); color:#fff; }
-.abtn-gn:hover:not(:disabled) { background:#6d28d9; }
-.abtn-dp { background:var(--blue); color:#fff; }
-.abtn-dp:hover:not(:disabled) { background:var(--blue-dark); }
-
-/* Status */
-.sts { margin-top:14px; padding:12px 14px; border-radius:var(--rs); font-size:13px; display:none; align-items:flex-start; gap:9px; line-height:1.5; }
-.sts.on { display:flex; }
-.sts.pnd { background:var(--warn-light); color:#78350F; border:.5px solid #fcd34d; }
-.sts.ok { background:var(--green-light); color:#065F46; border:.5px solid #6ee7b7; }
-.sts.err { background:var(--red-light); color:#7F1D1D; border:.5px solid #fca5a5; }
-.spin { width:14px; height:14px; border-radius:50%; border:2px solid currentColor; border-top-color:transparent; animation:spin .65s linear infinite; flex-shrink:0; margin-top:1px; }
-@keyframes spin { to { transform:rotate(360deg); } }
-
-/* Stats */
-.g2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.sc { background:var(--bg); border:.5px solid var(--bdr); border-radius:var(--r); padding:16px; text-align:center; }
-.sn { font-family:'Space Mono',monospace; font-size:38px; font-weight:700; line-height:1; }
-.sl { font-size:12px; color:var(--tx2); margin-top:6px; }
-
-/* Templates */
-.tgrid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
-.tcard { background:var(--bg2); border:.5px solid var(--bdr2); border-radius:var(--rs); padding:14px; cursor:pointer; transition:all .18s; text-align:center; }
-.tcard:hover { border-color:var(--blue); background:var(--blue-light); }
-.tcard.on { border-color:var(--blue); background:var(--blue-light); box-shadow:0 0 0 2px rgba(0,82,255,.15); }
-.ticon { font-size:28px; margin-bottom:6px; }
-.tname { font-size:13px; font-weight:600; }
-.tdesc { font-size:11px; color:var(--tx2); margin-top:3px; }
-
-/* History */
-.hi { display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:.5px solid var(--bdr); font-size:13px; }
-.hi:last-child { border-bottom:none; }
-.hico { width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
-.hgm { background:var(--gold-light); }
-.hgn { background:var(--purple-light); }
-.hdp { background:var(--blue-light); }
-.hinfo { flex:1; }
-.htype { font-weight:500; }
-.hsub { font-size:11px; color:var(--tx2); margin-top:1px; }
-.txl { font-family:'Space Mono',monospace; font-size:10px; color:var(--blue); text-decoration:none; }
-.txl:hover { text-decoration:underline; }
-.txs { font-family:'Space Mono',monospace; font-size:11px; color:var(--blue); display:block; margin-top:3px; }
-.bdg { display:inline-block; padding:2px 8px; border-radius:20px; font-size:11px; font-weight:500; }
-.bb { background:var(--blue-light); color:var(--blue); }
-.bg { background:var(--green-light); color:#065F46; }
-.bp { background:var(--purple-light); color:var(--purple); }
-
-/* Owner */
-.opnl { background:var(--bg2); border:.5px solid var(--bdr2); border-radius:var(--r); padding:16px; margin-bottom:16px; }
-.otitle { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.6px; color:var(--tx2); margin-bottom:12px; }
-.wbtn { width:100%; padding:11px; border:none; border-radius:var(--rs); background:var(--green); color:#fff; font-size:13px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; }
-.wbtn:hover { background:#059669; }
-
-/* ── Masa & Zar Animasyonları ── */
-.dice-table {
-  position:relative;
-  background:linear-gradient(135deg,#1a6b3c,#0d4a28);
-  border-radius:24px;
-  border:6px solid #8B6914;
-  box-shadow:0 8px 32px rgba(0,0,0,.4), inset 0 2px 8px rgba(255,255,255,.1);
-  padding:32px 20px;
-  margin:16px 0;
-  overflow:hidden;
-  min-height:180px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:32px;
-}
-.dice-table::before {
-  content:'';
-  position:absolute;
-  inset:8px;
-  border:2px solid rgba(255,255,255,.15);
-  border-radius:16px;
-  pointer-events:none;
-}
-.dice-wrap {
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.dice-wrap.slide-left {
-  animation: slideFromLeft 0.6s cubic-bezier(.22,.68,0,1.2) forwards;
-}
-.dice-wrap.slide-right {
-  animation: slideFromRight 0.6s cubic-bezier(.22,.68,0,1.2) forwards;
-}
-@keyframes slideFromLeft {
-  from { transform: translateX(-280px) rotate(-180deg); opacity:0; }
-  to   { transform: translateX(0) rotate(0deg); opacity:1; }
-}
-@keyframes slideFromRight {
-  from { transform: translateX(280px) rotate(180deg); opacity:0; }
-  to   { transform: translateX(0) rotate(0deg); opacity:1; }
-}
-.dice-wrap.spinning svg {
-  animation: spinDice 0.3s linear infinite;
-}
-@keyframes spinDice {
-  0%   { transform: rotate(0deg) scale(1); }
-  25%  { transform: rotate(90deg) scale(0.9); }
-  50%  { transform: rotate(180deg) scale(1); }
-  75%  { transform: rotate(270deg) scale(0.9); }
-  100% { transform: rotate(360deg) scale(1); }
-}
-.dice-wrap.result-bounce svg {
-  animation: resultBounce 0.5s cubic-bezier(.36,.07,.19,.97);
-}
-@keyframes resultBounce {
-  0%,100% { transform: scale(1); }
-  30% { transform: scale(1.3) rotate(-5deg); }
-  60% { transform: scale(0.9) rotate(3deg); }
-  80% { transform: scale(1.1); }
-}
-.dice-wrap.double-glow svg rect {
-  animation: doubleGlow 0.8s ease-in-out infinite alternate;
-}
-@keyframes doubleGlow {
-  from { filter: drop-shadow(0 0 6px #7c3aed); }
-  to   { filter: drop-shadow(0 0 18px #7c3aed) drop-shadow(0 0 32px #a855f7); }
-}
-.vs-text {
-  color:rgba(255,255,255,.7);
-  font-size:22px;
-  font-weight:700;
-  text-shadow:0 2px 4px rgba(0,0,0,.5);
-}
-.confetti-wrap {
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  overflow:hidden;
-}
-.confetti-piece {
-  position:absolute;
-  width:8px;height:8px;
-  border-radius:2px;
-  animation: confettiFall 1.5s ease-in forwards;
-}
-@keyframes confettiFall {
-  0%   { transform:translateY(-10px) rotate(0deg); opacity:1; }
-  100% { transform:translateY(200px) rotate(720deg); opacity:0; }
-}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
+.wrap{max-width:520px;margin:0 auto;padding:24px 16px 56px}
+.hdr{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:.5px solid var(--bdr)}
+.logo{width:42px;height:42px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo svg{width:24px;height:24px}
+.hdr-txt h1{font-family:'Space Mono',monospace;font-size:17px;font-weight:700}
+.hdr-txt p{font-size:12px;color:var(--tx2);margin-top:2px}
+.net-pill{margin-left:auto;display:flex;align-items:center;gap:5px;background:var(--blue-light);color:var(--blue);font-size:11px;font-weight:500;padding:5px 10px;border-radius:20px;border:.5px solid #b3cbff;white-space:nowrap}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.wlt-card{background:var(--bg2);border:.5px solid var(--bdr);border-radius:var(--r);padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.wlt-ico{width:38px;height:38px;border-radius:var(--rs);background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wlt-info{flex:1}
+.wlt-info .lbl{font-size:11px;color:var(--tx2)}
+.wlt-info .adr{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;margin-top:2px}
+.bal{font-size:12px;color:var(--tx2);font-family:'Space Mono',monospace;background:var(--bg);border:.5px solid var(--bdr2);padding:4px 10px;border-radius:20px;margin-right:6px;display:none}
+.btn-con{background:var(--blue);color:#fff;border:none;padding:9px 16px;border-radius:var(--rs);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;white-space:nowrap}
+.btn-con:hover{background:var(--blue-dark)}
+.btn-con.off{background:var(--red)}
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity .2s}
+.mbg.on{opacity:1;pointer-events:all}
+.mdl{background:var(--bg);border:.5px solid var(--bdr2);border-radius:16px;padding:24px;width:340px;max-width:90vw;transform:translateY(14px);transition:transform .2s;max-height:80vh;overflow-y:auto}
+.mbg.on .mdl{transform:translateY(0)}
+.mdl h2{font-size:16px;font-weight:600;margin-bottom:4px}
+.mdl p{font-size:13px;color:var(--tx2);margin-bottom:16px}
+.wlt-lst{display:flex;flex-direction:column;gap:8px}
+.wopt{display:flex;align-items:center;gap:12px;padding:12px 14px;border:.5px solid var(--bdr2);border-radius:var(--rs);cursor:pointer;background:var(--bg2);transition:border-color .15s,background .15s}
+.wopt:hover{border-color:var(--blue);background:var(--blue-light)}
+.wico{width:36px;height:36px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;background:var(--bg);border:.5px solid var(--bdr)}
+.wopt .wnm{font-weight:600;font-size:14px}
+.wopt .wrd{font-size:11px;color:var(--tx2);margin-top:2px}
+.wopt .wbg{margin-left:auto;font-size:10px;padding:2px 8px;border-radius:10px;background:var(--green-light);color:#065F46;white-space:nowrap}
+.wbg-b{background:var(--blue-light)!important;color:var(--blue)!important}
+.mdl-div{border-top:.5px solid var(--bdr);margin:10px 0}
+.mdl-cls{width:100%;padding:10px;border:none;background:transparent;color:var(--tx2);font-size:13px;cursor:pointer;border-top:.5px solid var(--bdr);font-family:'DM Sans',sans-serif;margin-top:10px}
+.nwrn{background:var(--warn-light);border:.5px solid #fcd34d;border-radius:var(--rs);padding:11px 14px;font-size:13px;color:#78350F;margin-bottom:14px;display:none;align-items:center;gap:8px}
+.nwrn.on{display:flex}
+.nwrn button{margin-left:auto;background:var(--warn);color:#78350F;border:none;padding:4px 10px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:600;font-family:'DM Sans',sans-serif}
+.tabs{display:flex;gap:3px;background:var(--bg2);border:.5px solid var(--bdr);border-radius:10px;padding:4px;margin-bottom:20px}
+.tab{flex:1;padding:9px 4px;border:none;background:transparent;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx2);transition:all .18s}
+.tab.on{background:var(--bg);color:var(--tx);box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.pane{display:none}
+.pane.on{display:block}
+.card{background:var(--bg);border:.5px solid var(--bdr);border-radius:var(--r);padding:20px;margin-bottom:16px}
+.ctitle{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--tx2);margin-bottom:14px}
+.fgrp{margin-bottom:14px}
+.fgrp label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--tx2);margin-bottom:5px}
+.fgrp input{width:100%;background:var(--bg2);border:.5px solid var(--bdr2);border-radius:var(--rs);padding:10px 12px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--tx);outline:none;transition:border-color .15s}
+.fgrp input:focus{border-color:var(--blue)}
+.irow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:.5px solid var(--bdr);font-size:13px}
+.irow:last-child{border-bottom:none}
+.il{color:var(--tx2)}
+.iv{font-family:'Space Mono',monospace;font-size:12px}
+.fbox{display:flex;justify-content:space-between;align-items:center;border-radius:var(--rs);padding:10px 14px;margin-bottom:14px;font-size:13px}
+.fbox-gm{background:var(--gold-light);border:.5px solid var(--gold)}
+.fbox-gn{background:var(--purple-light);border:.5px solid var(--purple)}
+.fbox-dp{background:var(--blue-light);border:.5px solid #b3cbff}
+.fl-gm{color:#78350F;font-weight:500}
+.fl-gn{color:var(--purple);font-weight:500}
+.fl-dp{color:var(--blue);font-weight:500}
+.fv-gm{font-family:'Space Mono',monospace;font-weight:700;color:#78350F}
+.fv-gn{font-family:'Space Mono',monospace;font-weight:700;color:var(--purple)}
+.fv-dp{font-family:'Space Mono',monospace;font-weight:700;color:var(--blue)}
+.grow{display:flex;justify-content:space-between;font-size:12px;color:var(--tx2);background:var(--bg2);border:.5px solid var(--bdr);border-radius:var(--rs);padding:9px 13px;margin-bottom:14px}
+.gv{font-family:'Space Mono',monospace;color:var(--tx)}
+.abtn{width:100%;padding:14px;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:8px}
+.abtn:active{transform:scale(.98)}
+.abtn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.abtn-gm{background:var(--gold);color:#78350F}
+.abtn-gm:hover:not(:disabled){background:#d97706}
+.abtn-gn{background:var(--purple);color:#fff}
+.abtn-gn:hover:not(:disabled){background:#6d28d9}
+.abtn-dp{background:var(--blue);color:#fff}
+.abtn-dp:hover:not(:disabled){background:var(--blue-dark)}
+.sts{margin-top:14px;padding:12px 14px;border-radius:var(--rs);font-size:13px;display:none;align-items:flex-start;gap:9px;line-height:1.5}
+.sts.on{display:flex}
+.sts.pnd{background:var(--warn-light);color:#78350F;border:.5px solid #fcd34d}
+.sts.ok{background:var(--green-light);color:#065F46;border:.5px solid #6ee7b7}
+.sts.err{background:var(--red-light);color:#7F1D1D;border:.5px solid #fca5a5}
+.spin{width:14px;height:14px;border-radius:50%;border:2px solid currentColor;border-top-color:transparent;animation:spin .65s linear infinite;flex-shrink:0;margin-top:1px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sc{background:var(--bg);border:.5px solid var(--bdr);border-radius:var(--r);padding:16px;text-align:center}
+.sn{font-family:'Space Mono',monospace;font-size:38px;font-weight:700;line-height:1}
+.sl{font-size:12px;color:var(--tx2);margin-top:6px}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.tcard{background:var(--bg2);border:.5px solid var(--bdr2);border-radius:var(--rs);padding:14px;cursor:pointer;transition:all .18s;text-align:center}
+.tcard:hover{border-color:var(--blue);background:var(--blue-light)}
+.tcard.on{border-color:var(--blue);background:var(--blue-light);box-shadow:0 0 0 2px rgba(0,82,255,.15)}
+.ticon{font-size:28px;margin-bottom:6px}
+.tname{font-size:13px;font-weight:600}
+.tdesc{font-size:11px;color:var(--tx2);margin-top:3px}
+.txs{font-family:'Space Mono',monospace;font-size:11px;color:var(--blue);display:block;margin-top:3px}
+.bdg{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
+.bb{background:var(--blue-light);color:var(--blue)}
+.bg{background:var(--green-light);color:#065F46}
+.bp{background:var(--purple-light);color:var(--purple)}
+.opnl{background:var(--bg2);border:.5px solid var(--bdr2);border-radius:var(--r);padding:16px;margin-bottom:16px}
+.otitle{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--tx2);margin-bottom:12px}
+.wbtn{width:100%;padding:11px;border:none;border-radius:var(--rs);background:var(--green);color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+.wbtn:hover{background:#059669}
+.dice-masa{background:linear-gradient(145deg,#1a7a42,#0d4a28);border-radius:20px;border:8px solid #8B6914;box-shadow:0 4px 0 #4a3008;padding:32px 20px;margin-bottom:14px;display:flex;justify-content:center;align-items:center;gap:40px;min-height:160px}
+.dice-box{width:80px;height:80px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:3px 4px 10px rgba(0,0,0,.4);transition:background .2s}
 </style>
 </head>
 <body>
@@ -277,10 +134,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--tx); 
 
 <div class="hdr">
   <div class="logo">
-    <svg viewBox="0 0 32 32" fill="none">
-      <circle cx="16" cy="16" r="14" fill="white"/>
-      <path d="M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12c5.435 0 10.035-3.6 11.5-8.571H16v-2.857h12.857a12 12 0 000-1.143H16v-2.857h11.5C26.035 7.6 21.435 4 16 4z" fill="#0052FF"/>
-    </svg>
+    <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="white"/><path d="M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12c5.435 0 10.035-3.6 11.5-8.571H16v-2.857h12.857a12 12 0 000-1.143H16v-2.857h11.5C26.035 7.6 21.435 4 16 4z" fill="#0052FF"/></svg>
   </div>
   <div class="hdr-txt">
     <h1>Base GM / GN</h1>
@@ -293,17 +147,13 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--tx); 
 </div>
 
 <div class="nwrn" id="net-warn">
-  Cuzdaninizi Base Agina (8453) gecirin.
+  Cuzdaninizi Base Agina gecirin.
   <button onclick="switchToBase()">Agi Gec</button>
 </div>
 
 <div class="wlt-card">
   <div class="wlt-ico">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <rect x="2" y="7" width="20" height="14" rx="3" stroke="white" stroke-width="1.5"/>
-      <path d="M16 14a1 1 0 11-2 0 1 1 0 012 0z" fill="white"/>
-      <path d="M22 11H2V9a2 2 0 012-2h14l4 4z" fill="white"/>
-    </svg>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="14" rx="3" stroke="white" stroke-width="1.5"/><path d="M16 14a1 1 0 11-2 0 1 1 0 012 0z" fill="white"/><path d="M22 11H2V9a2 2 0 012-2h14l4 4z" fill="white"/></svg>
   </div>
   <div class="wlt-info">
     <div class="lbl" id="wlt-lbl">Cuzdan</div>
@@ -321,10 +171,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--tx); 
     <div class="mdl-div"></div>
     <div class="wopt" onclick="connectWC()">
       <div class="wico">🔗</div>
-      <div>
-        <div class="wnm">WalletConnect</div>
-        <div class="wrd">Mobil cuzdan QR</div>
-      </div>
+      <div><div class="wnm">WalletConnect</div><div class="wrd">Mobil cuzdan QR</div></div>
       <span class="wbg wbg-b">QR</span>
     </div>
     <button class="mdl-cls" onclick="closeModal()">Kapat</button>
@@ -335,8 +182,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--tx); 
   <button class="tab on" id="tab-gm" onclick="switchTab('gm')">☀️ GM</button>
   <button class="tab" id="tab-gn" onclick="switchTab('gn')">🌙 GN</button>
   <button class="tab" id="tab-dp" onclick="switchTab('deploy')">🚀 Deploy</button>
-  
-  <button class="tab" id="tab-gm2" onclick="switchTab('game')">🎲 Oyun</button>
+  <button class="tab" id="tab-game" onclick="switchTab('game')">🎲 Oyun</button>
 </div>
 
 <!-- GM -->
@@ -345,20 +191,6 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--tx); 
     <div class="sc"><div class="sn" style="color:var(--gold)" id="gm-total">0</div><div class="sl">Toplam GM</div></div>
     <div class="sc"><div class="sn" style="color:var(--blue);font-size:28px;padding-top:6px" id="gm-streak">0 Gun</div><div class="sl">Seri</div></div>
   </div>
-  <div class="card">
-    <div class="ctitle">GM Gonder</div>
-    <div class="irow"><span class="il">Kontrat</span><span class="iv">0xfDeb...111E</span></div>
-    <div class="irow" style="margin-bottom:14px"><span class="il">Bugun GM</span><span id="gm-today"><span class="bdg bb">Henuz yok</span></span></div>
-    <div class="fgrp">
-      <label>Mesajiniz (opsiyonel)</label>
-      <input type="text" id="gm-msg" placeholder="GM frens!" maxlength="280"/>
-    </div>
-    <div class="fbox fbox-gm"><span class="fl-gm">Servis Ucreti</span><span class="fv-gm">0.00001 ETH</span></div>
-    <div class="grow"><span>+ Gas</span><span class="gv">~0.0001 ETH</span></div>
-    <button class="abtn abtn-gm" id="gm-btn" onclick="sendGM()">☀️ GM Gonder</button>
-    <div class="sts" id="gm-sts"></div>
-  </div>
-</div>
   <div class="opnl" id="owner-pnl" style="display:none">
     <div class="otitle">Owner Paneli</div>
     <div class="irow"><span class="il">GM Bakiyesi</span><span class="iv" id="gm-bal">-</span></div>
@@ -369,7 +201,17 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--tx); 
     </div>
     <div class="sts" id="wd-sts"></div>
   </div>
-
+  <div class="card">
+    <div class="ctitle">GM Gonder</div>
+    <div class="irow"><span class="il">Kontrat</span><span class="iv">0xfDeb...111E</span></div>
+    <div class="irow" style="margin-bottom:14px"><span class="il">Bugun GM</span><span id="gm-today"><span class="bdg bb">Henuz yok</span></span></div>
+    <div class="fgrp"><label>Mesajiniz (opsiyonel)</label><input type="text" id="gm-msg" placeholder="GM frens!" maxlength="280"/></div>
+    <div class="fbox fbox-gm"><span class="fl-gm">Servis Ucreti</span><span class="fv-gm">0.00001 ETH</span></div>
+    <div class="grow"><span>+ Gas</span><span class="gv">~0.0001 ETH</span></div>
+    <button class="abtn abtn-gm" id="gm-btn" onclick="sendGM()">☀️ GM Gonder</button>
+    <div class="sts" id="gm-sts"></div>
+  </div>
+</div>
 
 <!-- GN -->
 <div class="pane" id="pane-gn">
@@ -381,10 +223,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--tx); 
     <div class="ctitle">GN Gonder</div>
     <div class="irow"><span class="il">Kontrat</span><span class="iv">0x5A4F...37B9</span></div>
     <div class="irow" style="margin-bottom:14px"><span class="il">Bugun GN</span><span id="gn-today"><span class="bdg bp">Henuz yok</span></span></div>
-    <div class="fgrp">
-      <label>Mesajiniz (opsiyonel)</label>
-      <input type="text" id="gn-msg" placeholder="GN everyone!" maxlength="280"/>
-    </div>
+    <div class="fgrp"><label>Mesajiniz (opsiyonel)</label><input type="text" id="gn-msg" placeholder="GN everyone!" maxlength="280"/></div>
     <div class="fbox fbox-gn"><span class="fl-gn">Servis Ucreti</span><span class="fv-gn">0.00001 ETH</span></div>
     <div class="grow"><span>+ Gas</span><span class="gv">~0.0001 ETH</span></div>
     <button class="abtn abtn-gn" id="gn-btn" onclick="sendGN()">🌙 GN Gonder</button>
@@ -402,14 +241,9 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--tx); 
       <div class="tcard" id="tpl-storage" onclick="selTpl('storage')"><div class="ticon">📦</div><div class="tname">Veri Saklama</div><div class="tdesc">Mesaj depolama</div></div>
       <div class="tcard" id="tpl-counter" onclick="selTpl('counter')"><div class="ticon">🔢</div><div class="tname">Sayac</div><div class="tdesc">Onchain sayac</div></div>
       <div class="tcard" id="tpl-donate" onclick="selTpl('donate')"><div class="ticon">💝</div><div class="tname">Bagis Kutusu</div><div class="tdesc">ETH bagis</div></div>
-
     </div>
-    <div class="fgrp">
-      <label>Kontrat Adi (opsiyonel)</label>
-      <input type="text" id="dep-name" placeholder="ornek: MyGMBot"/>
-    </div>
+    <div class="fgrp"><label>Kontrat Adi (opsiyonel)</label><input type="text" id="dep-name" placeholder="ornek: MyGMBot"/></div>
     <div class="irow"><span class="il">Secilen Sablon</span><span class="iv" id="sel-tpl">Secilmedi</span></div>
-    <div class="irow"><span class="il">Network</span><span class="bdg bb">Base Mainnet</span></div>
     <div class="irow" style="margin-bottom:14px"><span class="il">Deploy Ucreti</span><span class="iv" style="color:var(--blue);font-weight:600">0.0001 ETH</span></div>
     <div class="fbox fbox-dp"><span class="fl-dp">Deploy Servis Ucreti</span><span class="fv-dp">0.0001 ETH</span></div>
     <button class="abtn abtn-dp" id="dep-btn" onclick="deployTemplate()">🚀 Deploy Et</button>
@@ -419,69 +253,41 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--tx); 
     <div class="ctitle">Deploy Basarili</div>
     <div class="irow"><span class="il">Kontrat</span><span class="iv" id="res-name">-</span></div>
     <div class="irow"><span class="il">Adres</span><span class="iv" id="res-addr" style="font-size:10px;word-break:break-all">-</span></div>
-    <div class="irow"><span class="il">Tx</span><a class="txl" id="res-tx" target="_blank">-</a></div>
-    <div class="irow"><span class="il">Network</span><span class="bdg bb">Base Mainnet</span></div>
+    <div class="irow"><span class="il">Tx</span><a class="txs" id="res-tx" target="_blank">-</a></div>
   </div>
 </div>
 
-<!-- HISTORY -->
+<!-- OYUN -->
 <div class="pane" id="pane-game">
-
-  <!-- XP İstatistikler -->
   <div class="g2" style="margin-bottom:16px">
-    <div class="sc">
-      <div class="sn" style="color:#f59e0b;font-size:28px" id="xp-total">0</div>
-      <div class="sl">Toplam XP</div>
-    </div>
-    <div class="sc">
-      <div class="sn" style="font-size:16px;padding-top:8px" id="xp-level">🥉 Bronz</div>
-      <div class="sl">Seviye</div>
-    </div>
+    <div class="sc"><div class="sn" style="color:var(--gold);font-size:28px" id="xp-total">0</div><div class="sl">Toplam XP</div></div>
+    <div class="sc"><div class="sn" style="font-size:16px;padding-top:8px" id="xp-level">🥉 Bronz</div><div class="sl">Seviye</div></div>
   </div>
   <div class="g2" style="margin-bottom:16px">
-    <div class="sc">
-      <div class="sn" style="color:var(--blue);font-size:28px;padding-top:4px" id="dice-rolls">0</div>
-      <div class="sl">Zar Atisi</div>
-    </div>
-    <div class="sc">
-      <div class="sn" style="color:var(--green);font-size:28px;padding-top:4px" id="dice-doubles">0</div>
-      <div class="sl">Cift</div>
-    </div>
+    <div class="sc"><div class="sn" style="color:var(--blue);font-size:28px;padding-top:4px" id="dice-rolls">0</div><div class="sl">Zar Atisi</div></div>
+    <div class="sc"><div class="sn" style="color:var(--green);font-size:28px;padding-top:4px" id="dice-doubles">0</div><div class="sl">Cift</div></div>
   </div>
-
   <div class="card">
     <div class="ctitle">Zar At</div>
-    <div class="irow"><span class="il">Kontrat</span><span class="iv" id="dice-addr">Deploy gerekli</span></div>
+    <div class="irow"><span class="il">Kontrat</span><span class="iv" id="dice-addr">-</span></div>
     <div class="irow" style="margin-bottom:14px"><span class="il">Maliyet</span><span class="iv" style="color:var(--blue);font-weight:600">0.00005 ETH</span></div>
-
-    <!-- Masa -->
-    <div style="background:linear-gradient(145deg,#1a7a42,#0d4a28);border-radius:20px;border:8px solid #8B6914;box-shadow:0 4px 0 #4a3008;padding:32px 20px;margin-bottom:14px;display:flex;justify-content:center;align-items:center;gap:32px;min-height:160px">
-      <div id="d1" style="width:80px;height:80px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:3px 4px 10px rgba(0,0,0,.4)">
-        <svg id="d1-svg" viewBox="0 0 60 60" width="60" height="60"></svg>
-      </div>
-      <div id="d2" style="width:80px;height:80px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:3px 4px 10px rgba(0,0,0,.4)">
-        <svg id="d2-svg" viewBox="0 0 60 60" width="60" height="60"></svg>
-      </div>
+    <div class="dice-masa">
+      <div class="dice-box" id="d1-box"><svg id="d1-svg" viewBox="0 0 60 60" width="60" height="60"><text x="30" y="38" text-anchor="middle" font-size="28" fill="#9ca3af">?</text></svg></div>
+      <div class="dice-box" id="d2-box"><svg id="d2-svg" viewBox="0 0 60 60" width="60" height="60"><text x="30" y="38" text-anchor="middle" font-size="28" fill="#9ca3af">?</text></svg></div>
     </div>
-
-    <div id="dice-result" style="text-align:center;min-height:40px;margin:10px 0;font-size:16px;font-weight:700"></div>
-
+    <div id="dice-result" style="text-align:center;min-height:36px;margin-bottom:14px;font-size:16px;font-weight:700"></div>
     <div style="display:flex;gap:8px;margin-bottom:14px">
       <div style="flex:1;background:var(--warn-light);border:.5px solid var(--warn);border-radius:var(--rs);padding:9px;text-align:center;font-size:12px">
-        <div style="font-weight:700;color:#78350F">Toplam XP</div>
-        <div style="color:#92400e;margin-top:2px">Her atis</div>
+        <div style="font-weight:700;color:#78350F">Toplam XP</div><div style="color:#92400e;margin-top:2px">Her atis</div>
       </div>
       <div style="flex:1;background:var(--purple-light);border:.5px solid var(--purple);border-radius:var(--rs);padding:9px;text-align:center;font-size:12px">
-        <div style="font-weight:700;color:var(--purple)">+50 XP</div>
-        <div style="color:var(--purple);margin-top:2px">Cift!</div>
+        <div style="font-weight:700;color:var(--purple)">+50 XP</div><div style="color:var(--purple);margin-top:2px">Cift!</div>
       </div>
     </div>
-
     <div class="fbox fbox-dp"><span class="fl-dp">Zar Ucreti</span><span class="fv-dp">0.00005 ETH</span></div>
     <button class="abtn abtn-dp" id="roll-btn" onclick="rollDice()">🎲 Zar At!</button>
     <div class="sts" id="roll-sts"></div>
   </div>
-
   <div class="card">
     <div class="ctitle">Seviye Sistemi</div>
     <div class="irow"><span class="il">🥉 Bronz</span><span class="iv">0 - 999 XP</span></div>
@@ -490,23 +296,24 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--tx); 
     <div class="irow"><span class="il">💎 Platin</span><span class="iv">10.000 - 49.999 XP</span></div>
     <div class="irow"><span class="il">👑 Elmas</span><span class="iv">50.000+ XP</span></div>
   </div>
-
 </div>
+
 </div><!-- /wrap -->
 
 <script>
 var CFG = {
-  CHAIN_ID: 8453,
+  CHAIN_ID:  8453,
   CHAIN_HEX: '0x2105',
-  RPC: 'https://base.llamarpc.com',
-  EXPLORER: 'https://basescan.org',
-  GM: '0xfDeb4a6C1f8a96D1817e29916047dEa53e70111E',
-  GN: '0x5A4F2A0C1134efBCe9a4Debc7B000007Cdb637B9',
-  FEE_TO: '0xca37E522b57FEebc6f371EA500ecBf1e408FfD2c'
+  RPC:       'https://base.llamarpc.com',
+  EXPLORER:  'https://basescan.org',
+  GM:        '0xfDeb4a6C1f8a96D1817e29916047dEa53e70111E',
+  GN:        '0x5A4F2A0C1134efBCe9a4Debc7B000007Cdb637B9',
+  FEE_TO:    '0xca37E522b57FEebc6f371EA500ecBf1e408FfD2c'
 };
-
-var GM_FEE = ethers.parseEther('0.00001');
-var DP_FEE = ethers.parseEther('0.0001');
+var GM_FEE   = ethers.parseEther('0.00001');
+var DP_FEE   = ethers.parseEther('0.0001');
+var DICE_FEE = ethers.parseEther('0.00005');
+var DICE_CONTRACT = '0xB1c153F5b8eB0AB275c4ed721606D814750EFea9';
 
 var GM_ABI = [
   'function gm(string calldata _message) external payable',
@@ -517,7 +324,6 @@ var GM_ABI = [
   'function withdraw() external',
   'function owner() view returns (address)'
 ];
-
 var GN_ABI = [
   'function gn(string calldata _message) external payable',
   'function totalGNs() view returns (uint256)',
@@ -527,7 +333,13 @@ var GN_ABI = [
   'function withdraw() external',
   'function owner() view returns (address)'
 ];
-
+var DICE_ABI = [
+  'function rollDice() external payable',
+  'function getPlayerStats(address) view returns (uint256 xp, uint256 rolls, uint256 doubles, uint256 level)',
+  'function contractBalance() view returns (uint256)',
+  'function owner() view returns (address)',
+  'event DiceRolled(address indexed player, uint8 dice1, uint8 dice2, bool isDouble, uint256 xpEarned, uint256 totalXP)'
+];
 var TPLS = {
   gm:      { label:'GM Kontrati',  abi: GM_ABI, bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556611c37937e080006001556102b5806100406000396000f3fe6080604052600436106100555760003560e01c80633ccfd60b1461005a5780638da5cb5b14610071578063b5f2bb1114610097578063ddca3f43146100ac578063e3d553291461006f575b600080fd5b34801561006657600080fd5b5061006f6100c2565b005b34801561007d57600080fd5b506000546040516001600160a01b0390911681526020015b60405180910390f35b3480156100a357600080fd5b5060025461009590565b3480156100b857600080fd5b5060015461009590565b6100bf6100ba36600461019e565b610115565b005b6000546001600160a01b031633146100d957600080fd5b6040514790600090339083908381818185875af1925050503d806000811461011a576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e61011f565b606091505b505050505050565b60015434101561012457600080fd5b6101208151111561013457600080fd5b60028054600101905560405133907f5a6f3afe453c529c5e6b64b5e0ab6e54e72dc43f16f0eecf5a5c3e9a7bd71ca906101709084904290839061024e565b60405180910390a2600154341115610196576101916101899034600154610283565b3361019b565b505050565b6001546040516000916001600160a01b0385169183908381818185875af1925050503d80600081146101e0576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e6101e5565b606091505b5050905080610233576040516312171d8360e31b815260040160405180910390fd5b505050565b634e487b7160e01b600052604160045260246000fd5b6000602082840312156102135750600080fd5b813567ffffffffffffffff8111156102295750600080fd5b8201601f8101841361023a57600080fd5b803567ffffffffffffffff81111561025457610254610238565b50919050565b60608152600060608201845b8381101561027a5781518352602092830192016101ae565b509392505050565b8181038181111561029b57634e487b7160e01b600052601160045260246000fd5b9291505056fea264697066735822' },
   gn:      { label:'GN Kontrati',  abi: GN_ABI, bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556611c37937e080006001556102b5806100406000396000f3fe6080604052600436106100555760003560e01c80633ccfd60b1461005a5780638da5cb5b14610071578063b5f2bb1114610097578063ddca3f43146100ac578063f5d54b791461006f575b600080fd5b34801561006657600080fd5b5061006f6100c2565b005b34801561007d57600080fd5b506000546040516001600160a01b0390911681526020015b60405180910390f35b3480156100a357600080fd5b5060025461009590565b3480156100b857600080fd5b5060015461009590565b6100bf6100ba36600461019e565b610115565b005b6000546001600160a01b031633146100d957600080fd5b6040514790600090339083908381818185875af1925050503d806000811461011a576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e61011f565b606091505b505050505050565b60015434101561012457600080fd5b6101208151111561013457600080fd5b60028054600101905560405133907faa5f2a5b8db5e30754f7e8fbfb4db051dfcd0b6a8e2ae63022bb88d86b56f30906101709084904290839061024e565b60405180910390a2600154341115610196576101916101899034600154610283565b3361019b565b505050565b6001546040516000916001600160a01b0385169183908381818185875af1925050503d80600081146101e0576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e6101e5565b606091505b5050905080610233576040516312171d8360e31b815260040160405180910390fd5b505050565b634e487b7160e01b600052604160045260246000fd5b6000602082840312156102135750600080fd5b813567ffffffffffffffff8111156102295750600080fd5b8201601f8101841361023a57600080fd5b803567ffffffffffffffff81111561025457610254610238565b50919050565b60608152600060608201845b8381101561027a5781518352602092830192016101ae565b509392505050565b8181038181111561029b57634e487b7160e01b600052601160045260246000fd5b9291505056fea264697066735822' },
@@ -536,534 +348,361 @@ var TPLS = {
   donate:  { label:'Bagis Kutusu', abi: ['function donate() external payable','function withdraw() external','function getBalance() external view returns (uint256)','function owner() view returns (address)'], bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556101c2806100326000396000f3fe6080604052600436106100435760003560e01c80633ccfd60b146100485780638da5cb5b1461005f5780631a065c301461008b5780634b0bddd21461009d575b600080fd5b34801561005457600080fd5b5061005d6100b0565b005b34801561006b57600080fd5b506000546040516001600160a01b0390911681526020015b60405180910390f35b604051478152602001610083565b6100ab6100a636600461015e565b6100fd565b005b6000546001600160a01b031633146100c757600080fd5b6040514790600090339083908381818185875af1925050503d806000811461010357604051601f3d011660208301604052906100fd565b606091505b5050505050565b34600003610109575050565b336001600160a01b03167fef6efb7a4c45fd89a4f0d44059e22da63a0af8de02b7e1f5b8a8b87e64d3c3d34604051610144919081526020019150565b60405180910390a250565b6000602082840312156101705780fd5b81356001600160a01b03811681146101875780fd5b9392505050565b9291505056fea264697066735822' }
 };
 
-var selTplKey = null;
-var prov = null;
-var sgn = null;
-var acct = null;
-var rawProv = null;
-var cntGM = 0;
-var cntGN = 0;
-var cntHist = 0;
-var wlts = {};
+// State
+var selTplKey=null, prov=null, sgn=null, acct=null, rawProv=null, wlts={};
 
-function selTpl(key) {
-  selTplKey = key;
-  var cards = document.querySelectorAll('.tcard');
-  for (var i = 0; i < cards.length; i++) {
-    cards[i].classList.remove('on');
-  }
-  document.getElementById('tpl-' + key).classList.add('on');
-  document.getElementById('sel-tpl').textContent = TPLS[key].label;
+// ── UI ──────────────────────────────────────────────────────────────
+function selTpl(key){
+  selTplKey=key;
+  document.querySelectorAll('.tcard').forEach(function(c){c.classList.remove('on');});
+  document.getElementById('tpl-'+key).classList.add('on');
+  document.getElementById('sel-tpl').textContent=TPLS[key].label;
 }
-
-function switchTab(name) {
-  var allTabs  = ['tab-gm','tab-gn','tab-dp','tab-gm2'];
-  var allPanes = ['pane-gm','pane-gn','pane-deploy','pane-game'];
-  for (var i = 0; i < allTabs.length; i++) {
-    var te = document.getElementById(allTabs[i]);
-    var pe = document.getElementById(allPanes[i]);
-    if (te) te.classList.remove('on');
-    if (pe) pe.classList.remove('on');
-  }
-  var tabMap = {'gm':'tab-gm','gn':'tab-gn','deploy':'tab-dp','game':'tab-gm2'};
-  var el = document.getElementById(tabMap[name]);
-  var pe = document.getElementById('pane-' + name);
-  if (el) el.classList.add('on');
-  if (pe) pe.classList.add('on');
+function switchTab(name){
+  ['gm','gn','deploy','game'].forEach(function(t){
+    var tab=document.getElementById('tab-'+t);
+    var pane=document.getElementById('pane-'+(t==='game'?'game':t));
+    if(tab) tab.classList.remove('on');
+    if(pane) pane.classList.remove('on');
+  });
+  // deploy tabı özel
+  var tabId = name==='deploy'?'tab-dp':name==='game'?'tab-game':'tab-'+name;
+  var t2=document.getElementById(tabId);
+  var p2=document.getElementById('pane-'+name);
+  if(t2) t2.classList.add('on');
+  if(p2) p2.classList.add('on');
+  if(name==='game') loadDiceStats();
 }
-
-function openModal() {
-  if (acct) { doDisconnect(); return; }
+function openModal(){
+  if(acct){doDisconnect();return;}
   window.dispatchEvent(new Event('eip6963:requestProvider'));
-  scanLegacy();
-  renderWallets();
+  scanLegacy();renderWallets();
   document.getElementById('modal-bg').classList.add('on');
 }
+function closeModal(){document.getElementById('modal-bg').classList.remove('on');}
+document.getElementById('modal-bg').addEventListener('click',function(e){if(e.target===document.getElementById('modal-bg'))closeModal();});
 
-function closeModal() {
-  document.getElementById('modal-bg').classList.remove('on');
-}
-
-document.getElementById('modal-bg').addEventListener('click', function(e) {
-  if (e.target === document.getElementById('modal-bg')) closeModal();
-});
-
-function scanLegacy() {
-  if (!window.ethereum) return;
-  var list = window.ethereum.providers ? window.ethereum.providers : [window.ethereum];
-  var checks = [
-    { key:'isMetaMask',      name:'MetaMask',       rdns:'io.metamask',         emoji:'🦊' },
-    { key:'isCoinbaseWallet',name:'Coinbase Wallet', rdns:'com.coinbase.wallet', emoji:'🔵' },
-    { key:'isBitKeep',       name:'Bitget Wallet',   rdns:'com.bitget.web3',     emoji:'🟢' },
-    { key:'isBitgetWallet',  name:'Bitget Wallet',   rdns:'com.bitget.web3',     emoji:'🟢' },
-    { key:'isOKExWallet',    name:'OKX Wallet',      rdns:'com.okex.wallet',     emoji:'⚫' },
-    { key:'isTrust',         name:'Trust Wallet',    rdns:'com.trustwallet.app', emoji:'🛡️' },
-    { key:'isBraveWallet',   name:'Brave Wallet',    rdns:'com.brave.wallet',    emoji:'🦁' }
+function scanLegacy(){
+  if(!window.ethereum)return;
+  var list=window.ethereum.providers||[window.ethereum];
+  var checks=[
+    {key:'isMetaMask',name:'MetaMask',rdns:'io.metamask',emoji:'🦊'},
+    {key:'isCoinbaseWallet',name:'Coinbase Wallet',rdns:'com.coinbase.wallet',emoji:'🔵'},
+    {key:'isBitKeep',name:'Bitget Wallet',rdns:'com.bitget.web3',emoji:'🟢'},
+    {key:'isBitgetWallet',name:'Bitget Wallet',rdns:'com.bitget.web3',emoji:'🟢'},
+    {key:'isOKExWallet',name:'OKX Wallet',rdns:'com.okex.wallet',emoji:'⚫'},
+    {key:'isTrust',name:'Trust Wallet',rdns:'com.trustwallet.app',emoji:'🛡️'},
+    {key:'isBraveWallet',name:'Brave Wallet',rdns:'com.brave.wallet',emoji:'🦁'}
   ];
-  for (var i = 0; i < list.length; i++) {
-    var p = list[i];
-    for (var j = 0; j < checks.length; j++) {
-      var c = checks[j];
-      if (p[c.key] && !wlts[c.rdns]) {
-        wlts[c.rdns] = { info: { name:c.name, rdns:c.rdns, icon:null, emoji:c.emoji }, provider: p };
-      }
+  for(var i=0;i<list.length;i++){
+    var p=list[i];
+    for(var j=0;j<checks.length;j++){
+      var c=checks[j];
+      if(p[c.key]&&!wlts[c.rdns]) wlts[c.rdns]={info:{name:c.name,rdns:c.rdns,icon:null,emoji:c.emoji},provider:p};
     }
   }
-  if (Object.keys(wlts).length === 0 && window.ethereum) {
-    wlts['browser'] = { info: { name:'Tarayici Cuzdani', rdns:'browser', icon:null, emoji:'🌐' }, provider: window.ethereum };
-  }
+  if(Object.keys(wlts).length===0&&window.ethereum) wlts['browser']={info:{name:'Tarayici Cuzdani',rdns:'browser',icon:null,emoji:'🌐'},provider:window.ethereum};
 }
-
-window.addEventListener('eip6963:announceProvider', function(e) {
-  var info = e.detail.info;
-  var p = e.detail.provider;
-  wlts[info.rdns] = { info: info, provider: p };
-  if (document.getElementById('modal-bg').classList.contains('on')) renderWallets();
+window.addEventListener('eip6963:announceProvider',function(e){
+  wlts[e.detail.info.rdns]={info:e.detail.info,provider:e.detail.provider};
+  if(document.getElementById('modal-bg').classList.contains('on'))renderWallets();
 });
 window.dispatchEvent(new Event('eip6963:requestProvider'));
 
-function renderWallets() {
-  var lst = document.getElementById('wlt-lst');
-  var keys = Object.keys(wlts);
-  if (keys.length === 0) {
-    lst.innerHTML = '<div class="no-wlt">Cuzdan bulunamadi.<br><br><a href="https://metamask.io" target="_blank">MetaMask</a> veya <a href="https://www.coinbase.com/wallet" target="_blank">Coinbase Wallet</a> yukleyin.</div>';
-    return;
-  }
-  lst.innerHTML = '';
-  var iconMap = {
-    'io.metamask':'🦊','com.coinbase.wallet':'🔵','com.bitget.web3':'🟢',
-    'com.okex.wallet':'⚫','io.rabby':'🐰','com.trustwallet.app':'🛡️','com.brave.wallet':'🦁'
-  };
-  for (var rdns in wlts) {
-    var w = wlts[rdns];
-    var el = document.createElement('div');
-    el.className = 'wopt';
-    el.setAttribute('data-rdns', rdns);
-    var emoji = iconMap[rdns] || w.info.emoji || '💼';
-    var iconHtml = w.info.icon
-      ? '<img src="' + w.info.icon + '" onerror="this.parentNode.innerHTML=\'<div class=wico>' + emoji + '</div>\'">'
-      : '<div class="wico">' + emoji + '</div>';
-    el.innerHTML = iconHtml + '<div><div class="wnm">' + w.info.name + '</div><div class="wrd">' + rdns + '</div></div><span class="wbg">Baglan</span>';
-    el.addEventListener('click', function() {
-      connectWith(this.getAttribute('data-rdns'));
-    });
+function renderWallets(){
+  var lst=document.getElementById('wlt-lst');
+  var keys=Object.keys(wlts);
+  if(keys.length===0){lst.innerHTML='<div style="text-align:center;padding:14px;font-size:13px;color:var(--tx2)">Cuzdan bulunamadi.<br><br><a href="https://metamask.io" target="_blank" style="color:var(--blue)">MetaMask</a> yukleyin.</div>';return;}
+  lst.innerHTML='';
+  var icoMap={'io.metamask':'🦊','com.coinbase.wallet':'🔵','com.bitget.web3':'🟢','com.okex.wallet':'⚫','com.trustwallet.app':'🛡️','com.brave.wallet':'🦁'};
+  for(var rdns in wlts){
+    var w=wlts[rdns];
+    var el=document.createElement('div');
+    el.className='wopt';el.setAttribute('data-rdns',rdns);
+    var emoji=icoMap[rdns]||w.info.emoji||'💼';
+    var icoHtml=w.info.icon?'<img src="'+w.info.icon+'" style="width:36px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0">':'<div class="wico">'+emoji+'</div>';
+    el.innerHTML=icoHtml+'<div><div class="wnm">'+w.info.name+'</div><div class="wrd">'+rdns+'</div></div><span class="wbg">Baglan</span>';
+    el.addEventListener('click',function(){connectWith(this.getAttribute('data-rdns'));});
     lst.appendChild(el);
   }
 }
+function connectWC(){closeModal();alert('WalletConnect icin @walletconnect/web3-provider gerekli.');}
 
-function connectWC() {
+async function connectWith(rdns){
   closeModal();
-  alert('WalletConnect icin projenize @walletconnect/web3-provider ekleyin.');
-}
-
-async function connectWith(rdns) {
-  closeModal();
-  var w = wlts[rdns];
-  if (!w) return;
-  var rp = w.provider;
-  try {
-    setSts('gm-sts', 'pnd', 'Cuzdan baglanıyor...');
-    await rp.request({ method: 'eth_requestAccounts' });
-    prov = new ethers.BrowserProvider(rp);
-    sgn  = await prov.getSigner();
-    acct = await sgn.getAddress();
-    rawProv = rp;
-    document.getElementById('wlt-adr').textContent = shA(acct);
-    document.getElementById('wlt-lbl').textContent = w.info.name;
-    var btn = document.getElementById('con-btn');
-    btn.textContent = 'Kes';
-    btn.classList.add('off');
-    clearSts('gm-sts');
-    if (rp.on) {
-      rp.on('chainChanged', function() { location.reload(); });
-      rp.on('accountsChanged', function(a) { if (!a.length) location.reload(); });
+  var w=wlts[rdns];if(!w)return;
+  try{
+    await w.provider.request({method:'eth_requestAccounts'});
+    prov=new ethers.BrowserProvider(w.provider);
+    sgn=await prov.getSigner();
+    acct=await sgn.getAddress();
+    rawProv=w.provider;
+    document.getElementById('wlt-adr').textContent=shA(acct);
+    document.getElementById('wlt-lbl').textContent=w.info.name;
+    var btn=document.getElementById('con-btn');
+    btn.textContent='Kes';btn.classList.add('off');
+    if(w.provider.on){
+      w.provider.on('chainChanged',function(){location.reload();});
+      w.provider.on('accountsChanged',function(a){if(!a.length)location.reload();});
     }
-    await checkNet(rp);
+    await checkNet(rawProv);
     await loadBal();
     await loadStats();
     await checkOwner();
     await loadDiceStats();
-    await loadHistory();
-  } catch(e) {
-    clearSts('gm-sts');
-    if (e.code !== 4001) setSts('gm-sts', 'err', 'Hata: ' + (e.message || 'bilinmiyor').slice(0, 80));
+  }catch(e){
+    if(e.code!==4001) alert('Baglanti hatasi: '+(e.message||'').slice(0,100));
   }
 }
-
-function doDisconnect() {
-  acct = null; sgn = null; prov = null; rawProv = null;
-  document.getElementById('wlt-adr').textContent = 'Bagli degil';
-  document.getElementById('wlt-lbl').textContent = 'Cuzdan';
-  var btn = document.getElementById('con-btn');
-  btn.textContent = 'Baglan';
-  btn.classList.remove('off');
-  document.getElementById('bal-tag').style.display = 'none';
+function doDisconnect(){
+  acct=null;sgn=null;prov=null;rawProv=null;
+  document.getElementById('wlt-adr').textContent='Bagli degil';
+  document.getElementById('wlt-lbl').textContent='Cuzdan';
+  var btn=document.getElementById('con-btn');btn.textContent='Baglan';btn.classList.remove('off');
+  document.getElementById('bal-tag').style.display='none';
   document.getElementById('net-warn').classList.remove('on');
-  var op=document.getElementById('owner-pnl'); if(op) op.style.display='none';
-  document.getElementById('gm-total').textContent = '0';
-  document.getElementById('gn-total').textContent = '0';
+  var op=document.getElementById('owner-pnl');if(op)op.style.display='none';
+  document.getElementById('gm-total').textContent='0';
+  document.getElementById('gn-total').textContent='0';
 }
-
-async function checkNet(rp) {
-  try {
-    var chainId = parseInt(await rp.request({ method: 'eth_chainId' }), 16);
-    var warn = document.getElementById('net-warn');
-    var dot  = document.getElementById('net-dot');
-    var nm   = document.getElementById('net-name');
-    if (chainId === CFG.CHAIN_ID) {
-      warn.classList.remove('on');
-      dot.style.background = 'var(--green)';
-      nm.textContent = 'Base Mainnet';
-    } else if (chainId === 84532) {
-      warn.classList.remove('on');
-      dot.style.background = 'var(--warn)';
-      nm.textContent = 'Base Sepolia';
-    } else {
-      warn.classList.add('on');
-      dot.style.background = 'var(--red)';
-      nm.textContent = 'Yanlis Ag (#' + chainId + ')';
-    }
-  } catch(e) {}
+async function checkNet(rp){
+  try{
+    var chainId=parseInt(await rp.request({method:'eth_chainId'}),16);
+    var warn=document.getElementById('net-warn');
+    var dot=document.getElementById('net-dot');
+    var nm=document.getElementById('net-name');
+    if(chainId===CFG.CHAIN_ID){warn.classList.remove('on');dot.style.background='var(--green)';nm.textContent='Base Mainnet';}
+    else if(chainId===84532){warn.classList.remove('on');dot.style.background='var(--warn)';nm.textContent='Base Sepolia';}
+    else{warn.classList.add('on');dot.style.background='var(--red)';nm.textContent='Yanlis Ag (#'+chainId+')';}
+  }catch(e){}
 }
-
-async function switchToBase() {
-  var p = rawProv || window.ethereum;
-  if (!p) return;
-  try {
-    await p.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: CFG.CHAIN_HEX }] });
-  } catch(e) {
-    if (e.code === 4902) {
-      await p.request({ method: 'wallet_addEthereumChain', params: [{
-        chainId: CFG.CHAIN_HEX, chainName: 'Base',
-        nativeCurrency: { name:'ETH', symbol:'ETH', decimals:18 },
-        rpcUrls: ['https://mainnet.base.org'],
-        blockExplorerUrls: ['https://basescan.org']
-      }]});
-    }
+async function switchToBase(){
+  var p=rawProv||window.ethereum;if(!p)return;
+  try{await p.request({method:'wallet_switchEthereumChain',params:[{chainId:CFG.CHAIN_HEX}]});}
+  catch(e){if(e.code===4902)await p.request({method:'wallet_addEthereumChain',params:[{chainId:CFG.CHAIN_HEX,chainName:'Base',nativeCurrency:{name:'ETH',symbol:'ETH',decimals:18},rpcUrls:['https://mainnet.base.org'],blockExplorerUrls:['https://basescan.org']}]});}
+}
+async function loadBal(){
+  try{var b=await prov.getBalance(acct);var tag=document.getElementById('bal-tag');tag.textContent=parseFloat(ethers.formatEther(b)).toFixed(4)+' ETH';tag.style.display='inline-block';}catch(e){}
+}
+async function loadStats(){
+  if(!acct)return;
+  var RPCS=['https://base.llamarpc.com','https://mainnet.base.org','https://base-rpc.publicnode.com'];
+  for(var ri=0;ri<RPCS.length;ri++){
+    try{
+      var ro=new ethers.JsonRpcProvider(RPCS[ri]);
+      var gmC=new ethers.Contract(CFG.GM,GM_ABI,ro);
+      var gnC=new ethers.Contract(CFG.GN,GN_ABI,ro);
+      var res=await Promise.all([gmC.totalGMs(),gmC.streakOf(acct),gmC.hasSentGMToday(acct),gnC.totalGNs(),gnC.streakOf(acct),gnC.hasSentGNToday(acct)]);
+      document.getElementById('gm-total').textContent=res[0].toString();
+      document.getElementById('gm-streak').textContent=res[1].toString()+' Gun';
+      document.getElementById('gn-total').textContent=res[3].toString();
+      document.getElementById('gn-streak').textContent=res[4].toString()+' Gun';
+      document.getElementById('gm-today').innerHTML=res[2]?'<span class="bdg bg">Gonderildi</span>':'<span class="bdg bb">Henuz yok</span>';
+      document.getElementById('gn-today').innerHTML=res[5]?'<span class="bdg bg">Gonderildi</span>':'<span class="bdg bp">Henuz yok</span>';
+      return;
+    }catch(e){console.warn('stats err RPC'+ri,e);}
   }
 }
-
-async function loadBal() {
-  try {
-    var b = await prov.getBalance(acct);
-    var tag = document.getElementById('bal-tag');
-    tag.textContent = parseFloat(ethers.formatEther(b)).toFixed(4) + ' ETH';
-    tag.style.display = 'inline-block';
-  } catch(e) {}
-}
-
-async function loadStats() {
-  if (!acct) return;
-  try {
-    var ro  = new ethers.JsonRpcProvider(CFG.RPC);
-    var gmC = new ethers.Contract(CFG.GM, GM_ABI, ro);
-    var gnC = new ethers.Contract(CFG.GN, GN_ABI, ro);
-    var res = await Promise.all([
-      gmC.totalGMs(), gmC.streakOf(acct), gmC.hasSentGMToday(acct),
-      gnC.totalGNs(), gnC.streakOf(acct), gnC.hasSentGNToday(acct)
-    ]);
-    document.getElementById('gm-total').textContent  = res[0].toString();
-    document.getElementById('gm-streak').textContent = res[1].toString() + ' Gun';
-    document.getElementById('gn-total').textContent  = res[3].toString();
-    document.getElementById('gn-streak').textContent = res[4].toString() + ' Gun';
-    document.getElementById('gm-today').innerHTML = res[2]
-      ? '<span class="bdg bg">Gonderildi</span>'
-      : '<span class="bdg bb">Henuz yok</span>';
-    document.getElementById('gn-today').innerHTML = res[5]
-      ? '<span class="bdg bg">Gonderildi</span>'
-      : '<span class="bdg bp">Henuz yok</span>';
-  } catch(e) { console.warn('stats err:', e); }
-}
-
-async function checkOwner() {
-  try {
-    var ro  = new ethers.JsonRpcProvider(CFG.RPC);
-    var gmC = new ethers.Contract(CFG.GM, GM_ABI, ro);
-    var gnC = new ethers.Contract(CFG.GN, GN_ABI, ro);
-    var res = await Promise.all([gmC.owner(), gnC.owner(), gmC.contractBalance(), gnC.contractBalance()]);
-    var isOwner = acct.toLowerCase() === res[0].toLowerCase() || acct.toLowerCase() === res[1].toLowerCase();
-    if (isOwner) {
-      document.getElementById('owner-pnl').style.display = 'block';
-      document.getElementById('gm-bal').textContent = parseFloat(ethers.formatEther(res[2])).toFixed(6) + ' ETH';
-      document.getElementById('gn-bal').textContent = parseFloat(ethers.formatEther(res[3])).toFixed(6) + ' ETH';
+async function checkOwner(){
+  try{
+    var ro=new ethers.JsonRpcProvider(CFG.RPC);
+    var gmC=new ethers.Contract(CFG.GM,GM_ABI,ro);
+    var gnC=new ethers.Contract(CFG.GN,GN_ABI,ro);
+    var res=await Promise.all([gmC.owner(),gnC.owner(),gmC.contractBalance(),gnC.contractBalance()]);
+    if(acct.toLowerCase()===res[0].toLowerCase()||acct.toLowerCase()===res[1].toLowerCase()){
+      var op=document.getElementById('owner-pnl');if(op)op.style.display='block';
+      document.getElementById('gm-bal').textContent=parseFloat(ethers.formatEther(res[2])).toFixed(6)+' ETH';
+      document.getElementById('gn-bal').textContent=parseFloat(ethers.formatEther(res[3])).toFixed(6)+' ETH';
     }
-  } catch(e) { console.warn('owner err:', e); }
+  }catch(e){console.warn('owner err',e);}
 }
-
-async function doWithdraw(which) {
-  try {
-    setSts('wd-sts', 'pnd', 'Fee cekiliyor...');
-    var abi  = which === 'gm' ? GM_ABI : GN_ABI;
-    var addr = which === 'gm' ? CFG.GM : CFG.GN;
-    var c    = new ethers.Contract(addr, abi, sgn);
-    var tx   = await c.withdraw();
-    await tx.wait();
-    setSts('wd-sts', 'ok', 'Bakiye cekildi!');
+async function doWithdraw(which){
+  try{
+    setSts('wd-sts','pnd','Fee cekiliyor...');
+    var abi=which==='gm'?GM_ABI:GN_ABI;
+    var addr=which==='gm'?CFG.GM:CFG.GN;
+    var c=new ethers.Contract(addr,abi,sgn);
+    var tx=await c.withdraw();await tx.wait();
+    setSts('wd-sts','ok','Bakiye cekildi!');
     await checkOwner();
-  } catch(e) {
-    setSts('wd-sts', 'err', 'Hata: ' + (e.reason || e.message || '').slice(0, 100));
-  }
+  }catch(e){setSts('wd-sts','err','Hata: '+(e.reason||e.message||'').slice(0,100));}
 }
-
-async function sendGM() {
-  if (!requireWlt('gm-sts')) return;
-  var msg = document.getElementById('gm-msg').value.trim();
-  var btn = document.getElementById('gm-btn');
-  btn.disabled = true;
-  try {
-    setSts('gm-sts', 'pnd', 'Imzalaniyor... (0.00001 ETH fee)');
-    var c  = new ethers.Contract(CFG.GM, GM_ABI, sgn);
-    var tx = await c.gm(msg, { value: GM_FEE });
-    setSts('gm-sts', 'pnd', 'Onay bekleniyor...<a class="txs" target="_blank" href="' + CFG.EXPLORER + '/tx/' + tx.hash + '">' + shH(tx.hash) + '</a>');
+async function sendGM(){
+  if(!requireWlt('gm-sts'))return;
+  var msg=document.getElementById('gm-msg').value.trim();
+  var btn=document.getElementById('gm-btn');btn.disabled=true;
+  try{
+    setSts('gm-sts','pnd','Imzalaniyor... (0.00001 ETH)');
+    var c=new ethers.Contract(CFG.GM,GM_ABI,sgn);
+    var tx=await c.gm(msg,{value:GM_FEE});
+    setSts('gm-sts','pnd','Onay bekleniyor...<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">'+shH(tx.hash)+'</a>');
     await tx.wait();
-    setSts('gm-sts', 'ok', 'GM gonderildi!<a class="txs" target="_blank" href="' + CFG.EXPLORER + '/tx/' + tx.hash + '">Basescan</a>');
-    cntGM++;
-    var sgm=document.getElementById('s-gm'); if(sgm) sgm.textContent = cntGM;
+    setSts('gm-sts','ok','GM gonderildi!<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');
     await loadStats();
-  } catch(e) {
-    setSts('gm-sts', 'err', 'Hata: ' + (e.reason || e.message || '').slice(0, 120));
-  }
-  btn.disabled = false;
+  }catch(e){setSts('gm-sts','err','Hata: '+(e.reason||e.message||'').slice(0,120));}
+  btn.disabled=false;
 }
-
-async function sendGN() {
-  if (!requireWlt('gn-sts')) return;
-  var msg = document.getElementById('gn-msg').value.trim();
-  var btn = document.getElementById('gn-btn');
-  btn.disabled = true;
-  try {
-    setSts('gn-sts', 'pnd', 'Imzalaniyor... (0.00001 ETH fee)');
-    var c  = new ethers.Contract(CFG.GN, GN_ABI, sgn);
-    var tx = await c.gn(msg, { value: GM_FEE });
-    setSts('gn-sts', 'pnd', 'Onay bekleniyor...<a class="txs" target="_blank" href="' + CFG.EXPLORER + '/tx/' + tx.hash + '">' + shH(tx.hash) + '</a>');
+async function sendGN(){
+  if(!requireWlt('gn-sts'))return;
+  var msg=document.getElementById('gn-msg').value.trim();
+  var btn=document.getElementById('gn-btn');btn.disabled=true;
+  try{
+    setSts('gn-sts','pnd','Imzalaniyor... (0.00001 ETH)');
+    var c=new ethers.Contract(CFG.GN,GN_ABI,sgn);
+    var tx=await c.gn(msg,{value:GM_FEE});
+    setSts('gn-sts','pnd','Onay bekleniyor...<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">'+shH(tx.hash)+'</a>');
     await tx.wait();
-    setSts('gn-sts', 'ok', 'GN gonderildi!<a class="txs" target="_blank" href="' + CFG.EXPLORER + '/tx/' + tx.hash + '">Basescan</a>');
-    cntGN++;
-    var sgn2=document.getElementById('s-gn'); if(sgn2) sgn2.textContent = cntGN;
+    setSts('gn-sts','ok','GN gonderildi!<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');
     await loadStats();
-  } catch(e) {
-    setSts('gn-sts', 'err', 'Hata: ' + (e.reason || e.message || '').slice(0, 120));
-  }
-  btn.disabled = false;
+  }catch(e){setSts('gn-sts','err','Hata: '+(e.reason||e.message||'').slice(0,120));}
+  btn.disabled=false;
 }
-
-async function deployTemplate() {
-  if (!requireWlt('dep-sts')) return;
-  if (!selTplKey) { setSts('dep-sts', 'err', 'Once bir sablon secin!'); return; }
-  var name = document.getElementById('dep-name').value.trim() || TPLS[selTplKey].label;
-  var tpl  = TPLS[selTplKey];
-  var btn  = document.getElementById('dep-btn');
-  btn.disabled = true;
-  try {
-    setSts('dep-sts', 'pnd', 'Adim 1/2: Deploy fee gonderiliyor (0.0001 ETH)...');
-    var feeTx = await sgn.sendTransaction({ to: CFG.FEE_TO, value: DP_FEE });
-    setSts('dep-sts', 'pnd', 'Fee onaylaniyor...');
-    await feeTx.wait();
-    setSts('dep-sts', 'pnd', 'Adim 2/2: Kontrat deploy ediliyor...');
-    var factory  = new ethers.ContractFactory(tpl.abi, tpl.bytecode, sgn);
-    var contract = await factory.deploy();
-    var depTx    = contract.deploymentTransaction();
-    setSts('dep-sts', 'pnd', 'Onay bekleniyor...<a class="txs" target="_blank" href="' + CFG.EXPLORER + '/tx/' + depTx.hash + '">' + shH(depTx.hash) + '</a>');
+async function deployTemplate(){
+  if(!requireWlt('dep-sts'))return;
+  if(!selTplKey){setSts('dep-sts','err','Once bir sablon secin!');return;}
+  var name=document.getElementById('dep-name').value.trim()||TPLS[selTplKey].label;
+  var tpl=TPLS[selTplKey];
+  var btn=document.getElementById('dep-btn');btn.disabled=true;
+  try{
+    setSts('dep-sts','pnd','Adim 1/2: Deploy fee gonderiliyor (0.0001 ETH)...');
+    var feeTx=await sgn.sendTransaction({to:CFG.FEE_TO,value:DP_FEE});
+    setSts('dep-sts','pnd','Fee onaylaniyor...');await feeTx.wait();
+    setSts('dep-sts','pnd','Adim 2/2: Kontrat deploy ediliyor...');
+    var factory=new ethers.ContractFactory(tpl.abi,tpl.bytecode,sgn);
+    var contract=await factory.deploy();
+    var depTx=contract.deploymentTransaction();
+    setSts('dep-sts','pnd','Onay bekleniyor...<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+depTx.hash+'">'+shH(depTx.hash)+'</a>');
     await contract.waitForDeployment();
-    var addr = await contract.getAddress();
-    setSts('dep-sts', 'ok', 'Deploy basarili!<a class="txs" target="_blank" href="' + CFG.EXPLORER + '/address/' + addr + '">Basescan</a>');
-    document.getElementById('res-name').textContent = name;
-    document.getElementById('res-addr').textContent = addr;
-    var tl = document.getElementById('res-tx');
-    tl.textContent = shH(depTx.hash);
-    tl.href = CFG.EXPLORER + '/tx/' + depTx.hash;
-    document.getElementById('dep-result').style.display = 'block';
-  } catch(e) {
-    setSts('dep-sts', 'err', 'Hata: ' + (e.reason || e.message || '').slice(0, 160));
-  }
-  btn.disabled = false;
+    var addr=await contract.getAddress();
+    setSts('dep-sts','ok','Deploy basarili!<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/address/'+addr+'">Basescan</a>');
+    document.getElementById('res-name').textContent=name;
+    document.getElementById('res-addr').textContent=addr;
+    var tl=document.getElementById('res-tx');tl.textContent=shH(depTx.hash);tl.href=CFG.EXPLORER+'/tx/'+depTx.hash;
+    document.getElementById('dep-result').style.display='block';
+  }catch(e){setSts('dep-sts','err','Hata: '+(e.reason||e.message||'').slice(0,160));}
+  btn.disabled=false;
 }
 
-function requireWlt(sid) {
-  if (!acct) { setSts(sid, 'err', 'Once cuzdaninizi baglayin!'); return false; }
-  return true;
-}
-
-function setSts(id, type, html) {
-  var el = document.getElementById(id);
-  el.className = 'sts on ' + type;
-  el.innerHTML = (type === 'pnd' ? '<div class="spin"></div>' : '') + '<span>' + html + '</span>';
-}
-
-function clearSts(id) {
-  var el = document.getElementById(id);
-  el.className = 'sts';
-  el.innerHTML = '';
-}
-
-function shA(a) { return a.slice(0, 6) + '...' + a.slice(-4); }
-function shH(h) { return h.slice(0, 10) + '...' + h.slice(-6); }
-
-// ════════════════════════════════════════════════
-// DICE CONFIG
-// ════════════════════════════════════════════════
-var DICE_CONTRACT = '0xB1c153F5b8eB0AB275c4ed721606D814750EFea9';
-var DICE_FEE = ethers.parseEther('0.00005');
-var DICE_ABI = [
-  'function rollDice() external payable',
-  'function getPlayerStats(address) view returns (uint256 xp, uint256 rolls, uint256 doubles, uint256 level)',
-  'function xpOf(address) view returns (uint256)',
-  'function rollCountOf(address) view returns (uint256)',
-  'function doubleCountOf(address) view returns (uint256)',
-  'function contractBalance() view returns (uint256)',
-  'function owner() view returns (address)',
-  'event DiceRolled(address indexed player, uint8 dice1, uint8 dice2, bool isDouble, uint256 xpEarned, uint256 totalXP)'
-];
-
-var PIP_POS = {
-  1: [[30,30]],
-  2: [[15,15],[45,45]],
-  3: [[15,15],[30,30],[45,45]],
-  4: [[15,15],[45,15],[15,45],[45,45]],
-  5: [[15,15],[45,15],[30,30],[15,45],[45,45]],
-  6: [[15,12],[45,12],[15,30],[45,30],[15,48],[45,48]]
+// ── DICE ────────────────────────────────────────────────────────────
+var PIP_POS={
+  1:[[30,30]],
+  2:[[15,15],[45,45]],
+  3:[[15,15],[30,30],[45,45]],
+  4:[[15,15],[45,15],[15,45],[45,45]],
+  5:[[15,15],[45,15],[30,30],[15,45],[45,45]],
+  6:[[15,12],[45,12],[15,30],[45,30],[15,48],[45,48]]
 };
-
-function drawDice2D(svgId, val, hl) {
-  var svg = document.getElementById(svgId);
-  if (!svg) return;
-  var color = hl ? '#7c3aed' : '#1e293b';
-  var bg    = hl ? '#ede9fe' : '#ffffff';
-  var pts   = PIP_POS[val] || PIP_POS[1];
-  var circles = pts.map(function(p) {
-    return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="6" fill="'+color+'"/>';
-  }).join('');
-  svg.innerHTML = circles;
-  var parent = svg.parentElement;
-  if (parent) parent.style.background = bg;
+function drawDice(svgId, boxId, val, hl){
+  var svg=document.getElementById(svgId);
+  var box=document.getElementById(boxId);
+  if(!svg||!box)return;
+  var color=hl?'#7c3aed':'#1e293b';
+  var pts=PIP_POS[val]||PIP_POS[1];
+  svg.innerHTML=pts.map(function(p){return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="6" fill="'+color+'"/>';}).join('');
+  box.style.background=hl?'#ede9fe':'#ffffff';
+  box.style.border=hl?'2px solid #7c3aed':'none';
 }
-
-function drawDiceQuestion(svgId) {
-  var svg = document.getElementById(svgId);
-  if (!svg) return;
-  svg.innerHTML = '<text x="30" y="38" text-anchor="middle" font-size="28" fill="#9ca3af">?</text>';
-  var parent = svg.parentElement;
-  if (parent) parent.style.background = '#ffffff';
+function resetDice(){
+  ['d1-svg','d2-svg'].forEach(function(id){
+    var svg=document.getElementById(id);
+    if(svg)svg.innerHTML='<text x="30" y="38" text-anchor="middle" font-size="28" fill="#9ca3af">?</text>';
+  });
+  ['d1-box','d2-box'].forEach(function(id){
+    var box=document.getElementById(id);
+    if(box){box.style.background='#ffffff';box.style.border='none';}
+  });
 }
-
-async function rollDice() {
-  if (!requireWlt('roll-sts')) return;
-  var btn = document.getElementById('roll-btn');
-  btn.disabled = true;
-  document.getElementById('dice-result').textContent = '';
-
-  // Soru işareti göster
-  drawDiceQuestion('d1-svg');
-  drawDiceQuestion('d2-svg');
-
-  try {
-    setSts('roll-sts', 'pnd', 'Imzalaniyor... (0.00005 ETH)');
-    var c  = new ethers.Contract(DICE_CONTRACT, DICE_ABI, sgn);
-    var tx = await c.rollDice({ value: DICE_FEE });
-    setSts('roll-sts', 'pnd', 'Onaylanıyor...<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">'+shH(tx.hash)+'</a>');
-
-    // Zarlar dönüyor animasyonu
-    var faces = [1,2,3,4,5,6];
-    var animInterval = setInterval(function() {
-      drawDice2D('d1-svg', faces[Math.floor(Math.random()*6)], false);
-      drawDice2D('d2-svg', faces[Math.floor(Math.random()*6)], false);
-    }, 120);
-
-    var receipt = await tx.wait();
-    clearInterval(animInterval);
-
-    // Event'ten zar değerlerini oku
-    var iface = new ethers.Interface(DICE_ABI);
-    var dice1=1, dice2=1, isDouble=false, xpEarned=2;
-    for (var i=0; i<receipt.logs.length; i++) {
-      try {
-        var parsed = iface.parseLog(receipt.logs[i]);
-        if (parsed && parsed.name === 'DiceRolled') {
-          dice1    = Number(parsed.args[1]);
-          dice2    = Number(parsed.args[2]);
-          isDouble = Boolean(parsed.args[3]);
-          xpEarned = isDouble ? 50 : (dice1+dice2);
-          break;
-        }
-      } catch(e2) {}
-    }
-
-    // Sonucu göster
-    drawDice2D('d1-svg', dice1, isDouble);
-    drawDice2D('d2-svg', dice2, isDouble);
-
-    var resEl = document.getElementById('dice-result');
-    if (isDouble) {
-      resEl.style.color = '#7c3aed';
-      resEl.textContent = '🎊 ÇİFT! '+dice1+' + '+dice2+' = '+(dice1+dice2)+'  →  +50 XP!';
-      setSts('roll-sts','ok','🎊 Cift! +50 XP! <a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');
-    } else {
-      resEl.style.color = '';
-      resEl.textContent = dice1+' + '+dice2+' = '+(dice1+dice2)+'  →  +'+xpEarned+' XP';
-      setSts('roll-sts','ok','+'+xpEarned+' XP! <a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');
-    }
-    await loadDiceStats();
-
-  } catch(e) {
-    setSts('roll-sts','err','Hata: '+(e.reason||e.message||'').slice(0,120));
-  }
-  btn.disabled = false;
-}
-
-
 function getLevel(xp){
   if(xp>=50000)return{name:'👑 Elmas',color:'#06b6d4'};
   if(xp>=10000)return{name:'💎 Platin',color:'#8b5cf6'};
-  if(xp>=5000) return{name:'🥇 Altin', color:'#f59e0b'};
+  if(xp>=5000) return{name:'🥇 Altin',color:'#f59e0b'};
   if(xp>=1000) return{name:'🥈 Gumus',color:'#94a3b8'};
   return{name:'🥉 Bronz',color:'#b45309'};
 }
-
 async function loadDiceStats(){
   if(!acct)return;
-  document.getElementById('dice-addr').textContent=DICE_CONTRACT.slice(0,6)+'...'+DICE_CONTRACT.slice(-4);
+  var addr=document.getElementById('dice-addr');
+  if(addr)addr.textContent=DICE_CONTRACT.slice(0,6)+'...'+DICE_CONTRACT.slice(-4);
   try{
     var ro=new ethers.JsonRpcProvider(CFG.RPC);
     var dc=new ethers.Contract(DICE_CONTRACT,DICE_ABI,ro);
-    var stats=await dc.getPlayerStats(acct);
-    var xp=Number(stats[0]),rolls=Number(stats[1]),doubles=Number(stats[2]);
+    var s=await dc.getPlayerStats(acct);
+    var xp=Number(s[0]),rolls=Number(s[1]),doubles=Number(s[2]);
     var lvl=getLevel(xp);
-    document.getElementById('xp-total').textContent=xp.toLocaleString();
-    document.getElementById('xp-total').style.color=lvl.color;
-    document.getElementById('xp-level').textContent=lvl.name;
-    document.getElementById('xp-level').style.color=lvl.color;
-    document.getElementById('dice-rolls').textContent=rolls;
-    document.getElementById('dice-doubles').textContent=doubles;
-    var xd=document.getElementById('gm-xp-display'); if(xd) xd.textContent=xp.toLocaleString()+' XP';
-    var xl=document.getElementById('gm-lvl-display'); if(xl){xl.textContent=lvl.name;xl.style.color=lvl.color;}
-  }catch(e){console.warn('dice stats:',e);}
+    var xt=document.getElementById('xp-total');var xl=document.getElementById('xp-level');
+    var dr=document.getElementById('dice-rolls');var dd=document.getElementById('dice-doubles');
+    if(xt){xt.textContent=xp.toLocaleString();xt.style.color=lvl.color;}
+    if(xl){xl.textContent=lvl.name;xl.style.color=lvl.color;}
+    if(dr)dr.textContent=rolls;
+    if(dd)dd.textContent=doubles;
+  }catch(e){console.warn('dice stats err',e);}
 }
-
-
-async function loadDiceStats(){
-  if(!acct)return;
-  document.getElementById('dice-addr').textContent=DICE_CONTRACT.slice(0,6)+'...'+DICE_CONTRACT.slice(-4);
+async function rollDice(){
+  if(!requireWlt('roll-sts'))return;
+  var btn=document.getElementById('roll-btn');
+  btn.disabled=true;
+  var resEl=document.getElementById('dice-result');
+  resEl.textContent='';
+  resetDice();
   try{
-    var ro=new ethers.JsonRpcProvider(CFG.RPC);
-    var dc=new ethers.Contract(DICE_CONTRACT,DICE_ABI,ro);
-    var stats=await dc.getPlayerStats(acct);
-    var xp=Number(stats[0]),rolls=Number(stats[1]),doubles=Number(stats[2]);
-    var lvl=getLevel(xp);
-    document.getElementById('xp-total').textContent=xp.toLocaleString();
-    document.getElementById('xp-total').style.color=lvl.color;
-    document.getElementById('xp-level').textContent=lvl.name;
-    document.getElementById('xp-level').style.color=lvl.color;
-    document.getElementById('dice-rolls').textContent=rolls;
-    document.getElementById('dice-doubles').textContent=doubles;
-    var xd=document.getElementById('gm-xp-display'); if(xd) xd.textContent=xp.toLocaleString()+' XP';
-    var xl=document.getElementById('gm-lvl-display'); if(xl){xl.textContent=lvl.name;xl.style.color=lvl.color;}
-  }catch(e){console.warn('dice stats:',e);}
+    setSts('roll-sts','pnd','Imzalaniyor... (0.00005 ETH)');
+    var c=new ethers.Contract(DICE_CONTRACT,DICE_ABI,sgn);
+    var tx=await c.rollDice({value:DICE_FEE});
+    setSts('roll-sts','pnd','Onaylanıyor...<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">'+shH(tx.hash)+'</a>');
+
+    // Animasyon
+    var faces=[1,2,3,4,5,6];
+    var anim=setInterval(function(){
+      drawDice('d1-svg','d1-box',faces[Math.floor(Math.random()*6)],false);
+      drawDice('d2-svg','d2-box',faces[Math.floor(Math.random()*6)],false);
+    },120);
+
+    var receipt=await tx.wait();
+    clearInterval(anim);
+
+    // Event oku
+    var iface=new ethers.Interface(DICE_ABI);
+    var dice1=1,dice2=1,isDouble=false,xpEarned=2;
+    for(var i=0;i<receipt.logs.length;i++){
+      try{
+        var parsed=iface.parseLog(receipt.logs[i]);
+        if(parsed&&parsed.name==='DiceRolled'){
+          dice1=Number(parsed.args[1]);dice2=Number(parsed.args[2]);
+          isDouble=Boolean(parsed.args[3]);xpEarned=isDouble?50:(dice1+dice2);
+          break;
+        }
+      }catch(e2){}
+    }
+
+    drawDice('d1-svg','d1-box',dice1,isDouble);
+    drawDice('d2-svg','d2-box',dice2,isDouble);
+
+    if(isDouble){
+      resEl.style.color='#7c3aed';
+      resEl.textContent='🎊 ÇİFT! '+dice1+' + '+dice2+' = '+(dice1+dice2)+'  →  +50 XP!';
+      setSts('roll-sts','ok','🎊 Cift! +50 XP! <a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');
+    }else{
+      resEl.style.color='';
+      resEl.textContent=dice1+' + '+dice2+' = '+(dice1+dice2)+'  →  +'+xpEarned+' XP';
+      setSts('roll-sts','ok','+'+xpEarned+' XP! <a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');
+    }
+    await loadDiceStats();
+  }catch(e){
+    resetDice();
+    setSts('roll-sts','err','Hata: '+(e.reason||e.message||'').slice(0,120));
+  }
+  btn.disabled=false;
 }
 
-var _FC=false;
+// ── UTILS ───────────────────────────────────────────────────────────
+function requireWlt(sid){if(!acct){setSts(sid,'err','Once cuzdaninizi baglayin!');return false;}return true;}
+function setSts(id,type,html){var el=document.getElementById(id);if(!el)return;el.className='sts on '+type;el.innerHTML=(type==='pnd'?'<div class="spin"></div>':'')+'<span>'+html+'</span>';}
+function clearSts(id){var el=document.getElementById(id);if(!el)return;el.className='sts';el.innerHTML='';}
+function shA(a){return a.slice(0,6)+'...'+a.slice(-4);}
+function shH(h){return h.slice(0,10)+'...'+h.slice(-6);}
 
-window.addEventListener('load', function() {
-  setTimeout(function() { scanLegacy(); }, 300);
+window.addEventListener('load',function(){
+  setTimeout(function(){scanLegacy();},300);
 });
 </script>
 </body>
