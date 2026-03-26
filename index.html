@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="talentapp:project_verification" content="9ff456b07b51ebe380e8353a57b67874a40154f96c73c1fb40349ae7dc0ec398a9fccd1eb1c70b49b32225da4afb77e055bdcda23fe607ff7daeaa940b132c9f">
-<title>Base Fun dApp</title>
+<title>Base Fun dApp </title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap');
@@ -266,6 +266,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
   </div>
   <div class="card">
     <div class="ctitle">Sansli Cark</div>
+    <div class="irow"><span class="il">Kontrat</span><span class="iv" id="wheel-addr">-</span></div>
+    <div class="irow" style="margin-bottom:14px"><span class="il">Cark Sayisi</span><span class="iv" id="wheel-spin-count">0</span></div>
     <div style="position:relative;display:flex;justify-content:center;align-items:center;margin:8px 0 16px">
       <!-- Ok işareti -->
       <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);z-index:10;font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))">▼</div>
@@ -344,7 +346,19 @@ var CFG = {
 var GM_FEE   = ethers.parseEther('0.00001');
 var DP_FEE   = ethers.parseEther('0.0001');
 var DICE_FEE = ethers.parseEther('0.00005');
-var DICE_CONTRACT = '0xB1c153F5b8eB0AB275c4ed721606D814750EFea9';
+var DICE_CONTRACT  = '0xB1c153F5b8eB0AB275c4ed721606D814750EFea9';
+var WHEEL_CONTRACT = '0x4DeA7379a88D2bb095aAA0957806ea7967A97Ce2'; // Deploy sonrası güncelleyin
+var WHEEL_FEE      = ethers.parseEther('0.00005');
+var WHEEL_ABI = [
+  'function spin() external payable',
+  'function getPlayerStats(address) view returns (uint256 xp, uint256 spins, uint256 lastSegment, uint256 level)',
+  'function xpOf(address) view returns (uint256)',
+  'function spinCountOf(address) view returns (uint256)',
+  'function contractBalance() view returns (uint256)',
+  'function owner() view returns (address)',
+  'function withdraw() external',
+  'event WheelSpun(address indexed player, uint8 segment, uint256 xpEarned, uint256 totalXP)'
+];
 
 var GM_ABI = [
   'function gm(string calldata _message) external payable',
@@ -400,6 +414,7 @@ function switchTab(name){
   if(t2) t2.classList.add('on');
   if(p2) p2.classList.add('on');
   if(name==='game') loadDiceStats();
+  if(name==='wheel') loadWheelStats();
 }
 function openModal(){
   if(acct){doDisconnect();return;}
@@ -478,6 +493,7 @@ async function connectWith(rdns){
     await loadStats();
     await checkOwner();
     await loadDiceStats();
+    await loadWheelStats();
   }catch(e){
     if(e.code!==4001) alert('Baglanti hatasi: '+(e.message||'').slice(0,100));
   }
@@ -720,6 +736,7 @@ async function rollDice(){
       setSts('roll-sts','ok','+'+xpEarned+' XP! <a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');
     }
     await loadDiceStats();
+    await loadWheelStats();
   }catch(e){
     resetDice();
     setSts('roll-sts','err','Hata: '+(e.reason||e.message||'').slice(0,120));
@@ -818,6 +835,31 @@ function getWinningSegment(finalAngle) {
   return WHEEL_SEGMENTS[idx];
 }
 
+async function loadWheelStats() {
+  if (!acct) return;
+  var waddr = document.getElementById('wheel-addr');
+  if (WHEEL_CONTRACT === '0x0000000000000000000000000000000000000000') {
+    if (waddr) waddr.textContent = 'Deploy gerekli';
+    return;
+  }
+  if (waddr) waddr.textContent = WHEEL_CONTRACT.slice(0,6)+'...'+WHEEL_CONTRACT.slice(-4);
+  try {
+    var ro  = new ethers.JsonRpcProvider(CFG.RPC);
+    var wc  = new ethers.Contract(WHEEL_CONTRACT, WHEEL_ABI, ro);
+    var s   = await wc.getPlayerStats(acct);
+    var xp  = Number(s[0]);
+    var spins = Number(s[1]);
+    var lvl = getLevel(xp);
+    var xt  = document.getElementById('wheel-xp-total');
+    var xl  = document.getElementById('wheel-xp-level');
+    var ws  = document.getElementById('wheel-spin-count');
+    if (xt) { xt.textContent = xp.toLocaleString(); xt.style.color = lvl.color; }
+    if (xl) { xl.textContent = lvl.name; xl.style.color = lvl.color; }
+    if (ws) ws.textContent = spins;
+  } catch(e) { console.warn('wheel stats err', e); }
+}
+
+
 async function spinWheel() {
   if (!requireWlt('wheel-sts')) return;
   if (wheelSpinning) return;
@@ -830,17 +872,32 @@ async function spinWheel() {
   try {
     setSts('wheel-sts', 'pnd', 'Imzalaniyor... (0.00005 ETH)');
 
-    // Blockchain'den sonuç al (DiceXP kontratı rollDice kullan — aynı kontrat)
-    var c  = new ethers.Contract(DICE_CONTRACT, DICE_ABI, sgn);
-    var tx = await c.rollDice({ value: DICE_FEE });
+    if (WHEEL_CONTRACT === '0x0000000000000000000000000000000000000000') {
+      setSts('wheel-sts','err','WheelXP kontrati henuz deploy edilmedi!');
+      wheelSpinning=false; btn.disabled=false; return;
+    }
+    var c  = new ethers.Contract(WHEEL_CONTRACT, WHEEL_ABI, sgn);
+    var tx = await c.spin({ value: WHEEL_FEE });
     setSts('wheel-sts', 'pnd', 'Onaylanıyor...<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">'+shH(tx.hash)+'</a>');
 
     var receipt = await tx.wait();
 
-    // Tx hash'ten rastgele segment seç (deterministik ama kullanıcı manipüle edemez)
-    var hashNum = parseInt(receipt.hash.slice(2, 10), 16);
-    var winIdx  = hashNum % N;
-    var winner  = WHEEL_SEGMENTS[winIdx];
+    // Event'ten segment oku
+    var iface2  = new ethers.Interface(WHEEL_ABI);
+    var winIdx  = 0;
+    var xpWon   = 10;
+    for (var i=0; i<receipt.logs.length; i++) {
+      try {
+        var parsed2 = iface2.parseLog(receipt.logs[i]);
+        if (parsed2 && parsed2.name === 'WheelSpun') {
+          winIdx = Number(parsed2.args[1]);
+          xpWon  = Number(parsed2.args[2]);
+          break;
+        }
+      } catch(e3) {}
+    }
+    var winner = WHEEL_SEGMENTS[winIdx] || WHEEL_SEGMENTS[0];
+    winner = { xp: xpWon, label: xpWon + ' XP', color: WHEEL_SEGMENTS[winIdx] ? WHEEL_SEGMENTS[winIdx].color : '#0052FF' };
 
     // Hedef açı — winner segmenti okun altına getir
     var targetSegAngle = -winIdx * ANGLE - ANGLE/2 - Math.PI/2;
@@ -877,17 +934,8 @@ async function spinWheel() {
         resEl.textContent = '🎉 Tebrikler! +' + winner.xp + ' XP kazandın!';
         setSts('wheel-sts', 'ok', '+'+winner.xp+' XP! <a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');
 
-        // XP göster (local — blockchain'de zar puanı kaydedildi)
-        var xt = document.getElementById('wheel-xp-total');
-        var xl = document.getElementById('wheel-xp-level');
-        if (xt) {
-          var cur = parseInt(xt.textContent.replace(/,/g,''))||0;
-          var newXP = cur + winner.xp;
-          var lvl = getLevel(newXP);
-          xt.textContent = newXP.toLocaleString();
-          xt.style.color = lvl.color;
-          if (xl) { xl.textContent = lvl.name; xl.style.color = lvl.color; }
-        }
+        // Blockchain'den XP'yi oku
+        await loadWheelStats();
 
         wheelSpinning = false;
         btn.disabled = false;
@@ -905,8 +953,6 @@ async function spinWheel() {
 // Çark başlat
 setTimeout(function() {
   drawWheel(0);
-  // XP'yi yükle
-  if (acct) loadDiceStats();
 }, 300);
 
 
