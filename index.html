@@ -15,148 +15,95 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 .wrap{max-width:520px;margin:0 auto;padding:24px 16px 56px}
 .hdr{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:.5px solid var(--bdr)}
 .logo{width:42px;height:42px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.logo svg{width:24px;height:24px}
 .hdr-txt h1{font-family:'Space Mono',monospace;font-size:17px;font-weight:700}
 .hdr-txt p{font-size:12px;color:var(--tx2);margin-top:2px}
-.net-pill{margin-left:auto;display:flex;align-items:center;gap:5px;background:var(--blue-light);color:var(--blue);font-size:11px;font-weight:500;padding:5px 10px;border-radius:20px;border:.5px solid #b3cbff;white-space:nowrap}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
 .wlt-card{background:var(--bg2);border:.5px solid var(--bdr);border-radius:var(--r);padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
-.wlt-ico{width:38px;height:38px;border-radius:var(--rs);background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .wlt-info{flex:1}
 .wlt-info .lbl{font-size:11px;color:var(--tx2)}
 .wlt-info .adr{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;margin-top:2px}
-.bal{font-size:12px;color:var(--tx2);font-family:'Space Mono',monospace;background:var(--bg);border:.5px solid var(--bdr2);padding:4px 10px;border-radius:20px;margin-right:6px;display:none}
-.btn-con{background:var(--blue);color:#fff;border:none;padding:9px 16px;border-radius:var(--rs);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;white-space:nowrap}
-.btn-con:hover{background:var(--blue-dark)}.btn-con.off{background:var(--red)}
-.mbg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity .2s}
-.mbg.on{opacity:1;pointer-events:all}
-.mdl{background:var(--bg);border:.5px solid var(--bdr2);border-radius:16px;padding:24px;width:340px;max-width:90vw;transform:translateY(14px);transition:transform .2s;max-height:80vh;overflow-y:auto}
-.mbg.on .mdl{transform:translateY(0)}
-.mdl h2{font-size:16px;font-weight:600;margin-bottom:4px}.mdl p{font-size:13px;color:var(--tx2);margin-bottom:16px}
-.wlt-lst{display:flex;flex-direction:column;gap:8px}
-.wopt{display:flex;align-items:center;gap:12px;padding:12px 14px;border:.5px solid var(--bdr2);border-radius:var(--rs);cursor:pointer;background:var(--bg2);transition:border-color .15s,background .15s}
-.wopt:hover{border-color:var(--blue);background:var(--blue-light)}
-.wico{width:36px;height:36px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;background:var(--bg);border:.5px solid var(--bdr)}
-.mdl-cls{width:100%;padding:10px;border:none;background:transparent;color:var(--tx2);font-size:13px;cursor:pointer;border-top:.5px solid var(--bdr);font-family:'DM Sans',sans-serif;margin-top:10px}
-.tabs{display:flex;gap:2px;background:var(--bg2);border:.5px solid var(--bdr);border-radius:10px;padding:4px;margin-bottom:20px;overflow-x:auto}
-.tab{flex:1;padding:8px 8px;border:none;background:transparent;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx2);transition:all .18s;white-space:nowrap}
+.btn-con{background:var(--blue);color:#fff;border:none;padding:9px 16px;border-radius:var(--rs);font-size:13px;font-weight:600;cursor:pointer;transition:background .15s;}
+.btn-con.off{background:var(--red)}
+.tabs{display:flex;gap:2px;background:var(--bg2);border:.5px solid var(--bdr);border-radius:10px;padding:4px;margin-bottom:20px;overflow-x:auto;}
+.tab{flex:1;padding:8px 8px;border:none;background:transparent;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;color:var(--tx2);transition:all .18s;white-space:nowrap}
 .tab.on{background:var(--bg);color:var(--tx);box-shadow:0 1px 4px rgba(0,0,0,.07)}
 .pane{display:none}.pane.on{display:block}
 .card{background:var(--bg);border:.5px solid var(--bdr);border-radius:var(--r);padding:20px;margin-bottom:16px}
-.ctitle{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--tx2);margin-bottom:14px}
-.fgrp{margin-bottom:14px}
-.fgrp label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--tx2);margin-bottom:5px}
-.fgrp input{width:100%;background:var(--bg2);border:.5px solid var(--bdr2);border-radius:var(--rs);padding:10px 12px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--tx);outline:none;transition:border-color .15s}
+.ctitle{font-size:11px;font-weight:600;text-transform:uppercase;color:var(--tx2);margin-bottom:14px}
 .irow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:.5px solid var(--bdr);font-size:13px}
-.irow:last-child{border-bottom:none}
-.il{color:var(--tx2)}.iv{font-family:'Space Mono',monospace;font-size:12px}
 .fbox{display:flex;justify-content:space-between;align-items:center;border-radius:var(--rs);padding:10px 14px;margin-bottom:14px;font-size:13px}
-.fbox-gm{background:var(--gold-light);border:.5px solid var(--gold)}.fbox-gn{background:var(--purple-light);border:.5px solid var(--purple)}.fbox-dp{background:var(--blue-light);border:.5px solid #b3cbff}
-.fl-gm{color:#78350F;font-weight:500}.fl-gn{color:var(--purple);font-weight:500}.fl-dp{color:var(--blue);font-weight:500}
-.fv-gm{font-family:'Space Mono',monospace;font-weight:700;color:#78350F}.fv-gn{font-family:'Space Mono',monospace;font-weight:700;color:var(--purple)}.fv-dp{font-family:'Space Mono',monospace;font-weight:700;color:var(--blue)}
-.grow{display:flex;justify-content:space-between;font-size:12px;color:var(--tx2);background:var(--bg2);border:.5px solid var(--bdr);border-radius:var(--rs);padding:9px 13px;margin-bottom:14px}
-.gv{font-family:'Space Mono',monospace;color:var(--tx)}
-.abtn{width:100%;padding:14px;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:8px}
-.abtn-gm{background:var(--gold);color:#78350F}.abtn-gm:hover:not(:disabled){background:#d97706}
-.abtn-gn{background:var(--purple);color:#fff}.abtn-gn:hover:not(:disabled){background:#6d28d9}
+.fbox-dp{background:var(--blue-light);border:.5px solid #b3cbff}
+.abtn{width:100%;padding:14px;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
 .abtn-dp{background:var(--blue);color:#fff}.abtn-dp:hover:not(:disabled){background:var(--blue-dark)}
-.abtn:active{transform:scale(.98)}.abtn:disabled{opacity:.45;cursor:not-allowed;transform:none}
-.sts{margin-top:14px;padding:12px 14px;border-radius:var(--rs);font-size:13px;display:none;align-items:flex-start;gap:9px;line-height:1.5}
+.sts{margin-top:14px;padding:12px 14px;border-radius:var(--rs);font-size:13px;display:none;align-items:flex-start;gap:9px}
 .sts.on{display:flex}.sts.pnd{background:var(--warn-light);color:#78350F;border:.5px solid #fcd34d}.sts.ok{background:var(--green-light);color:#065F46;border:.5px solid #6ee7b7}.sts.err{background:var(--red-light);color:#7F1D1D;border:.5px solid #fca5a5}
-.spin{width:14px;height:14px;border-radius:50%;border:2px solid currentColor;border-top-color:transparent;animation:spin .65s linear infinite;flex-shrink:0;margin-top:1px}
-@keyframes spin{to{transform:rotate(360deg)}}
+.spin{width:14px;height:14px;border-radius:50%;border:2px solid currentColor;border-top-color:transparent;animation:spin_anim .65s linear infinite}
+@keyframes spin_anim{to{transform:rotate(360deg)}}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .sc{background:var(--bg);border:.5px solid var(--bdr);border-radius:var(--r);padding:16px;text-align:center}
-.sn{font-family:'Space Mono',monospace;font-size:38px;font-weight:700;line-height:1}
+.sn{font-family:'Space Mono',monospace;font-size:28px;font-weight:700;line-height:1}
 .sl{font-size:12px;color:var(--tx2);margin-top:6px}
-.dice-masa{background:linear-gradient(145deg,#1a7a42,#0d4a28);border-radius:20px;border:8px solid #8B6914;box-shadow:0 4px 0 #4a3008;padding:32px 20px;margin-bottom:14px;display:flex;justify-content:center;align-items:center;gap:40px;min-height:160px}
-.dice-box{width:80px;height:80px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:3px 4px 10px rgba(0,0,0,.4);transition:background .2s}
-.txs{font-family:'Space Mono',monospace;font-size:11px;color:var(--blue);display:block;margin-top:3px}
-.bdg{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
-.bb{background:var(--blue-light);color:var(--blue)}.bg{background:var(--green-light);color:#065F46}.bp{background:var(--purple-light);color:var(--purple)}
+.dice-masa{background:linear-gradient(145deg,#1a7a42,#0d4a28);border-radius:20px;border:8px solid #8B6914;padding:32px 20px;margin-bottom:14px;display:flex;justify-content:center;gap:40px;min-height:160px}
+.dice-box{width:80px;height:80px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:3px 4px 10px rgba(0,0,0,.4)}
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity .2s}
+.mbg.on{opacity:1;pointer-events:all}
+.mdl{background:var(--bg);border-radius:16px;padding:24px;width:340px;max-width:90vw}
 </style>
 </head>
 <body>
 <div class="wrap">
 <div class="hdr">
-  <div class="logo"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="white"/><path d="M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12c5.435 0 10.035-3.6 11.5-8.571H16v-2.857h12.857a12 12 0 000-1.143H16v-2.857h11.5C26.035 7.6 21.435 4 16 4z" fill="#0052FF"/></svg></div>
-  <div class="hdr-txt"><h1>Base Fun dApp</h1><p>Check-in & Ecosystem Hub</p></div>
-  <div class="net-pill"><div class="dot" id="net-dot"></div><span id="net-name">Base Mainnet</span></div>
+  <div class="logo"><svg viewBox="0 0 32 32" fill="none" width="24" height="24"><circle cx="16" cy="16" r="14" fill="#0052FF"/><path d="M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12c5.435 0 10.035-3.6 11.5-8.571H16v-2.857h12.857a12 12 0 000-1.143H16v-2.857h11.5C26.035 7.6 21.435 4 16 4z" fill="white"/></svg></div>
+  <div class="hdr-txt"><h1>Base Fun dApp</h1><p>Check-in & Game Center</p></div>
 </div>
 
 <div class="wlt-card">
-  <div class="wlt-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="14" rx="3" stroke="white" stroke-width="1.5"/><path d="M16 14a1 1 0 11-2 0 1 1 0 012 0z" fill="white"/><path d="M22 11H2V9a2 2 0 012-2h14l4 4z" fill="white"/></svg></div>
-  <div class="wlt-info"><div class="lbl" id="wlt-lbl">Cüzdan</div><div class="adr" id="wlt-adr">Bağlı değil</div></div>
-  <span class="bal" id="bal-tag"></span>
+  <div class="wlt-info"><div class="lbl">Cüzdan</div><div class="adr" id="wlt-adr">Bağlı değil</div></div>
   <button class="btn-con" id="con-btn" onclick="openModal()">Bağlan</button>
 </div>
 
 <div class="tabs">
   <button class="tab on" id="tab-checkin" onclick="switchTab('checkin')">📅 Check-in</button>
-  <button class="tab" id="tab-gm" onclick="switchTab('gm')">☀️ GM</button>
-  <button class="tab" id="tab-gn" onclick="switchTab('gn')">🌙 GN</button>
+  <button class="tab" id="tab-gm" onclick="switchTab('gm')">☀️ GM/GN</button>
   <button class="tab" id="tab-game" onclick="switchTab('game')">🎲 Oyun</button>
   <button class="tab" id="tab-wheel" onclick="switchTab('wheel')">🎡 Çark</button>
 </div>
 
 <div class="pane on" id="pane-checkin">
   <div class="g2" style="margin-bottom:16px">
-    <div class="sc"><div class="sn" style="color:var(--blue)" id="checkin-streak">0</div><div class="sl">Seri</div></div>
-    <div class="sc"><div class="sn" style="color:var(--green)" id="checkin-total">0</div><div class="sl">Toplam</div></div>
+    <div class="sc"><div class="sn" style="color:var(--blue)" id="ck-streak">0</div><div class="sl">Günlük Seri</div></div>
+    <div class="sc"><div class="sn" style="color:var(--green)" id="ck-total">0</div><div class="sl">Toplam</div></div>
   </div>
   <div class="card">
     <div class="ctitle">Günlük Takvim</div>
-    <div class="irow"><span class="il">Durum</span><span id="checkin-status" class="iv">Bekleniyor</span></div>
-    <div class="fbox fbox-dp" style="margin-top:10px"><span class="fl-dp">Ücret</span><span class="fv-dp">0.00001 ETH</span></div>
-    <button class="abtn abtn-dp" id="checkin-btn" onclick="doCheckIn()">📅 Check-in Yap</button>
-    <div class="sts" id="checkin-sts"></div>
+    <div class="irow"><span class="il">Sıfırlanma</span><span class="iv">Her gün 03:00</span></div>
+    <div class="irow"><span class="il">Durum</span><span id="ck-status" class="iv">Cüzdan bekleniyor</span></div>
+    <button class="abtn abtn-dp" id="ck-btn" style="margin-top:15px" onclick="doCheckIn()">📅 Check-in Yap</button>
+    <div class="sts" id="ck-sts"></div>
   </div>
 </div>
 
 <div class="pane" id="pane-gm">
-  <div class="g2" style="margin-bottom:16px">
-    <div class="sc"><div class="sn" style="color:var(--gold)" id="gm-total">0</div><div class="sl">Toplam GM</div></div>
-    <div class="sc"><div class="sn" style="color:var(--blue);font-size:28px;padding-top:6px" id="gm-streak">0 Gün</div><div class="sl">Seri</div></div>
-  </div>
   <div class="card">
-    <div class="ctitle">GM Gönder</div>
-    <div class="irow"><span class="il">Kontrat</span><span class="iv">0xfDeb...111E</span></div>
-    <div class="fgrp"><label>Mesajınız</label><input type="text" id="gm-msg" placeholder="GM frens!" maxlength="280"/></div>
-    <div class="fbox fbox-gm"><span class="fl-gm">Servis Ücreti</span><span class="fv-gm">0.00001 ETH</span></div>
-    <button class="abtn abtn-gm" id="gm-btn" onclick="sendGM()">☀️ GM Gönder</button>
+    <div class="ctitle">Güne Başla (GM)</div>
+    <button class="abtn abtn-dp" style="background:var(--gold); color:#000" onclick="sendMsg('gm')">☀️ GM Gönder</button>
     <div class="sts" id="gm-sts"></div>
   </div>
-</div>
-
-<div class="pane" id="pane-gn">
-  <div class="g2" style="margin-bottom:16px">
-    <div class="sc"><div class="sn" style="color:var(--purple)" id="gn-total">0</div><div class="sl">Toplam GN</div></div>
-    <div class="sc"><div class="sn" style="color:var(--purple);font-size:28px;padding-top:6px" id="gn-streak">0 Gün</div><div class="sl">Seri</div></div>
-  </div>
   <div class="card">
-    <div class="ctitle">GN Gönder</div>
-    <div class="irow"><span class="il">Kontrat</span><span class="iv">0x5A4F...37B9</span></div>
-    <div class="fgrp"><label>Mesajınız</label><input type="text" id="gn-msg" placeholder="GN everyone!" maxlength="280"/></div>
-    <div class="fbox fbox-gn"><span class="fl-gn">Servis Ücreti</span><span class="fv-gn">0.00001 ETH</span></div>
-    <button class="abtn abtn-gn" id="gn-btn" onclick="sendGN()">🌙 GN Gönder</button>
+    <div class="ctitle">Günü Bitir (GN)</div>
+    <button class="abtn abtn-dp" style="background:var(--purple); color:#fff" onclick="sendMsg('gn')">🌙 GN Gönder</button>
     <div class="sts" id="gn-sts"></div>
   </div>
 </div>
 
 <div class="pane" id="pane-game">
-  <div class="g2" style="margin-bottom:16px">
-    <div class="sc"><div class="sn" style="color:var(--gold);font-size:28px" id="xp-total">0</div><div class="sl">Toplam XP</div></div>
-    <div class="sc"><div class="sn" style="font-size:16px;padding-top:8px" id="xp-level">🥉 Bronz</div><div class="sl">Seviye</div></div>
-  </div>
   <div class="card">
-    <div class="ctitle">Zar At</div>
+    <div class="ctitle">Zar At (XP Kazan)</div>
     <div class="dice-masa">
-      <div class="dice-box" id="d1-box"><svg id="d1-svg" viewBox="0 0 60 60" width="60" height="60"><text x="30" y="38" text-anchor="middle" font-size="28" fill="#9ca3af">?</text></svg></div>
-      <div class="dice-box" id="d2-box"><svg id="d2-svg" viewBox="0 0 60 60" width="60" height="60"><text x="30" y="38" text-anchor="middle" font-size="28" fill="#9ca3af">?</text></svg></div>
+      <div class="dice-box" id="d1-box"><svg id="d1-svg" width="60" height="60"></svg></div>
+      <div class="dice-box" id="d2-box"><svg id="d2-svg" width="60" height="60"></svg></div>
     </div>
-    <div id="dice-result" style="text-align:center;min-height:36px;margin-bottom:14px;font-size:16px;font-weight:700"></div>
-    <button class="abtn abtn-dp" id="roll-btn" onclick="rollDice()">🎲 Zar At!</button>
+    <div id="dice-res" style="text-align:center; font-weight:700; margin-bottom:10px"></div>
+    <button class="abtn abtn-dp" onclick="rollDice()">🎲 Zar At!</button>
     <div class="sts" id="roll-sts"></div>
   </div>
 </div>
@@ -164,186 +111,173 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 <div class="pane" id="pane-wheel">
   <div class="card" style="text-align:center">
     <div class="ctitle">Şanslı Çark</div>
-    <div style="position:relative;display:flex;flex-direction:column;align-items:center;margin:8px 0 16px">
-      <div style="font-size:28px;line-height:1;margin-bottom:4px">▼</div>
-      <canvas id="wheel-canvas" width="300" height="300" style="border-radius:50%;box-shadow:0 4px 20px rgba(0,0,0,.3)"></canvas>
+    <div style="position:relative; display:inline-block; margin-bottom:15px">
+      <div style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); z-index:10; font-size:24px">▼</div>
+      <canvas id="wheel-cv" width="300" height="300"></canvas>
     </div>
-    <div id="wheel-result" style="text-align:center;min-height:36px;margin-bottom:14px;font-size:17px;font-weight:700"></div>
-    <button class="abtn abtn-dp" id="wheel-btn" onclick="spinWheel()">🎡 Çarkı Çevir!</button>
+    <div id="wheel-res" style="font-weight:700; min-height:24px; margin-bottom:10px"></div>
+    <button class="abtn abtn-dp" id="spin-btn" onclick="spinWheel()">🎡 Çarkı Çevir!</button>
     <div class="sts" id="wheel-sts"></div>
   </div>
 </div>
 
 <div class="mbg" id="modal-bg">
   <div class="mdl">
-    <h2>Cüzdan Seç</h2>
-    <div class="wlt-lst" id="wlt-lst"></div>
-    <button class="mdl-cls" onclick="closeModal()">Kapat</button>
+    <h2 style="margin-bottom:15px">Cüzdan Bağla</h2>
+    <div class="wopt" onclick="connect()"><div class="wico">🦊</div><div><div class="wnm">MetaMask</div></div></div>
+    <button class="mdl-cls" style="margin-top:15px; width:100%; padding:10px; border:none; background:#eee; cursor:pointer" onclick="closeModal()">Kapat</button>
   </div>
 </div>
 </div>
 
 <script>
-// --- CONFIG & ABI ---
-var CFG={CHAIN_ID:8453,EXPLORER:'https://basescan.org',GM:'0xfDeb4a6C1f8a96D1817e29916047dEa53e70111E',GN:'0x5A4F2A0C1134efBCe9a4Debc7B000007Cdb637B9',DICE:'0xB1c153F5b8eB0AB275c4ed721606D814750EFea9',WHEEL:'0x39b91858e45C33Bd6407c27449fdC773EE288cdC',CHECKIN:'0xb4e5E1C7D4b0e846645F49995024D570A0A6218c'};
-var GM_ABI=["function gm(string _m) payable","function totalGMs() view returns (uint256)","function streakOf(address) view returns (uint256)","function hasSentGMToday(address) view returns (bool)"];
-var GN_ABI=["function gn(string _m) payable","function totalGNs() view returns (uint256)","function streakOf(address) view returns (uint256)","function hasSentGNToday(address) view returns (bool)"];
-var DICE_ABI=["function rollDice() payable","function getPlayerStats(address) view returns (uint256,uint256,uint256,uint256)","event DiceRolled(address indexed p, uint8 d1, uint8 d2, bool isD, uint256 xp, uint256 txp)"];
-var WHEEL_ABI=["function spin() payable","function getPlayerStats(address) view returns (uint256,uint256,uint256,uint256)","event WheelSpun(address indexed p, uint8 s, uint256 xp, uint256 txp)"];
-var CHECKIN_ABI=["function checkIn() payable","function userStreaks(address) view returns (uint256)","function totalUserCheckIns(address) view returns (uint256)","function lastCheckIn(address) view returns (uint256)"];
+// --- KONTRAT VERİLERİN (WheelXP.sol ) ---
+const SEGMENTS_XP = [10, 25, 50, 5, 30, 10, 55, 100, 15, 20, 35, 40, 60, 65, 70, 75];
+const COLORS = ["#6366f1","#0ea5e9","#10b981","#f59e0b","#ef4444","#8b5cf6","#06b6d4","#f97316","#6366f1","#0ea5e9","#10b981","#f59e0b","#ef4444","#8b5cf6","#06b6d4","#f97316"];
 
-var PIP_POS={1:[[30,30]],2:[[15,15],[45,45]],3:[[15,15],[30,30],[45,45]],4:[[15,15],[45,15],[15,45],[45,45]],5:[[15,15],[45,15],[30,30],[15,45],[45,45]],6:[[15,12],[45,12],[15,30],[45,30],[15,48],[45,48]]};
-var WHEEL_SEGS=[{xp:10,color:'#6366f1'},{xp:25,color:'#0ea5e9'},{xp:50,color:'#10b981'},{xp:25,color:'#f59e0b'},{xp:100,color:'#ef4444'},{xp:10,color:'#8b5cf6'},{xp:50,color:'#06b6d4'},{xp:200,color:'#f97316'},{xp:25,color:'#6366f1'},{xp:10,color:'#0ea5e9'},{xp:50,color:'#10b981'},{xp:500,color:'#f59e0b'},{xp:25,color:'#ef4444'},{xp:100,color:'#8b5cf6'},{xp:10,color:'#06b6d4'},{xp:50,color:'#f97316'}];
+const ADDR = {
+  CHECKIN: '0xb4e5E1C7D4b0e846645F49995024D570A0A6218c',
+  GM: '0xfDeb4a6C1f8a96D1817e29916047dEa53e70111E',
+  GN: '0x5A4F2A0C1134efBCe9a4Debc7B000007Cdb637B9',
+  WHEEL: '0x39b91858e45C33Bd6407c27449fdC773EE288cdC'
+};
 
-var acct, prov, sgn, wheelAngle=0;
+const ABIS = {
+  CK: ["function checkIn() payable", "function userStreaks(address) view returns (uint256)", "function totalUserCheckIns(address) view returns (uint256)", "function lastCheckIn(address) view returns (uint256)"],
+  MSG: ["function gm(string) payable", "function gn(string) payable"],
+  WHEEL: ["function spin() payable", "event WheelSpun(address indexed player, uint8 segment, uint256 xpEarned, uint256 totalXP)"]
+};
 
-// --- CORE ---
+let acct, prov, sgn, wheelAngle = 0;
+
 function switchTab(n){
   document.querySelectorAll('.tab, .pane').forEach(el=>el.classList.remove('on'));
   document.getElementById('tab-'+n).classList.add('on');
   document.getElementById('pane-'+n).classList.add('on');
-  if(acct) updateAllStats();
+  if(acct && n==='checkin') updateCKStats();
 }
 
-async function openModal(){
+async function connect(){
   if(window.ethereum){
-    const accounts=await window.ethereum.request({method:'eth_requestAccounts'});
-    acct=accounts[0];
-    prov=new ethers.BrowserProvider(window.ethereum);
-    sgn=await prov.getSigner();
-    document.getElementById('wlt-adr').textContent=acct.slice(0,6)+'...'+acct.slice(-4);
-    document.getElementById('con-btn').textContent="Kes";
-    updateAllStats();
+    const accounts = await window.ethereum.request({method:'eth_requestAccounts'});
+    acct = accounts[0];
+    prov = new ethers.BrowserProvider(window.ethereum);
+    sgn = await prov.getSigner();
+    document.getElementById('wlt-adr').textContent = acct.slice(0,6)+'...'+acct.slice(-4);
+    closeModal();
+    updateCKStats();
   }
 }
 
-async function updateAllStats(){
+// --- CHECK-IN (03:00 RESET MANTIĞI) ---
+async function updateCKStats(){
   if(!acct) return;
-  try{
-    // Check-in Stats
-    const ck=new ethers.Contract(CFG.CHECKIN, CHECKIN_ABI, prov);
-    const cRes=await Promise.all([ck.userStreaks(acct), ck.totalUserCheckIns(acct), ck.lastCheckIn(acct)]);
-    document.getElementById('checkin-streak').textContent=cRes[0].toString();
-    document.getElementById('checkin-total').textContent=cRes[1].toString();
-    const isToday=new Date(Number(cRes[2])*1000).toDateString()===new Date().toDateString() && Number(cRes[2])>0;
-    document.getElementById('checkin-status').textContent=isToday?"Yapıldı ✅":"Bekliyor ⏳";
-    if(isToday) document.getElementById('checkin-btn').disabled=true;
-
-    // GM Stats
-    const gmc=new ethers.Contract(CFG.GM, GM_ABI, prov);
-    const gmRes=await Promise.all([gmc.totalGMs(), gmc.streakOf(acct)]);
-    document.getElementById('gm-total').textContent=gmRes[0].toString();
-    document.getElementById('gm-streak').textContent=gmRes[1].toString()+" Gün";
-
-    // Game Stats
-    const dc=new ethers.Contract(CFG.DICE, DICE_ABI, prov);
-    const dRes=await dc.getPlayerStats(acct);
-    document.getElementById('xp-total').textContent=Number(dRes[0]).toLocaleString();
-    document.getElementById('xp-level').textContent=getLevel(Number(dRes[0]));
-  }catch(e){console.error(e)}
+  const ck = new ethers.Contract(ADDR.CHECKIN, ABIS.CK, prov);
+  const res = await Promise.all([ck.userStreaks(acct), ck.totalUserCheckIns(acct), ck.lastCheckIn(acct)]);
+  document.getElementById('ck-streak').textContent = res[0].toString();
+  document.getElementById('ck-total').textContent = res[1].toString();
+  
+  const lastTime = Number(res[2]);
+  const now = new Date();
+  
+  // Sıfırlanma zamanını (Bugün 03:00) hesapla
+  let resetTime = new Date();
+  resetTime.setHours(3, 0, 0, 0);
+  if(now < resetTime) resetTime.setDate(resetTime.getDate() - 1); // Henüz 03:00 geçmediyse dün 03:00 baz alınır
+  
+  const canCheckIn = (lastTime * 1000) < resetTime.getTime();
+  document.getElementById('ck-status').textContent = canCheckIn ? "Bekliyor ⏳" : "Bugün Yapıldı ✅";
+  document.getElementById('ck-btn').disabled = !canCheckIn;
 }
 
-// --- LOGIC ---
 async function doCheckIn(){
-  if(!acct) return openModal();
-  setSts('checkin-sts','pnd','Onaylanıyor...');
-  try{
-    const ck=new ethers.Contract(CFG.CHECKIN, CHECKIN_ABI, sgn);
-    const tx=await ck.checkIn({value:ethers.parseEther('0.00001')});
+  setSts('ck-sts','pnd','Onaylanıyor...');
+  try {
+    const ck = new ethers.Contract(ADDR.CHECKIN, ABIS.CK, sgn);
+    const tx = await ck.checkIn({value: ethers.parseEther('0.00001')});
     await tx.wait();
-    setSts('checkin-sts','ok','Check-in başarılı!');
-    updateAllStats();
-  }catch(e){setSts('checkin-sts','err','Hata!')}
+    setSts('ck-sts','ok','Başarılı!');
+    updateCKStats();
+  } catch(e) { setSts('ck-sts','err','Hata!'); }
 }
 
-async function sendGM(){
-  const msg=document.getElementById('gm-msg').value;
-  setSts('gm-sts','pnd','Gönderiliyor...');
-  try{
-    const c=new ethers.Contract(CFG.GM, GM_ABI, sgn);
-    const tx=await c.gm(msg,{value:ethers.parseEther('0.00001')});
+async function sendMsg(type){
+  setSts(type+'-sts','pnd','Gönderiliyor...');
+  try {
+    const contract = new ethers.Contract(type==='gm'?ADDR.GM:ADDR.GN, ABIS.MSG, sgn);
+    const tx = await contract[type]("", {value: ethers.parseEther('0.00001')});
     await tx.wait();
-    setSts('gm-sts','ok','GM Gönderildi!');
-    updateAllStats();
-  }catch(e){setSts('gm-sts','err','Hata!')}
+    setSts(type+'-sts','ok','Mesaj Gönderildi!');
+  } catch(e) { setSts(type+'-sts','err','Hata!'); }
 }
 
-async function rollDice(){
-  if(!acct) return openModal();
-  setSts('roll-sts','pnd','Zar atılıyor...');
-  try{
-    const c=new ethers.Contract(CFG.DICE, DICE_ABI, sgn);
-    const tx=await c.rollDice({value:ethers.parseEther('0.00005')});
-    const anim=setInterval(()=>{
-      drawDice('d1-svg','d1-box',Math.floor(Math.random()*6)+1);
-      drawDice('d2-svg','d2-box',Math.floor(Math.random()*6)+1);
-    },100);
-    const receipt=await tx.wait();
-    clearInterval(anim);
-    const iface=new ethers.Interface(DICE_ABI);
-    const log=iface.parseLog(receipt.logs[0]);
-    const d1=Number(log.args[1]), d2=Number(log.args[2]);
-    drawDice('d1-svg','d1-box',d1,d1==d2);
-    drawDice('d2-svg','d2-box',d2,d1==d2);
-    document.getElementById('dice-result').textContent=d1+" + "+d2+" = "+(d1+d2);
-    setSts('roll-sts','ok','Zar Atıldı!');
-    updateAllStats();
-  }catch(e){setSts('roll-sts','err','Hata!')}
-}
-
-function drawDice(svgId,boxId,val,hl){
-  const svg=document.getElementById(svgId), box=document.getElementById(boxId);
-  svg.innerHTML=(PIP_POS[val]||PIP_POS[1]).map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="6" fill="${hl?'#7c3aed':'#1e293b'}"/>`).join('');
-  box.style.background=hl?'#ede9fe':'#fff';
-}
-
+// --- ÇARK (4 SANİYE ANİMASYON & HİZALAMA) ---
 function drawWheel(angle){
-  const cv=document.getElementById('wheel-canvas');
-  const ctx=cv.getContext('2d'), W=cv.width, cx=W/2, r=W/2-4;
+  const cv = document.getElementById('wheel-cv'), ctx = cv.getContext('2d'), W=300, cx=150;
   ctx.clearRect(0,0,W,W);
-  const WANGLE=2*Math.PI/16;
-  for(let i=0;i<16;i++){
-    const s=angle+i*WANGLE, e=s+WANGLE;
-    ctx.beginPath(); ctx.moveTo(cx,cx); ctx.arc(cx,cx,r,s,e); ctx.fillStyle=WHEEL_SEGS[i].color; ctx.fill();
-    ctx.save(); ctx.translate(cx,cx); ctx.rotate(s+WANGLE/2);
-    ctx.fillStyle='#fff'; ctx.font='bold 11px DM Sans'; ctx.fillText(WHEEL_SEGS[i].xp+" XP",r-45,5); ctx.restore();
+  const step = Math.PI * 2 / 16;
+  for(let i=0; i<16; i++){
+    ctx.beginPath(); ctx.moveTo(cx,cx); ctx.arc(cx,cx,cx-5, angle + i*step, angle + (i+1)*step);
+    ctx.fillStyle = COLORS[i]; ctx.fill(); ctx.stroke();
+    // XP Yazısı
+    ctx.save(); ctx.translate(cx,cx); ctx.rotate(angle + i*step + step/2);
+    ctx.fillStyle='#fff'; ctx.font='bold 12px DM Sans'; ctx.fillText(SEGMENTS_XP[i]+" XP", 90, 5); ctx.restore();
   }
 }
 
 async function spinWheel(){
   if(!acct) return openModal();
-  setSts('wheel-sts','pnd','Dönüyor...');
-  try{
-    const c=new ethers.Contract(CFG.WHEEL, WHEEL_ABI, sgn);
-    const tx=await c.spin({value:ethers.parseEther('0.00005')});
-    const receipt=await tx.wait();
-    const iface=new ethers.Interface(WHEEL_ABI);
-    const log=iface.parseLog(receipt.logs[0]);
-    const winIdx=Number(log.args[1]);
-    const finalAngle=wheelAngle+Math.PI*10+(winIdx*Math.PI/8);
-    // Basit animasyon
-    wheelAngle=finalAngle;
-    drawWheel(wheelAngle);
-    document.getElementById('wheel-result').textContent="Kazanç: "+WHEEL_SEGS[winIdx].xp+" XP!";
-    setSts('wheel-sts','ok','Çark Çevrildi!');
-    updateAllStats();
-  }catch(e){setSts('wheel-sts','err','Hata!')}
+  const btn = document.getElementById('spin-btn');
+  btn.disabled = true;
+  setSts('wheel-sts','pnd','İşlem imzalanıyor...');
+  try {
+    const c = new ethers.Contract(ADDR.WHEEL, ABIS.WHEEL, sgn);
+    const tx = await c.spin({value: ethers.parseEther('0.00005')});
+    setSts('wheel-sts','pnd','Sonuç bekleniyor...');
+    const receipt = await tx.wait();
+    
+    // Logdan kazanan segmenti al [cite: 1]
+    const log = c.interface.parseLog(receipt.logs[0]);
+    const winIdx = Number(log.args[1]);
+    
+    // Animasyon Parametreleri
+    const duration = 4000;
+    const startTs = performance.now();
+    const extraSpins = 5 * Math.PI * 2; // En az 5 tam tur
+    
+    // Duracağı açıyı hesapla: Pointer üstte (-PI/2), saat yönünde dönüş
+    // Segmentin tam ortasına gelmesi için winIdx * step + step/2 kullanılır.
+    const step = Math.PI * 2 / 16;
+    const targetAngle = - (winIdx * step + step/2) - (Math.PI / 2);
+    const totalRotation = extraSpins + (targetAngle - wheelAngle % (Math.PI*2));
+    const startAngle = wheelAngle;
+
+    function animate(now){
+      const elapsed = now - startTs;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3); // Yavaşlayarak durma (OutCubic)
+      wheelAngle = startAngle + totalRotation * ease;
+      drawWheel(wheelAngle);
+      if(progress < 1) requestAnimationFrame(animate);
+      else {
+        document.getElementById('wheel-res').textContent = `🎉 Tebrikler! ${SEGMENTS_XP[winIdx]} XP Kazandın!`;
+        setSts('wheel-sts','ok',`+${SEGMENTS_XP[winIdx]} XP eklendi.`);
+        btn.disabled = false;
+      }
+    }
+    requestAnimationFrame(animate);
+  } catch(e) { setSts('wheel-sts','err','İşlem başarısız.'); btn.disabled=false; }
 }
 
-function getLevel(xp){
-  if(xp>=50000) return '👑 Elmas';
-  if(xp>=10000) return '💎 Platin';
-  if(xp>=5000) return '🥇 Altın';
-  if(xp>=1000) return '🥈 Gümüş';
-  return '🥉 Bronz';
-}
-
+function openModal(){ document.getElementById('modal-bg').classList.add('on'); }
+function closeModal(){ document.getElementById('modal-bg').classList.remove('on'); }
 function setSts(id,t,h){
-  const el=document.getElementById(id);
-  el.className='sts on '+t;
-  el.innerHTML=(t=='pnd'?'<div class="spin"></div>':'')+'<span>'+h+'</span>';
+  const el = document.getElementById(id);
+  el.className = 'sts on '+t;
+  el.innerHTML = (t==='pnd'?'<div class="spin"></div>':'')+'<span>'+h+'</span>';
 }
-window.onload=()=>{drawWheel(0)};
+
+window.onload = () => { drawWheel(0); };
 </script>
 </body>
 </html>
