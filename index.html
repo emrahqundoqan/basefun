@@ -32,6 +32,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 .tabs{display:flex;gap:2px;background:var(--bg2);border:.5px solid var(--bdr);border-radius:10px;padding:4px;margin-bottom:20px;overflow-x:auto;}
 .tab{flex:1;padding:8px 8px;border:none;background:transparent;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;color:var(--tx2);transition:all .18s;white-space:nowrap}
 .tab.on{background:var(--bg);color:var(--tx);box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.tab-admin{display:none; color:var(--red); font-weight:700;}
 .pane{display:none}.pane.on{display:block}
 .card{background:var(--bg);border:.5px solid var(--bdr);border-radius:var(--r);padding:20px;margin-bottom:16px}
 .ctitle{font-size:11px;font-weight:600;text-transform:uppercase;color:var(--tx2);margin-bottom:14px}
@@ -63,7 +64,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 <div class="hdr">
   <div class="logo"><svg viewBox="0 0 32 32" fill="none" width="24" height="24"><circle cx="16" cy="16" r="14" fill="#0052FF"/><path d="M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12c5.435 0 10.035-3.6 11.5-8.571H16v-2.857h12.857a12 12 0 000-1.143H16v-2.857h11.5C26.035 7.6 21.435 4 16 4z" fill="white"/></svg></div>
   <div class="hdr-txt"><h1>Base Fun dApp</h1><p>Check-in & Ecosystem</p></div>
-  <div class="net-pill"><div class="dot" id="net-dot"></div><span id="net-name">Bekleniyor...</span></div>
+  <div class="net-pill"><div class="dot" id="net-dot"></div><span id="net-name">Cüzdan Bekleniyor</span></div>
 </div>
 
 <div class="nwrn" id="net-warn">Lütfen Base Mainnet'e geçin.<button onclick="switchToBase()">Ağı Değiştir</button></div>
@@ -78,6 +79,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
   <button class="tab" id="tab-gm" onclick="switchTab('gm')">☀️ GM/GN</button>
   <button class="tab" id="tab-game" onclick="switchTab('game')">🎲 Oyun</button>
   <button class="tab" id="tab-wheel" onclick="switchTab('wheel')">🎡 Çark</button>
+  <button class="tab tab-admin" id="tab-admin" onclick="switchTab('admin')">🔑 Admin</button>
 </div>
 
 <div class="pane on" id="pane-checkin">
@@ -95,48 +97,33 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
   </div>
 </div>
 
+<div class="pane" id="pane-admin">
+  <div class="card">
+    <div class="ctitle">Kontrat Kasaları</div>
+    <p style="font-size:12px; color:var(--tx2); margin-bottom:15px">Bu panel sadece size özeldir. Biriken ETH'leri buradan çekebilirsiniz.</p>
+    <div class="irow"><span class="il">Check-in Kasası</span><span id="bal-ck" class="iv">0 ETH</span></div>
+    <div class="irow"><span class="il">GM/GN Kasası</span><span id="bal-msg" class="iv">0 ETH</span></div>
+    <div class="irow"><span class="il">Zar Oyunu Kasası</span><span id="bal-dice" class="iv">0 ETH</span></div>
+    <div class="irow" style="margin-bottom:15px"><span class="il">Çark Oyunu Kasası</span><span id="bal-wheel" class="iv">0 ETH</span></div>
+    <button class="abtn abtn-dp" style="background:var(--red); margin-top:10px" onclick="withdrawAll()">💰 Tüm ETH'leri Çek</button>
+    <div class="sts" id="admin-sts"></div>
+  </div>
+</div>
+
 <div class="pane" id="pane-gm">
-  <div class="card">
-    <div class="ctitle">☀️ Güne Başla</div>
-    <button class="abtn abtn-dp" style="background:var(--gold); color:#000" onclick="sendMsg('gm')">☀️ GM Gönder</button>
-    <div class="sts" id="gm-sts"></div>
-  </div>
-  <div class="card">
-    <div class="ctitle">🌙 Günü Bitir</div>
-    <button class="abtn abtn-dp" style="background:var(--purple); color:#fff" onclick="sendMsg('gn')">🌙 GN Gönder</button>
-    <div class="sts" id="gn-sts"></div>
-  </div>
+  <div class="card"><div class="ctitle">☀️ GM Gönder</div><button class="abtn abtn-dp" style="background:var(--gold); color:#000" onclick="sendMsg('gm')">☀️ GM Gönder</button><div class="sts" id="gm-sts"></div></div>
+  <div class="card"><div class="ctitle">🌙 GN Gönder</div><button class="abtn abtn-dp" style="background:var(--purple); color:#fff" onclick="sendMsg('gn')">🌙 GN Gönder</button><div class="sts" id="gn-sts"></div></div>
 </div>
-
 <div class="pane" id="pane-game">
-  <div class="card">
-    <div class="ctitle">Zar At</div>
-    <div class="dice-masa">
-      <div class="dice-box" id="d1-box"><svg id="d1-svg" width="60" height="60"></svg></div>
-      <div class="dice-box" id="d2-box"><svg id="d2-svg" width="60" height="60"></svg></div>
-    </div>
-    <div id="dice-res" style="text-align:center; font-weight:700; margin-bottom:10px"></div>
-    <button class="abtn abtn-dp" onclick="rollDice()">🎲 Zar At!</button>
-    <div class="sts" id="roll-sts"></div>
-  </div>
+  <div class="card"><div class="ctitle">Zar At</div><div class="dice-masa"><div class="dice-box" id="d1-box"><svg id="d1-svg" width="60" height="60"></svg></div><div class="dice-box" id="d2-box"><svg id="d2-svg" width="60" height="60"></svg></div></div><div id="dice-res" style="text-align:center; font-weight:700; margin-bottom:10px"></div><button class="abtn abtn-dp" onclick="rollDice()">🎲 Zar At!</button><div class="sts" id="roll-sts"></div></div>
 </div>
-
 <div class="pane" id="pane-wheel">
-  <div class="card" style="text-align:center">
-    <div class="ctitle">Şanslı Çark</div>
-    <div style="position:relative; display:inline-block; margin-bottom:15px">
-      <div style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); z-index:10; font-size:24px">▼</div>
-      <canvas id="wheel-cv" width="300" height="300"></canvas>
-    </div>
-    <div id="wheel-res" style="font-weight:700; margin-bottom:10px"></div>
-    <button class="abtn abtn-dp" id="spin-btn" onclick="spinWheel()">🎡 Çarkı Çevir!</button>
-    <div class="sts" id="wheel-sts"></div>
-  </div>
+  <div class="card" style="text-align:center"><div class="ctitle">Şanslı Çark</div><div style="position:relative; display:inline-block; margin-bottom:15px"><div style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); z-index:10; font-size:24px">▼</div><canvas id="wheel-cv" width="300" height="300"></canvas></div><div id="wheel-res" style="font-weight:700; margin-bottom:10px"></div><button class="abtn abtn-dp" id="spin-btn" onclick="spinWheel()">🎡 Çarkı Çevir!</button><div class="sts" id="wheel-sts"></div></div>
 </div>
 
 <div class="mbg" id="modal-bg">
   <div class="mdl">
-    <h2>Cüzdan Seçin</h2>
+    <h2 style="margin-bottom:15px">Cüzdan Seçin</h2>
     <div id="wlt-list">Cüzdan aranıyor...</div>
     <button class="mdl-cls" onclick="closeModal()">Kapat</button>
   </div>
@@ -144,9 +131,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 </div>
 
 <script>
-// --- CONFIG & ADRESLER ---
-const SEGMENTS_XP = [10, 25, 50, 5, 30, 10, 55, 100, 15, 20, 35, 40, 60, 65, 70, 75];
-const COLORS = ["#6366f1","#0ea5e9","#10b981","#f59e0b","#ef4444","#8b5cf6","#06b6d4","#f97316","#6366f1","#0ea5e9","#10b981","#f59e0b","#ef4444","#8b5cf6","#06b6d4","#f97316"];
+const ADMIN_ADDRESS = '0xca37E522b57FEebc6f371EA500ecBf1e408FfD2c';
 const ADDR = {
   CHECKIN: '0xb4e5E1C7D4b0e846645F49995024D570A0A6218c',
   GM: '0xfDeb4a6C1f8a96D1817e29916047dEa53e70111E',
@@ -154,12 +139,13 @@ const ADDR = {
   WHEEL: '0x39b91858e45C33Bd6407c27449fdC773EE288cdC',
   DICE: '0xB1c153F5b8eB0AB275c4ed721606D814750EFea9'
 };
-
+const SEGMENTS_XP = [10, 25, 50, 5, 30, 10, 55, 100, 15, 20, 35, 40, 60, 65, 70, 75];
+const COLORS = ["#6366f1","#0ea5e9","#10b981","#f59e0b","#ef4444","#8b5cf6","#06b6d4","#f97316","#6366f1","#0ea5e9","#10b981","#f59e0b","#ef4444","#8b5cf6","#06b6d4","#f97316"];
 const ABIS = {
-  CK: ["function checkIn() payable", "function userStreaks(address) view returns (uint256)", "function totalUserCheckIns(address) view returns (uint256)", "function lastCheckIn(address) view returns (uint256)"],
-  MSG: ["function gm(string) payable", "function gn(string) payable"],
-  WHEEL: ["function spin() payable", "function getPlayerStats(address) view returns (uint256,uint256,uint256,uint256)"],
-  DICE: ["function rollDice() payable", "function getPlayerStats(address) view returns (uint256,uint256,uint256,uint256)", "event DiceRolled(address indexed player, uint8 d1, uint8 d2, bool isD, uint256 xp, uint256 txp)"]
+  CK: ["function checkIn() payable", "function userStreaks(address) view returns (uint256)", "function totalUserCheckIns(address) view returns (uint256)", "function lastCheckIn(address) view returns (uint256)", "function withdraw() external"],
+  MSG: ["function gm(string) payable", "function gn(string) payable", "function withdraw() external"],
+  WHEEL: ["function spin() payable", "function getPlayerStats(address) view returns (uint256,uint256,uint256,uint256)", "function withdraw() external"],
+  DICE: ["function rollDice() payable", "function getPlayerStats(address) view returns (uint256,uint256,uint256,uint256)", "function withdraw() external"]
 };
 
 let acct, prov, sgn, rawProv, wheelAngle = 0;
@@ -168,7 +154,6 @@ let wlts = {};
 // --- WALLET ENGINE ---
 window.addEventListener("eip6963:announceProvider", (e) => { wlts[e.detail.info.rdns] = e.detail; renderWallets(); });
 window.dispatchEvent(new Event("eip6963:requestProvider"));
-
 function renderWallets() {
   const list = document.getElementById('wlt-list'); list.innerHTML = "";
   Object.values(wlts).forEach(w => {
@@ -177,16 +162,8 @@ function renderWallets() {
     el.onclick = () => connectWith(w.provider, w.info.rdns);
     list.appendChild(el);
   });
-  if (window.ethereum && Object.keys(wlts).length === 0) {
-    const el = document.createElement('div'); el.className = 'wopt';
-    el.innerHTML = `<div class="wico"><span>🦊</span></div><div><div class="wnm">Browser Cüzdan</div></div>`;
-    el.onclick = () => connectWith(window.ethereum, "browser");
-    list.appendChild(el);
-  }
 }
-
 async function handleWalletAction() { if (acct) disconnect(); else openModal(); }
-
 async function connectWith(provider, rdns) {
   try {
     rawProv = provider;
@@ -198,7 +175,6 @@ async function connectWith(provider, rdns) {
     rawProv.on('accountsChanged', (a) => a.length ? window.location.reload() : disconnect());
   } catch (e) { console.error(e); }
 }
-
 async function checkNetwork() {
   if (!rawProv) return;
   const chainId = await rawProv.request({ method: 'eth_chainId' });
@@ -207,18 +183,55 @@ async function checkNetwork() {
   document.getElementById('net-dot').style.background = isBase ? 'var(--green)' : 'var(--red)';
   document.getElementById('net-name').textContent = isBase ? 'Base Mainnet' : 'Yanlış Ağ';
 }
-
 function updateUIConnected() {
   document.getElementById('wlt-adr').textContent = acct.slice(0,6)+'...'+acct.slice(-4);
-  const btn = document.getElementById('con-btn'); btn.textContent = "Bağlantıyı Kes"; btn.classList.add('off');
+  const btn = document.getElementById('con-btn'); btn.textContent = "Kes"; btn.classList.add('off');
+  // Admin kontrolü
+  if (acct.toLowerCase() === ADMIN_ADDRESS.toLowerCase()) {
+    document.getElementById('tab-admin').style.display = 'block';
+    updateAdminStats();
+  }
   updateAllStats();
 }
-
 function disconnect() { localStorage.removeItem('lastWallet'); window.location.reload(); }
+async function switchToBase() { try { await rawProv.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x2105' }] }); } catch (e) {} }
 
-async function switchToBase() {
-  try { await rawProv.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x2105' }] }); }
-  catch (e) { if (e.code === 4902) { await rawProv.request({ method: 'wallet_addEthereumChain', params: [{ chainId: '0x2105', chainName: 'Base Mainnet', nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 }, rpcUrls: ['https://mainnet.base.org'], blockExplorerUrls: ['https://basescan.org'] }] }); } }
+// --- ADMIN LOGIC ---
+async function updateAdminStats() {
+  if (acct.toLowerCase() !== ADMIN_ADDRESS.toLowerCase()) return;
+  const cks = [
+    prov.getBalance(ADDR.CHECKIN),
+    prov.getBalance(ADDR.GM),
+    prov.getBalance(ADDR.DICE),
+    prov.getBalance(ADDR.WHEEL)
+  ];
+  const bals = await Promise.all(cks);
+  document.getElementById('bal-ck').textContent = ethers.formatEther(bals[0]).slice(0,8) + " ETH";
+  document.getElementById('bal-msg').textContent = ethers.formatEther(bals[1]).slice(0,8) + " ETH";
+  document.getElementById('bal-dice').textContent = ethers.formatEther(bals[2]).slice(0,8) + " ETH";
+  document.getElementById('bal-wheel').textContent = ethers.formatEther(bals[3]).slice(0,8) + " ETH";
+}
+
+async function withdrawAll() {
+  setSts('admin-sts', 'pnd', 'Para çekme işlemleri başlatılıyor...');
+  try {
+    const contracts = [
+      new ethers.Contract(ADDR.CHECKIN, ABIS.CK, sgn),
+      new ethers.Contract(ADDR.GM, ABIS.MSG, sgn),
+      new ethers.Contract(ADDR.DICE, ABIS.DICE, sgn),
+      new ethers.Contract(ADDR.WHEEL, ABIS.WHEEL, sgn)
+    ];
+    for(let c of contracts) {
+      const bal = await prov.getBalance(await c.getAddress());
+      if (bal > 0n) {
+        setSts('admin-sts', 'pnd', 'Çekiliyor: ' + (await c.getAddress()).slice(0,8));
+        const tx = await c.withdraw();
+        await tx.wait();
+      }
+    }
+    setSts('admin-sts', 'ok', 'Tüm ETH\'ler başarıyla çekildi!');
+    updateAdminStats();
+  } catch(e) { setSts('admin-sts', 'err', 'Hata! Yetki sizde mi kontrol edin.'); }
 }
 
 // --- GLOBAL XP & STATS ---
@@ -228,109 +241,37 @@ async function updateAllStats() {
     const ck = new ethers.Contract(ADDR.CHECKIN, ABIS.CK, prov);
     const wc = new ethers.Contract(ADDR.WHEEL, ABIS.WHEEL, prov);
     const dc = new ethers.Contract(ADDR.DICE, ABIS.DICE, prov);
-
-    const [cRes, wStats, dStats] = await Promise.all([
+    const [cRes, wS, dS] = await Promise.all([
       Promise.all([ck.userStreaks(acct), ck.totalUserCheckIns(acct), ck.lastCheckIn(acct)]),
       wc.getPlayerStats(acct),
       dc.getPlayerStats(acct)
     ]);
-
-    // Toplam XP Hesaplama (On-chain verileri topluyoruz)
-    const totalXP = Number(wStats[0]) + Number(dStats[0]);
+    const totalXP = Number(wS[0]) + Number(dS[0]);
     document.getElementById('ck-streak').textContent = cRes[0].toString();
     document.getElementById('ck-total').textContent = totalXP.toLocaleString();
     document.getElementById('xp-level-global').textContent = getLevel(totalXP);
-
-    const lastTime = Number(cRes[2]);
-    const now = new Date();
-    let reset = new Date(); reset.setHours(3,0,0,0);
-    if(now < reset) reset.setDate(reset.getDate()-1);
-    const canCk = (lastTime * 1000) < reset.getTime();
+    const reset = new Date(); reset.setHours(3,0,0,0);
+    if(new Date() < reset) reset.setDate(reset.getDate()-1);
+    const canCk = (Number(cRes[2]) * 1000) < reset.getTime();
     document.getElementById('ck-status').textContent = canCk ? "Bekliyor ⏳" : "Yapıldı ✅";
     document.getElementById('ck-btn').disabled = !canCk;
-  } catch(e) { console.error("Stats error", e); }
+  } catch(e) {}
 }
 
-async function doCheckIn(){
-  setSts('ck-sts','pnd','İmzalanıyor...');
-  try {
-    const ck = new ethers.Contract(ADDR.CHECKIN, ABIS.CK, sgn);
-    const tx = await ck.checkIn({value: ethers.parseEther('0.00001')});
-    await tx.wait(); setSts('ck-sts','ok','Başarılı!'); updateAllStats();
-  } catch(e) { setSts('ck-sts','err','Hata!'); }
-}
-
-async function sendMsg(t){
-  setSts(t+'-sts','pnd','İmzalanıyor...');
-  try {
-    const c = new ethers.Contract(t==='gm'?ADDR.GM:ADDR.GN, ABIS.MSG, sgn);
-    const tx = await c[t]("", {value: ethers.parseEther('0.00001')});
-    await tx.wait(); setSts(t+'-sts','ok','Gönderildi!');
-  } catch(e) { setSts(t+'-sts','err','Hata!'); }
-}
-
-// --- OYUN GÖRSELLERİ ---
+// --- DİĞER FONKSİYONLAR (Aynı kaldı) ---
+async function doCheckIn(){ setSts('ck-sts','pnd','İmzalanıyor...'); try { const ck=new ethers.Contract(ADDR.CHECKIN,ABIS.CK,sgn); const tx=await ck.checkIn({value:ethers.parseEther('0.00001')}); await tx.wait(); setSts('ck-sts','ok','Başarılı!'); updateAllStats(); } catch(e){setSts('ck-sts','err','Hata!');} }
+async function sendMsg(t){ setSts(t+'-sts','pnd','İmzalanıyor...'); try { const c=new ethers.Contract(t==='gm'?ADDR.GM:ADDR.GN,ABIS.MSG,sgn); const tx=await c[t]("",{value:ethers.parseEther('0.00001')}); await tx.wait(); setSts(t+'-sts','ok','Başarılı!'); } catch(e){setSts(t+'-sts','err','Hata!');} }
 const PIP_POS={1:[[30,30]],2:[[15,15],[45,45]],3:[[15,15],[30,30],[45,45]],4:[[15,15],[45,15],[15,45],[45,45]],5:[[15,15],[45,15],[30,30],[15,45],[45,45]],6:[[15,12],[45,12],[15,30],[45,30],[15,48],[45,48]]};
-function drawDice(s,b,v,h){
-  const sv=document.getElementById(s), bx=document.getElementById(b);
-  sv.innerHTML=(PIP_POS[v]||PIP_POS[1]).map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="6" fill="${h?'#7c3aed':'#1e293b'}"/>`).join('');
-  bx.style.background=h?'#ede9fe':'#fff';
-}
-
-async function rollDice(){
-  if(!acct) return openModal();
-  setSts('roll-sts','pnd','Zar atılıyor...');
-  try {
-    const c = new ethers.Contract(ADDR.DICE, ABIS.DICE, sgn);
-    const tx = await c.rollDice({value: ethers.parseEther('0.00005')});
-    const ani = setInterval(() => { drawDice('d1-svg','d1-box',Math.floor(Math.random()*6)+1); drawDice('d2-svg','d2-box',Math.floor(Math.random()*6)+1); }, 100);
-    const receipt = await tx.wait(); clearInterval(ani);
-    const log = c.interface.parseLog(receipt.logs[0]);
-    const d1=Number(log.args[1]), d2=Number(log.args[2]);
-    drawDice('d1-svg','d1-box',d1,d1==d2); drawDice('d2-svg','d2-box',d2,d1==d2);
-    document.getElementById('dice-res').textContent=d1+"+"+d2+"="+(d1+d2);
-    setSts('roll-sts','ok','Zar Atıldı!'); updateAllStats();
-  } catch(e) { setSts('roll-sts','err','Hata!'); }
-}
-
-function drawWheel(a){
-  const cv=document.getElementById('wheel-cv'), ctx=cv.getContext('2d'), step=Math.PI*2/16; ctx.clearRect(0,0,300,300);
-  for(let i=0; i<16; i++){
-    ctx.beginPath(); ctx.moveTo(150,150); ctx.arc(150,150,145, a+i*step, a+(i+1)*step);
-    ctx.fillStyle=COLORS[i]; ctx.fill(); ctx.stroke();
-    ctx.save(); ctx.translate(150,150); ctx.rotate(a+i*step+step/2); ctx.fillStyle='#fff'; ctx.font='bold 11px Space Mono'; ctx.fillText(SEGMENTS_XP[i]+" XP", 90, 5); ctx.restore();
-  }
-}
-
-async function spinWheel(){
-  if(!acct) return openModal();
-  const btn = document.getElementById('spin-btn'); btn.disabled=true; setSts('wheel-sts','pnd','İşleniyor...');
-  try {
-    const c = new ethers.Contract(ADDR.WHEEL, ABIS.WHEEL, sgn);
-    const tx = await c.spin({value: ethers.parseEther('0.00005')});
-    const receipt = await tx.wait();
-    const iface = new ethers.Interface(["event WheelSpun(address indexed player, uint8 segment, uint256 xpEarned, uint256 totalXP)"]);
-    const log = iface.parseLog(receipt.logs[0]);
-    const winIdx = Number(log.args[1]);
-    const dur=4000, startT=performance.now(), targetA=-(winIdx*(Math.PI*2/16)+(Math.PI*2/32))-(Math.PI/2), totalR=(Math.PI*2*6)+(targetA-wheelAngle%(Math.PI*2)), startA=wheelAngle;
-    function anim(now){
-      const prog=Math.min((now-startT)/dur,1); wheelAngle=startA+totalR*(1-Math.pow(1-prog,3)); drawWheel(wheelAngle);
-      if(prog<1) requestAnimationFrame(anim); else { document.getElementById('wheel-res').textContent=`🎉 +${SEGMENTS_XP[winIdx]} XP!`; setSts('wheel-sts','ok','Bitti.'); btn.disabled=false; updateAllStats(); }
-    }
-    requestAnimationFrame(anim);
-  } catch(e) { setSts('wheel-sts','err','Hata!'); btn.disabled=false; }
-}
-
+function drawDice(s,b,v,h){ const sv=document.getElementById(s),bx=document.getElementById(b); sv.innerHTML=(PIP_POS[v]||PIP_POS[1]).map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="6" fill="${h?'#7c3aed':'#1e293b'}"/>`).join(''); bx.style.background=h?'#ede9fe':'#fff'; }
+async function rollDice(){ if(!acct) return openModal(); setSts('roll-sts','pnd','Atılıyor...'); try { const c=new ethers.Contract(ADDR.DICE,ABIS.DICE,sgn); const tx=await c.rollDice({value:ethers.parseEther('0.00005')}); const ani=setInterval(()=>{drawDice('d1-svg','d1-box',Math.floor(Math.random()*6)+1);drawDice('d2-svg','d2-box',Math.floor(Math.random()*6)+1);},100); const receipt=await tx.wait(); clearInterval(ani); const log=c.interface.parseLog(receipt.logs[0]); const d1=Number(log.args[1]),d2=Number(log.args[2]); drawDice('d1-svg','d1-box',d1,d1==d2); drawDice('d2-svg','d2-box',d2,d1==d2); document.getElementById('dice-res').textContent=d1+"+"+d2+"="+(d1+d2); setSts('roll-sts','ok','Zar Atıldı!'); updateAllStats(); } catch(e){setSts('roll-sts','err','Hata!');} }
+function drawWheel(a){ const cv=document.getElementById('wheel-cv'),ctx=cv.getContext('2d'),step=Math.PI*2/16; ctx.clearRect(0,0,300,300); for(let i=0;i<16;i++){ ctx.beginPath();ctx.moveTo(150,150);ctx.arc(150,150,145,a+i*step,a+(i+1)*step); ctx.fillStyle=COLORS[i];ctx.fill();ctx.stroke(); ctx.save();ctx.translate(150,150);ctx.rotate(a+i*step+step/2);ctx.fillStyle='#fff';ctx.font='bold 11px Space Mono';ctx.fillText(SEGMENTS_XP[i]+" XP",90,5);ctx.restore(); } }
+async function spinWheel(){ if(!acct) return openModal(); const btn=document.getElementById('spin-btn');btn.disabled=true;setSts('wheel-sts','pnd','İşleniyor...'); try { const c=new ethers.Contract(ADDR.WHEEL,ABIS.WHEEL,sgn); const tx=await c.spin({value:ethers.parseEther('0.00005')}); const receipt=await tx.wait(); const log=c.interface.parseLog(receipt.logs[0]); const winIdx=Number(log.args[1]); const dur=4000,startT=performance.now(),targetA=-(winIdx*(Math.PI*2/16)+(Math.PI*2/32))-(Math.PI/2),totalR=(Math.PI*2*6)+(targetA-wheelAngle%(Math.PI*2)),startA=wheelAngle; function anim(now){ const prog=Math.min((now-startT)/dur,1); wheelAngle=startA+totalR*(1-Math.pow(1-prog,3)); drawWheel(wheelAngle); if(prog<1)requestAnimationFrame(anim);else{document.getElementById('wheel-res').textContent=`🎉 +${SEGMENTS_XP[winIdx]} XP!`;setSts('wheel-sts','ok','Bitti.');btn.disabled=false;updateAllStats();} } requestAnimationFrame(anim); } catch(e){setSts('wheel-sts','err','Hata!');btn.disabled=false;} }
 function switchTab(n){ document.querySelectorAll('.tab, .pane').forEach(el=>el.classList.remove('on')); document.getElementById('tab-'+n).classList.add('on'); document.getElementById('pane-'+n).classList.add('on'); }
 function openModal(){ document.getElementById('modal-bg').classList.add('on'); }
 function closeModal(){ document.getElementById('modal-bg').classList.remove('on'); }
 function setSts(i,t,h){ const el=document.getElementById(i); el.className='sts on '+t; el.innerHTML=(t==='pnd'?'<div class="spin"></div>':'')+'<span>'+h+'</span>'; }
-function getLevel(xp){ if(xp>=50000) return '👑 Elmas'; if(xp>=10000) return '💎 Platin'; if(xp>=5000) return '🥇 Altın'; if(xp>=1000) return '🥈 Gümüş'; return '🥉 Bronz'; }
-
-window.onload = () => {
-  drawWheel(0); const last = localStorage.getItem('lastWallet');
-  setTimeout(() => { if (last === "browser" && window.ethereum) connectWith(window.ethereum, "browser"); else if (last && wlts[last]) connectWith(wlts[last].provider, last); }, 800);
-};
+function getLevel(xp){ if(xp>=50000)return '👑 Elmas'; if(xp>=10000)return '💎 Platin'; if(xp>=5000)return '🥇 Altın'; if(xp>=1000)return '🥈 Gümüş'; return '🥉 Bronz'; }
+window.onload=()=>{ drawWheel(0); const last=localStorage.getItem('lastWallet'); setTimeout(()=>{ if(last==="browser"&&window.ethereum)connectWith(window.ethereum,"browser"); else if(last&&wlts[last])connectWith(wlts[last].provider,last); },800); };
 </script>
 </body>
 </html>
