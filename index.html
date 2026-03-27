@@ -17,6 +17,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 .logo{width:42px;height:42px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .hdr-txt h1{font-family:'Space Mono',monospace;font-size:17px;font-weight:700}
 .hdr-txt p{font-size:12px;color:var(--tx2);margin-top:2px}
+.net-pill{margin-left:auto;display:flex;align-items:center;gap:5px;background:var(--blue-light);color:var(--blue);font-size:11px;font-weight:500;padding:5px 10px;border-radius:20px;border:.5px solid #b3cbff}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.nwrn{background:var(--warn-light);border:.5px solid #fcd34d;border-radius:var(--rs);padding:11px 14px;font-size:13px;color:#78350F;margin-bottom:14px;display:none;align-items:center;gap:8px}
+.nwrn.on{display:flex}
+.nwrn button{margin-left:auto;background:var(--warn);color:#78350F;border:none;padding:4px 10px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:600}
 .wlt-card{background:var(--bg2);border:.5px solid var(--bdr);border-radius:var(--r);padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
 .wlt-info{flex:1}
 .wlt-info .lbl{font-size:11px;color:var(--tx2)}
@@ -46,19 +52,25 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 .dice-box{width:80px;height:80px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:3px 4px 10px rgba(0,0,0,.4)}
 .mbg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity .2s}
 .mbg.on{opacity:1;pointer-events:all}
-.mdl{background:var(--bg);border-radius:16px;padding:24px;width:340px;max-width:90vw}
+.mdl{background:var(--bg);border-radius:16px;padding:24px;width:340px;max-width:90vw;max-height:80vh;overflow-y:auto}
+.wopt{display:flex;align-items:center;gap:12px;padding:10px;border:.5px solid var(--bdr);border-radius:10px;cursor:pointer;margin-bottom:8px;transition:all .2s}
+.wopt:hover{border-color:var(--blue);background:var(--blue-light)}
+.wico img{width:32px;height:32px;border-radius:6px}
 </style>
 </head>
 <body>
 <div class="wrap">
 <div class="hdr">
   <div class="logo"><svg viewBox="0 0 32 32" fill="none" width="24" height="24"><circle cx="16" cy="16" r="14" fill="#0052FF"/><path d="M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12c5.435 0 10.035-3.6 11.5-8.571H16v-2.857h12.857a12 12 0 000-1.143H16v-2.857h11.5C26.035 7.6 21.435 4 16 4z" fill="white"/></svg></div>
-  <div class="hdr-txt"><h1>Base Fun dApp</h1><p>Check-in & Game Center</p></div>
+  <div class="hdr-txt"><h1>Base Fun dApp</h1><p>Check-in & Game Hub</p></div>
+  <div class="net-pill"><div class="dot" id="net-dot"></div><span id="net-name">Kontrol...</span></div>
 </div>
 
+<div class="nwrn" id="net-warn">Lütfen Base Mainnet'e geçiş yapın.<button onclick="switchToBase()">Ağı Değiştir</button></div>
+
 <div class="wlt-card">
-  <div class="wlt-info"><div class="lbl">Cüzdan</div><div class="adr" id="wlt-adr">Bağlı değil</div></div>
-  <button class="btn-con" id="con-btn" onclick="openModal()">Bağlan</button>
+  <div class="wlt-info"><div class="lbl" id="wlt-lbl">Cüzdan</div><div class="adr" id="wlt-adr">Bağlı değil</div></div>
+  <button class="btn-con" id="con-btn" onclick="handleWalletAction()">Bağlan</button>
 </div>
 
 <div class="tabs">
@@ -96,8 +108,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 </div>
 
 <div class="pane" id="pane-game">
+  <div class="g2" style="margin-bottom:16px">
+    <div class="sc"><div class="sn" style="color:var(--gold);font-size:28px" id="xp-total">0</div><div class="sl">Toplam XP</div></div>
+    <div class="sc"><div class="sn" style="font-size:16px;padding-top:8px" id="xp-level">🥉 Bronz</div><div class="sl">Seviye</div></div>
+  </div>
   <div class="card">
-    <div class="ctitle">Zar At (XP Kazan)</div>
+    <div class="ctitle">Zar At</div>
     <div class="dice-masa">
       <div class="dice-box" id="d1-box"><svg id="d1-svg" width="60" height="60"></svg></div>
       <div class="dice-box" id="d2-box"><svg id="d2-svg" width="60" height="60"></svg></div>
@@ -123,105 +139,223 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 
 <div class="mbg" id="modal-bg">
   <div class="mdl">
-    <h2 style="margin-bottom:15px">Cüzdan Bağla</h2>
-    <div class="wopt" onclick="connect()"><div class="wico">🦊</div><div><div class="wnm">MetaMask</div></div></div>
+    <h2 style="margin-bottom:15px">Cüzdan Seçin</h2>
+    <div id="wlt-list">Tarayıcıda cüzdan aranıyor...</div>
     <button class="mdl-cls" style="margin-top:15px; width:100%; padding:10px; border:none; background:#eee; cursor:pointer" onclick="closeModal()">Kapat</button>
   </div>
 </div>
 </div>
 
 <script>
-// --- KONTRAT VERİLERİN (WheelXP.sol ) ---
-const SEGMENTS_XP = [10, 25, 50, 5, 30, 10, 55, 100, 15, 20, 35, 40, 60, 65, 70, 75];
+// --- CONFIG & ADRESLER ---
+const SEGMENTS_XP = [10, 25, 50, 5, 30, 10, 55, 100, 15, 20, 35, 40, 60, 65, 70, 75]; [cite: 3]
 const COLORS = ["#6366f1","#0ea5e9","#10b981","#f59e0b","#ef4444","#8b5cf6","#06b6d4","#f97316","#6366f1","#0ea5e9","#10b981","#f59e0b","#ef4444","#8b5cf6","#06b6d4","#f97316"];
-
 const ADDR = {
-  CHECKIN: '0xb4e5E1C7D4b0e846645F49995024D570A0A6218c',
-  GM: '0xfDeb4a6C1f8a96D1817e29916047dEa53e70111E',
-  GN: '0x5A4F2A0C1134efBCe9a4Debc7B000007Cdb637B9',
-  WHEEL: '0x39b91858e45C33Bd6407c27449fdC773EE288cdC'
+  CHECKIN: '0xb4e5E1C7D4b0e846645F49995024D570A0A6218c', [cite: 1]
+  GM: '0xfDeb4a6C1f8a96D1817e29916047dEa53e70111E', [cite: 1]
+  GN: '0x5A4F2A0C1134efBCe9a4Debc7B000007Cdb637B9', [cite: 1]
+  WHEEL: '0x39b91858e45C33Bd6407c27449fdC773EE288cdC', [cite: 1]
+  DICE: '0xB1c153F5b8eB0AB275c4ed721606D814750EFea9' [cite: 1]
 };
-
 const ABIS = {
   CK: ["function checkIn() payable", "function userStreaks(address) view returns (uint256)", "function totalUserCheckIns(address) view returns (uint256)", "function lastCheckIn(address) view returns (uint256)"],
   MSG: ["function gm(string) payable", "function gn(string) payable"],
-  WHEEL: ["function spin() payable", "event WheelSpun(address indexed player, uint8 segment, uint256 xpEarned, uint256 totalXP)"]
+  WHEEL: ["function spin() payable", "function getPlayerStats(address) view returns (uint256,uint256,uint256,uint256)", "event WheelSpun(address indexed player, uint8 segment, uint256 xpEarned, uint256 totalXP)"],
+  DICE: ["function rollDice() payable", "function getPlayerStats(address) view returns (uint256,uint256,uint256,uint256)", "event DiceRolled(address indexed player, uint8 d1, uint8 d2, bool isD, uint256 xp, uint256 txp)"]
 };
 
-let acct, prov, sgn, wheelAngle = 0;
+// --- STATE ---
+let acct, prov, sgn, rawProv, wheelAngle = 0;
+let wlts = {}; // EIP-6963 cüzdanları
 
-function switchTab(n){
-  document.querySelectorAll('.tab, .pane').forEach(el=>el.classList.remove('on'));
-  document.getElementById('tab-'+n).classList.add('on');
-  document.getElementById('pane-'+n).classList.add('on');
-  if(acct && n==='checkin') updateCKStats();
+// --- WALLET DISCOVERY (EIP-6963) ---
+window.addEventListener("eip6963:announceProvider", (e) => {
+  wlts[e.detail.info.rdns] = e.detail;
+  renderWallets();
+});
+window.dispatchEvent(new Event("eip6963:requestProvider"));
+
+function renderWallets() {
+  const list = document.getElementById('wlt-list');
+  list.innerHTML = "";
+  Object.values(wlts).forEach(w => {
+    const el = document.createElement('div');
+    el.className = 'wopt';
+    el.innerHTML = `<div class="wico"><img src="${w.info.icon}"></div><div><div class="wnm">${w.info.name}</div></div>`;
+    el.onclick = () => connectWith(w.info.rdns);
+    list.appendChild(el);
+  });
 }
 
-async function connect(){
-  if(window.ethereum){
-    const accounts = await window.ethereum.request({method:'eth_requestAccounts'});
-    acct = accounts[0];
-    prov = new ethers.BrowserProvider(window.ethereum);
+async function handleWalletAction() {
+  if (acct) disconnect();
+  else openModal();
+}
+
+async function connectWith(rdns) {
+  const w = wlts[rdns];
+  if (!w) return;
+  try {
+    rawProv = w.provider;
+    await rawProv.request({ method: 'eth_requestAccounts' });
+    prov = new ethers.BrowserProvider(rawProv);
     sgn = await prov.getSigner();
-    document.getElementById('wlt-adr').textContent = acct.slice(0,6)+'...'+acct.slice(-4);
+    acct = await sgn.getAddress();
+    
+    localStorage.setItem('connectedRDNS', rdns); // Kaydet
+    updateUIConnected();
     closeModal();
-    updateCKStats();
+    checkNetwork();
+    
+    rawProv.on('chainChanged', () => window.location.reload());
+    rawProv.on('accountsChanged', (a) => a.length ? window.location.reload() : disconnect());
+    
+  } catch (e) { console.error(e); }
+}
+
+function updateUIConnected() {
+  document.getElementById('wlt-adr').textContent = acct.slice(0,6)+'...'+acct.slice(-4);
+  const btn = document.getElementById('con-btn');
+  btn.textContent = "Bağlantıyı Kes";
+  btn.classList.add('off');
+  updateAllStats();
+}
+
+function disconnect() {
+  acct = null; prov = null; sgn = null; rawProv = null;
+  localStorage.removeItem('connectedRDNS');
+  document.getElementById('wlt-adr').textContent = "Bağlı değil";
+  const btn = document.getElementById('con-btn');
+  btn.textContent = "Bağlan";
+  btn.classList.remove('off');
+}
+
+async function checkNetwork() {
+  if (!rawProv) return;
+  const chainId = await rawProv.request({ method: 'eth_chainId' });
+  const isBase = parseInt(chainId, 16) === 8453;
+  
+  document.getElementById('net-warn').style.display = isBase ? 'none' : 'flex';
+  document.getElementById('net-dot').style.background = isBase ? 'var(--green)' : 'var(--red)';
+  document.getElementById('net-name').textContent = isBase ? 'Base Mainnet' : 'Yanlış Ağ';
+}
+
+async function switchToBase() {
+  try {
+    await rawProv.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: '0x2105' }]
+    });
+  } catch (e) {
+    if (e.code === 4902) {
+      await rawProv.request({
+        method: 'wallet_addEthereumChain',
+        params: [{
+          chainId: '0x2105',
+          chainName: 'Base Mainnet',
+          nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+          rpcUrls: ['https://mainnet.base.org'],
+          blockExplorerUrls: ['https://basescan.org']
+        }]
+      });
+    }
   }
 }
 
-// --- CHECK-IN (03:00 RESET MANTIĞI) ---
-async function updateCKStats(){
+// --- AUTO CONNECT ON LOAD ---
+window.addEventListener('load', async () => {
+  drawWheel(0);
+  const saved = localStorage.getItem('connectedRDNS');
+  setTimeout(() => {
+    if (saved && wlts[saved]) connectWith(saved);
+  }, 500);
+});
+
+// --- STATS & GAMES ---
+async function updateAllStats() {
   if(!acct) return;
-  const ck = new ethers.Contract(ADDR.CHECKIN, ABIS.CK, prov);
-  const res = await Promise.all([ck.userStreaks(acct), ck.totalUserCheckIns(acct), ck.lastCheckIn(acct)]);
-  document.getElementById('ck-streak').textContent = res[0].toString();
-  document.getElementById('ck-total').textContent = res[1].toString();
-  
-  const lastTime = Number(res[2]);
-  const now = new Date();
-  
-  // Sıfırlanma zamanını (Bugün 03:00) hesapla
-  let resetTime = new Date();
-  resetTime.setHours(3, 0, 0, 0);
-  if(now < resetTime) resetTime.setDate(resetTime.getDate() - 1); // Henüz 03:00 geçmediyse dün 03:00 baz alınır
-  
-  const canCheckIn = (lastTime * 1000) < resetTime.getTime();
-  document.getElementById('ck-status').textContent = canCheckIn ? "Bekliyor ⏳" : "Bugün Yapıldı ✅";
-  document.getElementById('ck-btn').disabled = !canCheckIn;
+  try {
+    // Check-in
+    const ck = new ethers.Contract(ADDR.CHECKIN, ABIS.CK, prov);
+    const res = await Promise.all([ck.userStreaks(acct), ck.totalUserCheckIns(acct), ck.lastCheckIn(acct)]);
+    document.getElementById('ck-streak').textContent = res[0].toString();
+    document.getElementById('ck-total').textContent = res[1].toString();
+    const lastTime = Number(res[2]);
+    const now = new Date();
+    let resetTime = new Date();
+    resetTime.setHours(3, 0, 0, 0);
+    if(now < resetTime) resetTime.setDate(resetTime.getDate() - 1);
+    const canCk = (lastTime * 1000) < resetTime.getTime();
+    document.getElementById('ck-status').textContent = canCk ? "Bekliyor ⏳" : "Yapıldı ✅";
+    document.getElementById('ck-btn').disabled = !canCk;
+
+    // XP (WheelXP'den çekiliyor)
+    const wc = new ethers.Contract(ADDR.WHEEL, ABIS.WHEEL, prov);
+    const wStats = await wc.getPlayerStats(acct);
+    document.getElementById('xp-total').textContent = Number(wStats[0]).toLocaleString();
+    document.getElementById('xp-level').textContent = (Number(wStats[0]) / 100).toFixed(0) + " Level";
+  } catch(e) {}
 }
 
 async function doCheckIn(){
-  setSts('ck-sts','pnd','Onaylanıyor...');
+  setSts('ck-sts','pnd','İmzalanıyor...');
   try {
     const ck = new ethers.Contract(ADDR.CHECKIN, ABIS.CK, sgn);
     const tx = await ck.checkIn({value: ethers.parseEther('0.00001')});
     await tx.wait();
     setSts('ck-sts','ok','Başarılı!');
-    updateCKStats();
+    updateAllStats();
   } catch(e) { setSts('ck-sts','err','Hata!'); }
 }
 
 async function sendMsg(type){
-  setSts(type+'-sts','pnd','Gönderiliyor...');
+  setSts(type+'-sts','pnd','İmzalanıyor...');
   try {
-    const contract = new ethers.Contract(type==='gm'?ADDR.GM:ADDR.GN, ABIS.MSG, sgn);
-    const tx = await contract[type]("", {value: ethers.parseEther('0.00001')});
+    const c = new ethers.Contract(type==='gm'?ADDR.GM:ADDR.GN, ABIS.MSG, sgn);
+    const tx = await c[type]("", {value: ethers.parseEther('0.00001')});
     await tx.wait();
-    setSts(type+'-sts','ok','Mesaj Gönderildi!');
+    setSts(type+'-sts','ok','Gönderildi!');
   } catch(e) { setSts(type+'-sts','err','Hata!'); }
 }
 
-// --- ÇARK (4 SANİYE ANİMASYON & HİZALAMA) ---
+// --- DICE & WHEEL VISUALS ---
+const PIP_POS={1:[[30,30]],2:[[15,15],[45,45]],3:[[15,15],[30,30],[45,45]],4:[[15,15],[45,15],[15,45],[45,45]],5:[[15,15],[45,15],[30,30],[15,45],[45,45]],6:[[15,12],[45,12],[15,30],[45,30],[15,48],[45,48]]};
+function drawDice(svgId,boxId,val,hl){
+  const svg=document.getElementById(svgId), box=document.getElementById(boxId);
+  svg.innerHTML=(PIP_POS[val]||PIP_POS[1]).map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="6" fill="${hl?'#7c3aed':'#1e293b'}"/>`).join('');
+  box.style.background=hl?'#ede9fe':'#fff';
+}
+
+async function rollDice(){
+  if(!acct) return openModal();
+  setSts('roll-sts','pnd','Zar atılıyor...');
+  try {
+    const c = new ethers.Contract(ADDR.DICE, ABIS.DICE, sgn);
+    const tx = await c.rollDice({value: ethers.parseEther('0.00005')});
+    const anim = setInterval(() => {
+      drawDice('d1-svg','d1-box',Math.floor(Math.random()*6)+1);
+      drawDice('d2-svg','d2-box',Math.floor(Math.random()*6)+1);
+    }, 100);
+    const receipt = await tx.wait();
+    clearInterval(anim);
+    const log = c.interface.parseLog(receipt.logs[0]);
+    const d1 = Number(log.args[1]), d2 = Number(log.args[2]);
+    drawDice('d1-svg','d1-box',d1,d1==d2);
+    drawDice('d2-svg','d2-box',d2,d1==d2);
+    document.getElementById('dice-res').textContent = d1 + " + " + d2 + " = " + (d1+d2);
+    setSts('roll-sts','ok','Zar Atıldı!');
+    updateAllStats();
+  } catch(e) { setSts('roll-sts','err','Hata!'); }
+}
+
 function drawWheel(angle){
-  const cv = document.getElementById('wheel-cv'), ctx = cv.getContext('2d'), W=300, cx=150;
-  ctx.clearRect(0,0,W,W);
-  const step = Math.PI * 2 / 16;
+  const cv=document.getElementById('wheel-cv'), ctx=cv.getContext('2d'), cx=150, step=Math.PI*2/16;
+  ctx.clearRect(0,0,300,300);
   for(let i=0; i<16; i++){
-    ctx.beginPath(); ctx.moveTo(cx,cx); ctx.arc(cx,cx,cx-5, angle + i*step, angle + (i+1)*step);
-    ctx.fillStyle = COLORS[i]; ctx.fill(); ctx.stroke();
-    // XP Yazısı
-    ctx.save(); ctx.translate(cx,cx); ctx.rotate(angle + i*step + step/2);
-    ctx.fillStyle='#fff'; ctx.font='bold 12px DM Sans'; ctx.fillText(SEGMENTS_XP[i]+" XP", 90, 5); ctx.restore();
+    ctx.beginPath(); ctx.moveTo(cx,cx); ctx.arc(cx,cx,145, angle+i*step, angle+(i+1)*step);
+    ctx.fillStyle=COLORS[i]; ctx.fill(); ctx.stroke();
+    ctx.save(); ctx.translate(cx,cx); ctx.rotate(angle+i*step+step/2);
+    ctx.fillStyle='#fff'; ctx.font='bold 11px Space Mono'; ctx.fillText(SEGMENTS_XP[i]+" XP", 90, 5); ctx.restore();
   }
 }
 
@@ -229,55 +363,49 @@ async function spinWheel(){
   if(!acct) return openModal();
   const btn = document.getElementById('spin-btn');
   btn.disabled = true;
-  setSts('wheel-sts','pnd','İşlem imzalanıyor...');
+  setSts('wheel-sts','pnd','İşleniyor...');
   try {
     const c = new ethers.Contract(ADDR.WHEEL, ABIS.WHEEL, sgn);
     const tx = await c.spin({value: ethers.parseEther('0.00005')});
-    setSts('wheel-sts','pnd','Sonuç bekleniyor...');
     const receipt = await tx.wait();
-    
-    // Logdan kazanan segmenti al [cite: 1]
     const log = c.interface.parseLog(receipt.logs[0]);
     const winIdx = Number(log.args[1]);
     
-    // Animasyon Parametreleri
     const duration = 4000;
     const startTs = performance.now();
-    const extraSpins = 5 * Math.PI * 2; // En az 5 tam tur
-    
-    // Duracağı açıyı hesapla: Pointer üstte (-PI/2), saat yönünde dönüş
-    // Segmentin tam ortasına gelmesi için winIdx * step + step/2 kullanılır.
-    const step = Math.PI * 2 / 16;
-    const targetAngle = - (winIdx * step + step/2) - (Math.PI / 2);
-    const totalRotation = extraSpins + (targetAngle - wheelAngle % (Math.PI*2));
-    const startAngle = wheelAngle;
+    const targetA = - (winIdx * (Math.PI*2/16) + (Math.PI*2/32)) - (Math.PI/2);
+    const totalRot = (Math.PI*2*6) + (targetA - wheelAngle%(Math.PI*2));
+    const startA = wheelAngle;
 
-    function animate(now){
-      const elapsed = now - startTs;
-      const progress = Math.min(elapsed / duration, 1);
-      const ease = 1 - Math.pow(1 - progress, 3); // Yavaşlayarak durma (OutCubic)
-      wheelAngle = startAngle + totalRotation * ease;
+    function anim(now){
+      const progress = Math.min((now-startTs)/duration, 1);
+      const ease = 1-Math.pow(1-progress, 3);
+      wheelAngle = startA + totalRot * ease;
       drawWheel(wheelAngle);
-      if(progress < 1) requestAnimationFrame(animate);
+      if(progress < 1) requestAnimationFrame(anim);
       else {
-        document.getElementById('wheel-res').textContent = `🎉 Tebrikler! ${SEGMENTS_XP[winIdx]} XP Kazandın!`;
-        setSts('wheel-sts','ok',`+${SEGMENTS_XP[winIdx]} XP eklendi.`);
+        document.getElementById('wheel-res').textContent = `🎉 +${SEGMENTS_XP[winIdx]} XP!`;
+        setSts('wheel-sts','ok','Çark durdu.');
         btn.disabled = false;
+        updateAllStats();
       }
     }
-    requestAnimationFrame(animate);
-  } catch(e) { setSts('wheel-sts','err','İşlem başarısız.'); btn.disabled=false; }
+    requestAnimationFrame(anim);
+  } catch(e) { setSts('wheel-sts','err','Hata!'); btn.disabled=false;}
 }
 
-function openModal(){ document.getElementById('modal-bg').classList.add('on'); }
-function closeModal(){ document.getElementById('modal-bg').classList.remove('on'); }
+function switchTab(n){
+  document.querySelectorAll('.tab, .pane').forEach(el=>el.classList.remove('on'));
+  document.getElementById('tab-'+n).classList.add('on');
+  document.getElementById('pane-'+n).classList.add('on');
+}
+function openModal() { document.getElementById('modal-bg').classList.add('on'); }
+function closeModal() { document.getElementById('modal-bg').classList.remove('on'); }
 function setSts(id,t,h){
-  const el = document.getElementById(id);
-  el.className = 'sts on '+t;
-  el.innerHTML = (t==='pnd'?'<div class="spin"></div>':'')+'<span>'+h+'</span>';
+  const el=document.getElementById(id);
+  el.className='sts on '+t;
+  el.innerHTML=(t==='pnd'?'<div class="spin"></div>':'')+'<span>'+h+'</span>';
 }
-
-window.onload = () => { drawWheel(0); };
 </script>
 </body>
 </html>
