@@ -4,25 +4,12 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="talentapp:project_verification" content="9ff456b07b51ebe380e8353a57b67874a40154f96c73c1fb40349ae7dc0ec398a9fccd1eb1c70b49b32225da4afb77e055bdcda23fe607ff7daeaa940b132c9f">
-<title>Base GM/GN dApp</title>
+<title>Base Fun dApp</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap');
-:root{
-  --blue:#0052FF;--blue-dark:#003dbf;--blue-light:#e6eeff;
-  --gold:#F59E0B;--gold-light:#FEF3C7;
-  --purple:#7C3AED;--purple-light:#EDE9FE;
-  --green:#10B981;--green-light:#D1FAE5;
-  --red:#EF4444;--red-light:#FEE2E2;
-  --warn:#F59E0B;--warn-light:#FEF9C3;
-  --bg:#fff;--bg2:#f8f8f7;
-  --bdr:rgba(0,0,0,.10);--bdr2:rgba(0,0,0,.18);
-  --tx:#1a1a18;--tx2:#6b6b67;
-  --r:12px;--rs:8px;
-}
-@media(prefers-color-scheme:dark){
-  :root{--bg:#1a1a18;--bg2:#242421;--bdr:rgba(255,255,255,.10);--bdr2:rgba(255,255,255,.18);--tx:#f0efea;--tx2:#9c9a92;--blue-light:#0f1e3d;--gold-light:#2d1f00;--purple-light:#1e0a3c;--green-light:#042f1e;--red-light:#2d0a0a;--warn-light:#2d1f00;}
-}
+:root{--blue:#0052FF;--blue-dark:#003dbf;--blue-light:#e6eeff;--gold:#F59E0B;--gold-light:#FEF3C7;--purple:#7C3AED;--purple-light:#EDE9FE;--green:#10B981;--green-light:#D1FAE5;--red:#EF4444;--red-light:#FEE2E2;--warn:#F59E0B;--warn-light:#FEF9C3;--bg:#fff;--bg2:#f8f8f7;--bdr:rgba(0,0,0,.10);--bdr2:rgba(0,0,0,.18);--tx:#1a1a18;--tx2:#6b6b67;--r:12px;--rs:8px;}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a18;--bg2:#242421;--bdr:rgba(255,255,255,.10);--bdr2:rgba(255,255,255,.18);--tx:#f0efea;--tx2:#9c9a92;--blue-light:#0f1e3d;--gold-light:#2d1f00;--purple-light:#1e0a3c;--green-light:#042f1e;--red-light:#2d0a0a;--warn-light:#2d1f00;}}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
 .wrap{max-width:520px;margin:0 auto;padding:24px 16px 56px}
@@ -41,20 +28,17 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 .wlt-info .adr{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;margin-top:2px}
 .bal{font-size:12px;color:var(--tx2);font-family:'Space Mono',monospace;background:var(--bg);border:.5px solid var(--bdr2);padding:4px 10px;border-radius:20px;margin-right:6px;display:none}
 .btn-con{background:var(--blue);color:#fff;border:none;padding:9px 16px;border-radius:var(--rs);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;white-space:nowrap}
-.btn-con:hover{background:var(--blue-dark)}
-.btn-con.off{background:var(--red)}
+.btn-con:hover{background:var(--blue-dark)}.btn-con.off{background:var(--red)}
 .mbg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity .2s}
 .mbg.on{opacity:1;pointer-events:all}
 .mdl{background:var(--bg);border:.5px solid var(--bdr2);border-radius:16px;padding:24px;width:340px;max-width:90vw;transform:translateY(14px);transition:transform .2s;max-height:80vh;overflow-y:auto}
 .mbg.on .mdl{transform:translateY(0)}
-.mdl h2{font-size:16px;font-weight:600;margin-bottom:4px}
-.mdl p{font-size:13px;color:var(--tx2);margin-bottom:16px}
+.mdl h2{font-size:16px;font-weight:600;margin-bottom:4px}.mdl p{font-size:13px;color:var(--tx2);margin-bottom:16px}
 .wlt-lst{display:flex;flex-direction:column;gap:8px}
 .wopt{display:flex;align-items:center;gap:12px;padding:12px 14px;border:.5px solid var(--bdr2);border-radius:var(--rs);cursor:pointer;background:var(--bg2);transition:border-color .15s,background .15s}
 .wopt:hover{border-color:var(--blue);background:var(--blue-light)}
 .wico{width:36px;height:36px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;background:var(--bg);border:.5px solid var(--bdr)}
-.wopt .wnm{font-weight:600;font-size:14px}
-.wopt .wrd{font-size:11px;color:var(--tx2);margin-top:2px}
+.wopt .wnm{font-weight:600;font-size:14px}.wopt .wrd{font-size:11px;color:var(--tx2);margin-top:2px}
 .wopt .wbg{margin-left:auto;font-size:10px;padding:2px 8px;border-radius:10px;background:var(--green-light);color:#065F46;white-space:nowrap}
 .wbg-b{background:var(--blue-light)!important;color:var(--blue)!important}
 .mdl-div{border-top:.5px solid var(--bdr);margin:10px 0}
@@ -62,11 +46,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 .nwrn{background:var(--warn-light);border:.5px solid #fcd34d;border-radius:var(--rs);padding:11px 14px;font-size:13px;color:#78350F;margin-bottom:14px;display:none;align-items:center;gap:8px}
 .nwrn.on{display:flex}
 .nwrn button{margin-left:auto;background:var(--warn);color:#78350F;border:none;padding:4px 10px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:600;font-family:'DM Sans',sans-serif}
-.tabs{display:flex;gap:3px;background:var(--bg2);border:.5px solid var(--bdr);border-radius:10px;padding:4px;margin-bottom:20px}
-.tab{flex:1;padding:9px 4px;border:none;background:transparent;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx2);transition:all .18s}
+.tabs{display:flex;gap:2px;background:var(--bg2);border:.5px solid var(--bdr);border-radius:10px;padding:4px;margin-bottom:20px}
+.tab{flex:1;padding:8px 2px;border:none;background:transparent;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx2);transition:all .18s}
 .tab.on{background:var(--bg);color:var(--tx);box-shadow:0 1px 4px rgba(0,0,0,.07)}
-.pane{display:none}
-.pane.on{display:block}
+.pane{display:none}.pane.on{display:block}
 .card{background:var(--bg);border:.5px solid var(--bdr);border-radius:var(--r);padding:20px;margin-bottom:16px}
 .ctitle{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--tx2);margin-bottom:14px}
 .fgrp{margin-bottom:14px}
@@ -75,34 +58,20 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 .fgrp input:focus{border-color:var(--blue)}
 .irow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:.5px solid var(--bdr);font-size:13px}
 .irow:last-child{border-bottom:none}
-.il{color:var(--tx2)}
-.iv{font-family:'Space Mono',monospace;font-size:12px}
+.il{color:var(--tx2)}.iv{font-family:'Space Mono',monospace;font-size:12px}
 .fbox{display:flex;justify-content:space-between;align-items:center;border-radius:var(--rs);padding:10px 14px;margin-bottom:14px;font-size:13px}
-.fbox-gm{background:var(--gold-light);border:.5px solid var(--gold)}
-.fbox-gn{background:var(--purple-light);border:.5px solid var(--purple)}
-.fbox-dp{background:var(--blue-light);border:.5px solid #b3cbff}
-.fl-gm{color:#78350F;font-weight:500}
-.fl-gn{color:var(--purple);font-weight:500}
-.fl-dp{color:var(--blue);font-weight:500}
-.fv-gm{font-family:'Space Mono',monospace;font-weight:700;color:#78350F}
-.fv-gn{font-family:'Space Mono',monospace;font-weight:700;color:var(--purple)}
-.fv-dp{font-family:'Space Mono',monospace;font-weight:700;color:var(--blue)}
+.fbox-gm{background:var(--gold-light);border:.5px solid var(--gold)}.fbox-gn{background:var(--purple-light);border:.5px solid var(--purple)}.fbox-dp{background:var(--blue-light);border:.5px solid #b3cbff}
+.fl-gm{color:#78350F;font-weight:500}.fl-gn{color:var(--purple);font-weight:500}.fl-dp{color:var(--blue);font-weight:500}
+.fv-gm{font-family:'Space Mono',monospace;font-weight:700;color:#78350F}.fv-gn{font-family:'Space Mono',monospace;font-weight:700;color:var(--purple)}.fv-dp{font-family:'Space Mono',monospace;font-weight:700;color:var(--blue)}
 .grow{display:flex;justify-content:space-between;font-size:12px;color:var(--tx2);background:var(--bg2);border:.5px solid var(--bdr);border-radius:var(--rs);padding:9px 13px;margin-bottom:14px}
 .gv{font-family:'Space Mono',monospace;color:var(--tx)}
 .abtn{width:100%;padding:14px;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:8px}
-.abtn:active{transform:scale(.98)}
-.abtn:disabled{opacity:.45;cursor:not-allowed;transform:none}
-.abtn-gm{background:var(--gold);color:#78350F}
-.abtn-gm:hover:not(:disabled){background:#d97706}
-.abtn-gn{background:var(--purple);color:#fff}
-.abtn-gn:hover:not(:disabled){background:#6d28d9}
-.abtn-dp{background:var(--blue);color:#fff}
-.abtn-dp:hover:not(:disabled){background:var(--blue-dark)}
+.abtn:active{transform:scale(.98)}.abtn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.abtn-gm{background:var(--gold);color:#78350F}.abtn-gm:hover:not(:disabled){background:#d97706}
+.abtn-gn{background:var(--purple);color:#fff}.abtn-gn:hover:not(:disabled){background:#6d28d9}
+.abtn-dp{background:var(--blue);color:#fff}.abtn-dp:hover:not(:disabled){background:var(--blue-dark)}
 .sts{margin-top:14px;padding:12px 14px;border-radius:var(--rs);font-size:13px;display:none;align-items:flex-start;gap:9px;line-height:1.5}
-.sts.on{display:flex}
-.sts.pnd{background:var(--warn-light);color:#78350F;border:.5px solid #fcd34d}
-.sts.ok{background:var(--green-light);color:#065F46;border:.5px solid #6ee7b7}
-.sts.err{background:var(--red-light);color:#7F1D1D;border:.5px solid #fca5a5}
+.sts.on{display:flex}.sts.pnd{background:var(--warn-light);color:#78350F;border:.5px solid #fcd34d}.sts.ok{background:var(--green-light);color:#065F46;border:.5px solid #6ee7b7}.sts.err{background:var(--red-light);color:#7F1D1D;border:.5px solid #fca5a5}
 .spin{width:14px;height:14px;border-radius:50%;border:2px solid currentColor;border-top-color:transparent;animation:spin .65s linear infinite;flex-shrink:0;margin-top:1px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -113,14 +82,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 .tcard{background:var(--bg2);border:.5px solid var(--bdr2);border-radius:var(--rs);padding:14px;cursor:pointer;transition:all .18s;text-align:center}
 .tcard:hover{border-color:var(--blue);background:var(--blue-light)}
 .tcard.on{border-color:var(--blue);background:var(--blue-light);box-shadow:0 0 0 2px rgba(0,82,255,.15)}
-.ticon{font-size:28px;margin-bottom:6px}
-.tname{font-size:13px;font-weight:600}
-.tdesc{font-size:11px;color:var(--tx2);margin-top:3px}
+.ticon{font-size:28px;margin-bottom:6px}.tname{font-size:13px;font-weight:600}.tdesc{font-size:11px;color:var(--tx2);margin-top:3px}
 .txs{font-family:'Space Mono',monospace;font-size:11px;color:var(--blue);display:block;margin-top:3px}
 .bdg{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
-.bb{background:var(--blue-light);color:var(--blue)}
-.bg{background:var(--green-light);color:#065F46}
-.bp{background:var(--purple-light);color:var(--purple)}
+.bb{background:var(--blue-light);color:var(--blue)}.bg{background:var(--green-light);color:#065F46}.bp{background:var(--purple-light);color:var(--purple)}
 .opnl{background:var(--bg2);border:.5px solid var(--bdr2);border-radius:var(--r);padding:16px;margin-bottom:16px}
 .otitle{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--tx2);margin-bottom:12px}
 .wbtn{width:100%;padding:11px;border:none;border-radius:var(--rs);background:var(--green);color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
@@ -131,53 +96,27 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 </head>
 <body>
 <div class="wrap">
-
 <div class="hdr">
-  <div class="logo">
-    <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="white"/><path d="M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12c5.435 0 10.035-3.6 11.5-8.571H16v-2.857h12.857a12 12 0 000-1.143H16v-2.857h11.5C26.035 7.6 21.435 4 16 4z" fill="#0052FF"/></svg>
-  </div>
-  <div class="hdr-txt">
-    <h1>Base GM / GN</h1>
-    <p>Onchain Mesaj ve Kontrat Deploy</p>
-  </div>
-  <div class="net-pill">
-    <div class="dot" id="net-dot"></div>
-    <span id="net-name">Base Mainnet</span>
-  </div>
+  <div class="logo"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="white"/><path d="M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12c5.435 0 10.035-3.6 11.5-8.571H16v-2.857h12.857a12 12 0 000-1.143H16v-2.857h11.5C26.035 7.6 21.435 4 16 4z" fill="#0052FF"/></svg></div>
+  <div class="hdr-txt"><h1>Base GM / GN</h1><p>Onchain Mesaj ve Kontrat Deploy</p></div>
+  <div class="net-pill"><div class="dot" id="net-dot"></div><span id="net-name">Base Mainnet</span></div>
 </div>
-
-<div class="nwrn" id="net-warn">
-  Cuzdaninizi Base Agina gecirin.
-  <button onclick="switchToBase()">Agi Gec</button>
-</div>
-
+<div class="nwrn" id="net-warn">Cuzdaninizi Base Agina gecirin.<button onclick="switchToBase()">Agi Gec</button></div>
 <div class="wlt-card">
-  <div class="wlt-ico">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="14" rx="3" stroke="white" stroke-width="1.5"/><path d="M16 14a1 1 0 11-2 0 1 1 0 012 0z" fill="white"/><path d="M22 11H2V9a2 2 0 012-2h14l4 4z" fill="white"/></svg>
-  </div>
-  <div class="wlt-info">
-    <div class="lbl" id="wlt-lbl">Cuzdan</div>
-    <div class="adr" id="wlt-adr">Bagli degil</div>
-  </div>
+  <div class="wlt-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="14" rx="3" stroke="white" stroke-width="1.5"/><path d="M16 14a1 1 0 11-2 0 1 1 0 012 0z" fill="white"/><path d="M22 11H2V9a2 2 0 012-2h14l4 4z" fill="white"/></svg></div>
+  <div class="wlt-info"><div class="lbl" id="wlt-lbl">Cuzdan</div><div class="adr" id="wlt-adr">Bagli degil</div></div>
   <span class="bal" id="bal-tag"></span>
   <button class="btn-con" id="con-btn" onclick="openModal()">Baglan</button>
 </div>
-
 <div class="mbg" id="modal-bg">
   <div class="mdl">
-    <h2>Cuzdan Sec</h2>
-    <p>Baglanmak istediginiz cuzdani secin</p>
+    <h2>Cuzdan Sec</h2><p>Baglanmak istediginiz cuzdani secin</p>
     <div class="wlt-lst" id="wlt-lst"></div>
     <div class="mdl-div"></div>
-    <div class="wopt" onclick="connectWC()">
-      <div class="wico">🔗</div>
-      <div><div class="wnm">WalletConnect</div><div class="wrd">Mobil cuzdan QR</div></div>
-      <span class="wbg wbg-b">QR</span>
-    </div>
+    <div class="wopt" onclick="connectWC()"><div class="wico">🔗</div><div><div class="wnm">WalletConnect</div><div class="wrd">Mobil cuzdan QR</div></div><span class="wbg wbg-b">QR</span></div>
     <button class="mdl-cls" onclick="closeModal()">Kapat</button>
   </div>
 </div>
-
 <div class="tabs">
   <button class="tab on" id="tab-gm" onclick="switchTab('gm')">☀️ GM</button>
   <button class="tab" id="tab-gn" onclick="switchTab('gn')">🌙 GN</button>
@@ -258,39 +197,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
   </div>
 </div>
 
-<!-- ÇARK -->
-<div class="pane" id="pane-wheel">
-  <div class="g2" style="margin-bottom:16px">
-    <div class="sc"><div class="sn" style="color:var(--gold);font-size:28px" id="wheel-xp-total">0</div><div class="sl">Toplam XP</div></div>
-    <div class="sc"><div class="sn" style="font-size:16px;padding-top:8px" id="wheel-xp-level">🥉 Bronz</div><div class="sl">Seviye</div></div>
-  </div>
-  <div class="card">
-    <div class="ctitle">Sansli Cark</div>
-    <div class="irow"><span class="il">Kontrat</span><span class="iv" id="wheel-addr">-</span></div>
-    <div class="irow" style="margin-bottom:14px"><span class="il">Cark Sayisi</span><span class="iv" id="wheel-spin-count">0</span></div>
-    <div style="position:relative;display:flex;justify-content:center;align-items:center;margin:8px 0 16px">
-      <!-- Ok işareti -->
-      <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);z-index:10;font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))">▼</div>
-      <canvas id="wheel-canvas" width="300" height="300" style="border-radius:50%;box-shadow:0 4px 20px rgba(0,0,0,.3);cursor:pointer"></canvas>
-    </div>
-    <div id="wheel-result" style="text-align:center;min-height:36px;margin-bottom:14px;font-size:17px;font-weight:700"></div>
-    <div class="fbox fbox-dp"><span class="fl-dp">Cark Ucreti</span><span class="fv-dp">0.00005 ETH</span></div>
-    <button class="abtn abtn-dp" id="wheel-btn" onclick="spinWheel()">🎡 Carki Cevir!</button>
-    <div class="sts" id="wheel-sts"></div>
-  </div>
-  <div class="card">
-    <div class="ctitle">Cark Oduller</div>
-    <div class="irow"><span class="il">🔥 Jackpot</span><span class="iv" style="color:#f59e0b;font-weight:700">+500 XP</span></div>
-    <div class="irow"><span class="il">⭐ Harika</span><span class="iv" style="color:#7c3aed">+200 XP</span></div>
-    <div class="irow"><span class="il">✨ Super</span><span class="iv">+100 XP</span></div>
-    <div class="irow"><span class="il">🎯 İyi</span><span class="iv">+50 XP</span></div>
-    <div class="irow"><span class="il">👍 Normal</span><span class="iv">+25 XP</span></div>
-    <div class="irow"><span class="il">🎲 Deneme</span><span class="iv">+10 XP</span></div>
-  </div>
-</div>
-
-
-<!-- OYUN -->
+<!-- ZAR OYUNU -->
 <div class="pane" id="pane-game">
   <div class="g2" style="margin-bottom:16px">
     <div class="sc"><div class="sn" style="color:var(--gold);font-size:28px" id="xp-total">0</div><div class="sl">Toplam XP</div></div>
@@ -310,12 +217,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
     </div>
     <div id="dice-result" style="text-align:center;min-height:36px;margin-bottom:14px;font-size:16px;font-weight:700"></div>
     <div style="display:flex;gap:8px;margin-bottom:14px">
-      <div style="flex:1;background:var(--warn-light);border:.5px solid var(--warn);border-radius:var(--rs);padding:9px;text-align:center;font-size:12px">
-        <div style="font-weight:700;color:#78350F">Toplam XP</div><div style="color:#92400e;margin-top:2px">Her atis</div>
-      </div>
-      <div style="flex:1;background:var(--purple-light);border:.5px solid var(--purple);border-radius:var(--rs);padding:9px;text-align:center;font-size:12px">
-        <div style="font-weight:700;color:var(--purple)">+50 XP</div><div style="color:var(--purple);margin-top:2px">Cift!</div>
-      </div>
+      <div style="flex:1;background:var(--warn-light);border:.5px solid var(--warn);border-radius:var(--rs);padding:9px;text-align:center;font-size:12px"><div style="font-weight:700;color:#78350F">Toplam XP</div><div style="color:#92400e;margin-top:2px">Her atis</div></div>
+      <div style="flex:1;background:var(--purple-light);border:.5px solid var(--purple);border-radius:var(--rs);padding:9px;text-align:center;font-size:12px"><div style="font-weight:700;color:var(--purple)">+50 XP</div><div style="color:var(--purple);margin-top:2px">Cift!</div></div>
     </div>
     <div class="fbox fbox-dp"><span class="fl-dp">Zar Ucreti</span><span class="fv-dp">0.00005 ETH</span></div>
     <button class="abtn abtn-dp" id="roll-btn" onclick="rollDice()">🎲 Zar At!</button>
@@ -331,72 +234,67 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
   </div>
 </div>
 
+<!-- ÇARK -->
+<div class="pane" id="pane-wheel">
+  <div class="g2" style="margin-bottom:16px">
+    <div class="sc"><div class="sn" style="color:var(--gold);font-size:28px" id="wheel-xp-total">0</div><div class="sl">Toplam XP</div></div>
+    <div class="sc"><div class="sn" style="font-size:16px;padding-top:8px" id="wheel-xp-level">🥉 Bronz</div><div class="sl">Seviye</div></div>
+  </div>
+  <div class="g2" style="margin-bottom:16px">
+    <div class="sc"><div class="sn" style="color:var(--blue);font-size:28px;padding-top:4px" id="wheel-spin-count">0</div><div class="sl">Cark Sayisi</div></div>
+    <div class="sc"><div class="sn" style="font-size:12px;padding-top:10px;word-break:break-all" id="wheel-addr">-</div><div class="sl">Kontrat</div></div>
+  </div>
+  <div class="card">
+    <div class="ctitle">Sansli Cark</div>
+    <div style="position:relative;display:flex;flex-direction:column;align-items:center;margin:8px 0 16px">
+      <div style="font-size:28px;line-height:1;margin-bottom:4px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))">▼</div>
+      <canvas id="wheel-canvas" width="300" height="300" style="border-radius:50%;box-shadow:0 4px 20px rgba(0,0,0,.3)"></canvas>
+    </div>
+    <div id="wheel-result" style="text-align:center;min-height:36px;margin-bottom:14px;font-size:17px;font-weight:700"></div>
+    <div class="fbox fbox-dp"><span class="fl-dp">Cark Ucreti</span><span class="fv-dp">0.00005 ETH</span></div>
+    <button class="abtn abtn-dp" id="wheel-btn" onclick="spinWheel()">🎡 Carki Cevir!</button>
+    <div class="sts" id="wheel-sts"></div>
+  </div>
+  <div class="card">
+    <div class="ctitle">Cark Oduller</div>
+    <div class="irow"><span class="il">🔥 Jackpot</span><span class="iv" style="color:#f59e0b;font-weight:700">+500 XP</span></div>
+    <div class="irow"><span class="il">⭐ Harika</span><span class="iv" style="color:#7c3aed">+200 XP</span></div>
+    <div class="irow"><span class="il">✨ Super</span><span class="iv">+100 XP</span></div>
+    <div class="irow"><span class="il">🎯 İyi</span><span class="iv">+50 XP</span></div>
+    <div class="irow"><span class="il">👍 Normal</span><span class="iv">+25 XP</span></div>
+    <div class="irow"><span class="il">🎲 Deneme</span><span class="iv">+10 XP</span></div>
+  </div>
+</div>
+
 </div><!-- /wrap -->
 
 <script>
-var CFG = {
-  CHAIN_ID:  8453,
-  CHAIN_HEX: '0x2105',
-  RPC:       'https://base.llamarpc.com',
-  EXPLORER:  'https://basescan.org',
-  GM:        '0xfDeb4a6C1f8a96D1817e29916047dEa53e70111E',
-  GN:        '0x5A4F2A0C1134efBCe9a4Debc7B000007Cdb637B9',
-  FEE_TO:    '0xca37E522b57FEebc6f371EA500ecBf1e408FfD2c'
-};
-var GM_FEE   = ethers.parseEther('0.00001');
-var DP_FEE   = ethers.parseEther('0.0001');
-var DICE_FEE = ethers.parseEther('0.00005');
-var DICE_CONTRACT  = '0xB1c153F5b8eB0AB275c4ed721606D814750EFea9';
-var WHEEL_CONTRACT = '0x0000000000000000000000000000000000000000'; // Deploy sonrası güncelleyin
-var WHEEL_FEE      = ethers.parseEther('0.00005');
-var WHEEL_ABI = [
-  'function spin() external payable',
-  'function getPlayerStats(address) view returns (uint256 xp, uint256 spins, uint256 lastSegment, uint256 level)',
-  'function xpOf(address) view returns (uint256)',
-  'function spinCountOf(address) view returns (uint256)',
-  'function contractBalance() view returns (uint256)',
-  'function owner() view returns (address)',
-  'function withdraw() external',
-  'event WheelSpun(address indexed player, uint8 segment, uint256 xpEarned, uint256 totalXP)'
-];
+// ── CONFIG ──────────────────────────────────────────────────────────
+var CFG={CHAIN_ID:8453,CHAIN_HEX:'0x2105',RPC:'https://base.llamarpc.com',EXPLORER:'https://basescan.org',GM:'0xfDeb4a6C1f8a96D1817e29916047dEa53e70111E',GN:'0x5A4F2A0C1134efBCe9a4Debc7B000007Cdb637B9',FEE_TO:'0xca37E522b57FEebc6f371EA500ecBf1e408FfD2c'};
+var GM_FEE=ethers.parseEther('0.00001');
+var DP_FEE=ethers.parseEther('0.0001');
+var DICE_FEE=ethers.parseEther('0.00005');
+var WHEEL_FEE=ethers.parseEther('0.00005');
+var DICE_CONTRACT='0xB1c153F5b8eB0AB275c4ed721606D814750EFea9';
+var WHEEL_CONTRACT='0x39b91858e45C33Bd6407c27449fdC773EE288cdC';
 
-var GM_ABI = [
-  'function gm(string calldata _message) external payable',
-  'function totalGMs() view returns (uint256)',
-  'function streakOf(address) view returns (uint256)',
-  'function hasSentGMToday(address) view returns (bool)',
-  'function contractBalance() view returns (uint256)',
-  'function withdraw() external',
-  'function owner() view returns (address)'
-];
-var GN_ABI = [
-  'function gn(string calldata _message) external payable',
-  'function totalGNs() view returns (uint256)',
-  'function streakOf(address) view returns (uint256)',
-  'function hasSentGNToday(address) view returns (bool)',
-  'function contractBalance() view returns (uint256)',
-  'function withdraw() external',
-  'function owner() view returns (address)'
-];
-var DICE_ABI = [
-  'function rollDice() external payable',
-  'function getPlayerStats(address) view returns (uint256 xp, uint256 rolls, uint256 doubles, uint256 level)',
-  'function contractBalance() view returns (uint256)',
-  'function owner() view returns (address)',
-  'event DiceRolled(address indexed player, uint8 dice1, uint8 dice2, bool isDouble, uint256 xpEarned, uint256 totalXP)'
-];
-var TPLS = {
-  gm:      { label:'GM Kontrati',  abi: GM_ABI, bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556611c37937e080006001556102b5806100406000396000f3fe6080604052600436106100555760003560e01c80633ccfd60b1461005a5780638da5cb5b14610071578063b5f2bb1114610097578063ddca3f43146100ac578063e3d553291461006f575b600080fd5b34801561006657600080fd5b5061006f6100c2565b005b34801561007d57600080fd5b506000546040516001600160a01b0390911681526020015b60405180910390f35b3480156100a357600080fd5b5060025461009590565b3480156100b857600080fd5b5060015461009590565b6100bf6100ba36600461019e565b610115565b005b6000546001600160a01b031633146100d957600080fd5b6040514790600090339083908381818185875af1925050503d806000811461011a576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e61011f565b606091505b505050505050565b60015434101561012457600080fd5b6101208151111561013457600080fd5b60028054600101905560405133907f5a6f3afe453c529c5e6b64b5e0ab6e54e72dc43f16f0eecf5a5c3e9a7bd71ca906101709084904290839061024e565b60405180910390a2600154341115610196576101916101899034600154610283565b3361019b565b505050565b6001546040516000916001600160a01b0385169183908381818185875af1925050503d80600081146101e0576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e6101e5565b606091505b5050905080610233576040516312171d8360e31b815260040160405180910390fd5b505050565b634e487b7160e01b600052604160045260246000fd5b6000602082840312156102135750600080fd5b813567ffffffffffffffff8111156102295750600080fd5b8201601f8101841361023a57600080fd5b803567ffffffffffffffff81111561025457610254610238565b50919050565b60608152600060608201845b8381101561027a5781518352602092830192016101ae565b509392505050565b8181038181111561029b57634e487b7160e01b600052601160045260246000fd5b9291505056fea264697066735822' },
-  gn:      { label:'GN Kontrati',  abi: GN_ABI, bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556611c37937e080006001556102b5806100406000396000f3fe6080604052600436106100555760003560e01c80633ccfd60b1461005a5780638da5cb5b14610071578063b5f2bb1114610097578063ddca3f43146100ac578063f5d54b791461006f575b600080fd5b34801561006657600080fd5b5061006f6100c2565b005b34801561007d57600080fd5b506000546040516001600160a01b0390911681526020015b60405180910390f35b3480156100a357600080fd5b5060025461009590565b3480156100b857600080fd5b5060015461009590565b6100bf6100ba36600461019e565b610115565b005b6000546001600160a01b031633146100d957600080fd5b6040514790600090339083908381818185875af1925050503d806000811461011a576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e61011f565b606091505b505050505050565b60015434101561012457600080fd5b6101208151111561013457600080fd5b60028054600101905560405133907faa5f2a5b8db5e30754f7e8fbfb4db051dfcd0b6a8e2ae63022bb88d86b56f30906101709084904290839061024e565b60405180910390a2600154341115610196576101916101899034600154610283565b3361019b565b505050565b6001546040516000916001600160a01b0385169183908381818185875af1925050503d80600081146101e0576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e6101e5565b606091505b5050905080610233576040516312171d8360e31b815260040160405180910390fd5b505050565b634e487b7160e01b600052604160045260246000fd5b6000602082840312156102135750600080fd5b813567ffffffffffffffff8111156102295750600080fd5b8201601f8101841361023a57600080fd5b803567ffffffffffffffff81111561025457610254610238565b50919050565b60608152600060608201845b8381101561027a5781518352602092830192016101ae565b509392505050565b8181038181111561029b57634e487b7160e01b600052601160045260246000fd5b9291505056fea264697066735822' },
-  storage: { label:'Veri Saklama', abi: ['function store(string calldata _data) external','function retrieve() external view returns (string memory)','function owner() view returns (address)'], bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556102a1806100326000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c80632e64cec1146100465780638da5cb5b1461006457806397cb81d414610090575b600080fd5b61004e6100a5565b6040516100519190610185565b60405180910390f35b600054604051600160a01b90910460001b81526020015b60405180910390f35b61009e61009936600461019f565b610137565b005b606060018054610158906101f0565b80601f016020809104026020016040519081016040528092919081908152602001828054610184816101f05780156100fa57806020026020018201604052801561010d5780602002602001820160405280156100ec578082376000920191825250506040516100f89190610185565b820191906000526020600020905b81548152906001019060200180831161012657829003601f168201915b5050505050905090565b8051610152906001906020840190610155565b5050565b828054610161906101f057828601805480831161017e5780838355818111156101a0576000838152602090200190565b505b50505050565b634e487b7160e01b600052604160045260246000fd5b60006020828403121561023457600080fd5b813567ffffffffffffffff8111156102495750600080fd5b505050919050565b600181811c9082168061026857607f821691505b6020821081036102885763301234560e1b600052602260045260246000fd5b509190505056fea264697066735822' },
-  counter: { label:'Sayac',        abi: ['function increment() external','function decrement() external','function reset() external','function getCount() external view returns (uint256)','function owner() view returns (address)'], bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556101e6806100326000396000f3fe608060405234801561001057600080fd5b50600436106100575760003560e01c80638da5cb5b1461005c5780639507d39a1461008857806395bc26731461009e578063d09de08a146100a6578063d7bb99ba146100ae575b600080fd5b600054604051600160a01b90910460001b81526020015b60405180910390f35b6001545b604051908152602001610073565b6100ac6100b6565b005b6100ac6100da565b6100ac6100eb565b6000546001600160a01b031633146100cd57600080fd5b6000600155565b60016000808282546100ec91906101ab565b9091555050565b60015460000361010357600080fd5b6001805460001901905550565b634e487b7160e01b600052601160045260246000fd5b808201808211156101985763ffffffff60e01b600052601160045260246000fd5b9291505056fea264697066735822' },
-  donate:  { label:'Bagis Kutusu', abi: ['function donate() external payable','function withdraw() external','function getBalance() external view returns (uint256)','function owner() view returns (address)'], bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556101c2806100326000396000f3fe6080604052600436106100435760003560e01c80633ccfd60b146100485780638da5cb5b1461005f5780631a065c301461008b5780634b0bddd21461009d575b600080fd5b34801561005457600080fd5b5061005d6100b0565b005b34801561006b57600080fd5b506000546040516001600160a01b0390911681526020015b60405180910390f35b604051478152602001610083565b6100ab6100a636600461015e565b6100fd565b005b6000546001600160a01b031633146100c757600080fd5b6040514790600090339083908381818185875af1925050503d806000811461010357604051601f3d011660208301604052906100fd565b606091505b5050505050565b34600003610109575050565b336001600160a01b03167fef6efb7a4c45fd89a4f0d44059e22da63a0af8de02b7e1f5b8a8b87e64d3c3d34604051610144919081526020019150565b60405180910390a250565b6000602082840312156101705780fd5b81356001600160a01b03811681146101875780fd5b9392505050565b9291505056fea264697066735822' }
+var GM_ABI=['function gm(string calldata _message) external payable','function totalGMs() view returns (uint256)','function streakOf(address) view returns (uint256)','function hasSentGMToday(address) view returns (bool)','function contractBalance() view returns (uint256)','function withdraw() external','function owner() view returns (address)'];
+var GN_ABI=['function gn(string calldata _message) external payable','function totalGNs() view returns (uint256)','function streakOf(address) view returns (uint256)','function hasSentGNToday(address) view returns (bool)','function contractBalance() view returns (uint256)','function withdraw() external','function owner() view returns (address)'];
+var DICE_ABI=['function rollDice() external payable','function getPlayerStats(address) view returns (uint256 xp, uint256 rolls, uint256 doubles, uint256 level)','function contractBalance() view returns (uint256)','function owner() view returns (address)','event DiceRolled(address indexed player, uint8 dice1, uint8 dice2, bool isDouble, uint256 xpEarned, uint256 totalXP)'];
+var WHEEL_ABI=['function spin() external payable','function getPlayerStats(address) view returns (uint256 xp, uint256 spins, uint256 lastSegment, uint256 level)','function contractBalance() view returns (uint256)','function owner() view returns (address)','function withdraw() external','event WheelSpun(address indexed player, uint8 segment, uint256 xpEarned, uint256 totalXP)'];
+
+var TPLS={
+  gm:{label:'GM Kontrati',abi:GM_ABI,bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556611c37937e080006001556102b5806100406000396000f3fe6080604052600436106100555760003560e01c80633ccfd60b1461005a5780638da5cb5b14610071578063b5f2bb1114610097578063ddca3f43146100ac578063e3d553291461006f575b600080fd5b34801561006657600080fd5b5061006f6100c2565b005b34801561007d57600080fd5b506000546040516001600160a01b0390911681526020015b60405180910390f35b3480156100a357600080fd5b5060025461009590565b3480156100b857600080fd5b5060015461009590565b6100bf6100ba36600461019e565b610115565b005b6000546001600160a01b031633146100d957600080fd5b6040514790600090339083908381818185875af1925050503d806000811461011a576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e61011f565b606091505b505050505050565b60015434101561012457600080fd5b6101208151111561013457600080fd5b60028054600101905560405133907f5a6f3afe453c529c5e6b64b5e0ab6e54e72dc43f16f0eecf5a5c3e9a7bd71ca906101709084904290839061024e565b60405180910390a2600154341115610196576101916101899034600154610283565b3361019b565b505050565b6001546040516000916001600160a01b0385169183908381818185875af1925050503d80600081146101e0576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e6101e5565b606091505b5050905080610233576040516312171d8360e31b815260040160405180910390fd5b505050565b634e487b7160e01b600052604160045260246000fd5b6000602082840312156102135750600080fd5b813567ffffffffffffffff8111156102295750600080fd5b8201601f8101841361023a57600080fd5b803567ffffffffffffffff81111561025457610254610238565b50919050565b60608152600060608201845b8381101561027a5781518352602092830192016101ae565b509392505050565b8181038181111561029b57634e487b7160e01b600052601160045260246000fd5b9291505056fea264697066735822'},
+  gn:{label:'GN Kontrati',abi:GN_ABI,bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556611c37937e080006001556102b5806100406000396000f3fe6080604052600436106100555760003560e01c80633ccfd60b1461005a5780638da5cb5b14610071578063b5f2bb1114610097578063ddca3f43146100ac578063f5d54b791461006f575b600080fd5b34801561006657600080fd5b5061006f6100c2565b005b34801561007d57600080fd5b506000546040516001600160a01b0390911681526020015b60405180910390f35b3480156100a357600080fd5b5060025461009590565b3480156100b857600080fd5b5060015461009590565b6100bf6100ba36600461019e565b610115565b005b6000546001600160a01b031633146100d957600080fd5b6040514790600090339083908381818185875af1925050503d806000811461011a576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e61011f565b606091505b505050505050565b60015434101561012457600080fd5b6101208151111561013457600080fd5b60028054600101905560405133907faa5f2a5b8db5e30754f7e8fbfb4db051dfcd0b6a8e2ae63022bb88d86b56f30906101709084904290839061024e565b60405180910390a2600154341115610196576101916101899034600154610283565b3361019b565b505050565b6001546040516000916001600160a01b0385169183908381818185875af1925050503d80600081146101e0576040519150601f19603f3d011160208201604052908101601f191682016040523d82523d6000602084013e6101e5565b606091505b5050905080610233576040516312171d8360e31b815260040160405180910390fd5b505050565b634e487b7160e01b600052604160045260246000fd5b6000602082840312156102135750600080fd5b813567ffffffffffffffff8111156102295750600080fd5b8201601f8101841361023a57600080fd5b803567ffffffffffffffff81111561025457610254610238565b50919050565b60608152600060608201845b8381101561027a5781518352602092830192016101ae565b509392505050565b8181038181111561029b57634e487b7160e01b600052601160045260246000fd5b9291505056fea264697066735822'},
+  storage:{label:'Veri Saklama',abi:['function store(string calldata _data) external','function retrieve() external view returns (string memory)','function owner() view returns (address)'],bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556102a1806100326000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c80632e64cec1146100465780638da5cb5b1461006457806397cb81d414610090575b600080fd5b61004e6100a5565b6040516100519190610185565b60405180910390f35b600054604051600160a01b90910460001b81526020015b60405180910390f35b61009e61009936600461019f565b610137565b005b606060018054610158906101f0565b80601f016020809104026020016040519081016040528092919081908152602001828054610184816101f05780156100fa57806020026020018201604052801561010d5780602002602001820160405280156100ec578082376000920191825250506040516100f89190610185565b820191906000526020600020905b81548152906001019060200180831161012657829003601f168201915b5050505050905090565b8051610152906001906020840190610155565b5050565b828054610161906101f057828601805480831161017e5780838355818111156101a0576000838152602090200190565b505b50505050565b634e487b7160e01b600052604160045260246000fd5b60006020828403121561023457600080fd5b813567ffffffffffffffff8111156102495750600080fd5b505050919050565b600181811c9082168061026857607f821691505b6020821081036102885763301234560e1b600052602260045260246000fd5b509190505056fea264697066735822'},
+  counter:{label:'Sayac',abi:['function increment() external','function decrement() external','function reset() external','function getCount() external view returns (uint256)','function owner() view returns (address)'],bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556101e6806100326000396000f3fe608060405234801561001057600080fd5b50600436106100575760003560e01c80638da5cb5b1461005c5780639507d39a1461008857806395bc26731461009e578063d09de08a146100a6578063d7bb99ba146100ae575b600080fd5b600054604051600160a01b90910460001b81526020015b60405180910390f35b6001545b604051908152602001610073565b6100ac6100b6565b005b6100ac6100da565b6100ac6100eb565b6000546001600160a01b031633146100cd57600080fd5b6000600155565b60016000808282546100ec91906101ab565b9091555050565b60015460000361010357600080fd5b6001805460001901905550565b634e487b7160e01b600052604160045260246000fd5b808201808211156101985763ffffffff60e01b600052601160045260246000fd5b9291505056fea264697066735822'},
+  donate:{label:'Bagis Kutusu',abi:['function donate() external payable','function withdraw() external','function getBalance() external view returns (uint256)','function owner() view returns (address)'],bytecode:'0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556101c2806100326000396000f3fe6080604052600436106100435760003560e01c80633ccfd60b146100485780638da5cb5b1461005f5780631a065c301461008b5780634b0bddd21461009d575b600080fd5b34801561005457600080fd5b5061005d6100b0565b005b34801561006b57600080fd5b506000546040516001600160a01b0390911681526020015b60405180910390f35b604051478152602001610083565b6100ab6100a636600461015e565b6100fd565b005b6000546001600160a01b031633146100c757600080fd5b6040514790600090339083908381818185875af1925050503d806000811461010357604051601f3d011660208301604052906100fd565b606091505b5050505050565b34600003610109575050565b336001600160a01b03167fef6efb7a4c45fd89a4f0d44059e22da63a0af8de02b7e1f5b8a8b87e64d3c3d34604051610144919081526020019150565b60405180910390a250565b6000602082840312156101705780fd5b81356001600160a01b03811681146101875780fd5b9392505050565b9291505056fea264697066735822'}
 };
 
-// State
-var selTplKey=null, prov=null, sgn=null, acct=null, rawProv=null, wlts={};
+// ── STATE ───────────────────────────────────────────────────────────
+var selTplKey=null,prov=null,sgn=null,acct=null,rawProv=null,wlts={};
 
-// ── UI ──────────────────────────────────────────────────────────────
+// ── TABS ────────────────────────────────────────────────────────────
 function selTpl(key){
   selTplKey=key;
   document.querySelectorAll('.tcard').forEach(function(c){c.classList.remove('on');});
@@ -404,18 +302,16 @@ function selTpl(key){
   document.getElementById('sel-tpl').textContent=TPLS[key].label;
 }
 function switchTab(name){
-  var tabIds  = ['tab-gm','tab-gn','tab-dp','tab-game','tab-wheel'];
-  var paneIds = ['pane-gm','pane-gn','pane-deploy','pane-game','pane-wheel'];
-  tabIds.forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove('on');});
-  paneIds.forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove('on');});
-  var tabMap={'gm':'tab-gm','gn':'tab-gn','deploy':'tab-dp','game':'tab-game','wheel':'tab-wheel'};
-  var t2=document.getElementById(tabMap[name]);
-  var p2=document.getElementById('pane-'+name);
-  if(t2) t2.classList.add('on');
-  if(p2) p2.classList.add('on');
-  if(name==='game') loadDiceStats();
-  if(name==='wheel') loadWheelStats();
+  ['tab-gm','tab-gn','tab-dp','tab-game','tab-wheel'].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove('on');});
+  ['pane-gm','pane-gn','pane-deploy','pane-game','pane-wheel'].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove('on');});
+  var map={'gm':'tab-gm','gn':'tab-gn','deploy':'tab-dp','game':'tab-game','wheel':'tab-wheel'};
+  var t=document.getElementById(map[name]);if(t)t.classList.add('on');
+  var p=document.getElementById('pane-'+name);if(p)p.classList.add('on');
+  if(name==='game')loadDiceStats();
+  if(name==='wheel')loadWheelStats();
 }
+
+// ── MODAL ───────────────────────────────────────────────────────────
 function openModal(){
   if(acct){doDisconnect();return;}
   window.dispatchEvent(new Event('eip6963:requestProvider'));
@@ -428,49 +324,32 @@ document.getElementById('modal-bg').addEventListener('click',function(e){if(e.ta
 function scanLegacy(){
   if(!window.ethereum)return;
   var list=window.ethereum.providers||[window.ethereum];
-  var checks=[
-    {key:'isMetaMask',name:'MetaMask',rdns:'io.metamask',emoji:'🦊'},
-    {key:'isCoinbaseWallet',name:'Coinbase Wallet',rdns:'com.coinbase.wallet',emoji:'🔵'},
-    {key:'isBitKeep',name:'Bitget Wallet',rdns:'com.bitget.web3',emoji:'🟢'},
-    {key:'isBitgetWallet',name:'Bitget Wallet',rdns:'com.bitget.web3',emoji:'🟢'},
-    {key:'isOKExWallet',name:'OKX Wallet',rdns:'com.okex.wallet',emoji:'⚫'},
-    {key:'isTrust',name:'Trust Wallet',rdns:'com.trustwallet.app',emoji:'🛡️'},
-    {key:'isBraveWallet',name:'Brave Wallet',rdns:'com.brave.wallet',emoji:'🦁'}
-  ];
-  for(var i=0;i<list.length;i++){
-    var p=list[i];
-    for(var j=0;j<checks.length;j++){
-      var c=checks[j];
-      if(p[c.key]&&!wlts[c.rdns]) wlts[c.rdns]={info:{name:c.name,rdns:c.rdns,icon:null,emoji:c.emoji},provider:p};
-    }
-  }
-  if(Object.keys(wlts).length===0&&window.ethereum) wlts['browser']={info:{name:'Tarayici Cuzdani',rdns:'browser',icon:null,emoji:'🌐'},provider:window.ethereum};
+  var checks=[{key:'isMetaMask',name:'MetaMask',rdns:'io.metamask',emoji:'🦊'},{key:'isCoinbaseWallet',name:'Coinbase Wallet',rdns:'com.coinbase.wallet',emoji:'🔵'},{key:'isBitKeep',name:'Bitget Wallet',rdns:'com.bitget.web3',emoji:'🟢'},{key:'isBitgetWallet',name:'Bitget Wallet',rdns:'com.bitget.web3',emoji:'🟢'},{key:'isOKExWallet',name:'OKX Wallet',rdns:'com.okex.wallet',emoji:'⚫'},{key:'isTrust',name:'Trust Wallet',rdns:'com.trustwallet.app',emoji:'🛡️'},{key:'isBraveWallet',name:'Brave Wallet',rdns:'com.brave.wallet',emoji:'🦁'}];
+  for(var i=0;i<list.length;i++){var p=list[i];for(var j=0;j<checks.length;j++){var c=checks[j];if(p[c.key]&&!wlts[c.rdns])wlts[c.rdns]={info:{name:c.name,rdns:c.rdns,icon:null,emoji:c.emoji},provider:p};}}
+  if(Object.keys(wlts).length===0&&window.ethereum)wlts['browser']={info:{name:'Tarayici Cuzdani',rdns:'browser',icon:null,emoji:'🌐'},provider:window.ethereum};
 }
-window.addEventListener('eip6963:announceProvider',function(e){
-  wlts[e.detail.info.rdns]={info:e.detail.info,provider:e.detail.provider};
-  if(document.getElementById('modal-bg').classList.contains('on'))renderWallets();
-});
+window.addEventListener('eip6963:announceProvider',function(e){wlts[e.detail.info.rdns]={info:e.detail.info,provider:e.detail.provider};if(document.getElementById('modal-bg').classList.contains('on'))renderWallets();});
 window.dispatchEvent(new Event('eip6963:requestProvider'));
 
 function renderWallets(){
   var lst=document.getElementById('wlt-lst');
   var keys=Object.keys(wlts);
-  if(keys.length===0){lst.innerHTML='<div style="text-align:center;padding:14px;font-size:13px;color:var(--tx2)">Cuzdan bulunamadi.<br><br><a href="https://metamask.io" target="_blank" style="color:var(--blue)">MetaMask</a> yukleyin.</div>';return;}
+  if(keys.length===0){lst.innerHTML='<div style="text-align:center;padding:14px;font-size:13px;color:var(--tx2)">Cuzdan bulunamadi. <a href="https://metamask.io" target="_blank" style="color:var(--blue)">MetaMask</a> yukleyin.</div>';return;}
   lst.innerHTML='';
-  var icoMap={'io.metamask':'🦊','com.coinbase.wallet':'🔵','com.bitget.web3':'🟢','com.okex.wallet':'⚫','com.trustwallet.app':'🛡️','com.brave.wallet':'🦁'};
+  var im={'io.metamask':'🦊','com.coinbase.wallet':'🔵','com.bitget.web3':'🟢','com.okex.wallet':'⚫','com.trustwallet.app':'🛡️','com.brave.wallet':'🦁'};
   for(var rdns in wlts){
-    var w=wlts[rdns];
-    var el=document.createElement('div');
+    var w=wlts[rdns],el=document.createElement('div');
     el.className='wopt';el.setAttribute('data-rdns',rdns);
-    var emoji=icoMap[rdns]||w.info.emoji||'💼';
-    var icoHtml=w.info.icon?'<img src="'+w.info.icon+'" style="width:36px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0">':'<div class="wico">'+emoji+'</div>';
-    el.innerHTML=icoHtml+'<div><div class="wnm">'+w.info.name+'</div><div class="wrd">'+rdns+'</div></div><span class="wbg">Baglan</span>';
+    var emoji=im[rdns]||w.info.emoji||'💼';
+    var ico=w.info.icon?'<img src="'+w.info.icon+'" style="width:36px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0">':'<div class="wico">'+emoji+'</div>';
+    el.innerHTML=ico+'<div><div class="wnm">'+w.info.name+'</div><div class="wrd">'+rdns+'</div></div><span class="wbg">Baglan</span>';
     el.addEventListener('click',function(){connectWith(this.getAttribute('data-rdns'));});
     lst.appendChild(el);
   }
 }
 function connectWC(){closeModal();alert('WalletConnect icin @walletconnect/web3-provider gerekli.');}
 
+// ── WALLET ──────────────────────────────────────────────────────────
 async function connectWith(rdns){
   closeModal();
   var w=wlts[rdns];if(!w)return;
@@ -482,8 +361,7 @@ async function connectWith(rdns){
     rawProv=w.provider;
     document.getElementById('wlt-adr').textContent=shA(acct);
     document.getElementById('wlt-lbl').textContent=w.info.name;
-    var btn=document.getElementById('con-btn');
-    btn.textContent='Kes';btn.classList.add('off');
+    var btn=document.getElementById('con-btn');btn.textContent='Kes';btn.classList.add('off');
     if(w.provider.on){
       w.provider.on('chainChanged',function(){location.reload();});
       w.provider.on('accountsChanged',function(a){if(!a.length)location.reload();});
@@ -494,9 +372,7 @@ async function connectWith(rdns){
     await checkOwner();
     await loadDiceStats();
     await loadWheelStats();
-  }catch(e){
-    if(e.code!==4001) alert('Baglanti hatasi: '+(e.message||'').slice(0,100));
-  }
+  }catch(e){if(e.code!==4001)alert('Baglanti hatasi: '+(e.message||'').slice(0,100));}
 }
 function doDisconnect(){
   acct=null;sgn=null;prov=null;rawProv=null;
@@ -511,13 +387,11 @@ function doDisconnect(){
 }
 async function checkNet(rp){
   try{
-    var chainId=parseInt(await rp.request({method:'eth_chainId'}),16);
-    var warn=document.getElementById('net-warn');
-    var dot=document.getElementById('net-dot');
-    var nm=document.getElementById('net-name');
-    if(chainId===CFG.CHAIN_ID){warn.classList.remove('on');dot.style.background='var(--green)';nm.textContent='Base Mainnet';}
-    else if(chainId===84532){warn.classList.remove('on');dot.style.background='var(--warn)';nm.textContent='Base Sepolia';}
-    else{warn.classList.add('on');dot.style.background='var(--red)';nm.textContent='Yanlis Ag (#'+chainId+')';}
+    var id=parseInt(await rp.request({method:'eth_chainId'}),16);
+    var warn=document.getElementById('net-warn'),dot=document.getElementById('net-dot'),nm=document.getElementById('net-name');
+    if(id===CFG.CHAIN_ID){warn.classList.remove('on');dot.style.background='var(--green)';nm.textContent='Base Mainnet';}
+    else if(id===84532){warn.classList.remove('on');dot.style.background='var(--warn)';nm.textContent='Base Sepolia';}
+    else{warn.classList.add('on');dot.style.background='var(--red)';nm.textContent='Yanlis Ag (#'+id+')';}
   }catch(e){}
 }
 async function switchToBase(){
@@ -528,6 +402,8 @@ async function switchToBase(){
 async function loadBal(){
   try{var b=await prov.getBalance(acct);var tag=document.getElementById('bal-tag');tag.textContent=parseFloat(ethers.formatEther(b)).toFixed(4)+' ETH';tag.style.display='inline-block';}catch(e){}
 }
+
+// ── STATS ───────────────────────────────────────────────────────────
 async function loadStats(){
   if(!acct)return;
   var RPCS=['https://base.llamarpc.com','https://mainnet.base.org','https://base-rpc.publicnode.com'];
@@ -544,7 +420,7 @@ async function loadStats(){
       document.getElementById('gm-today').innerHTML=res[2]?'<span class="bdg bg">Gonderildi</span>':'<span class="bdg bb">Henuz yok</span>';
       document.getElementById('gn-today').innerHTML=res[5]?'<span class="bdg bg">Gonderildi</span>':'<span class="bdg bp">Henuz yok</span>';
       return;
-    }catch(e){console.warn('stats err RPC'+ri,e);}
+    }catch(e){console.warn('stats RPC'+ri,e);}
   }
 }
 async function checkOwner(){
@@ -558,17 +434,16 @@ async function checkOwner(){
       document.getElementById('gm-bal').textContent=parseFloat(ethers.formatEther(res[2])).toFixed(6)+' ETH';
       document.getElementById('gn-bal').textContent=parseFloat(ethers.formatEther(res[3])).toFixed(6)+' ETH';
     }
-  }catch(e){console.warn('owner err',e);}
+  }catch(e){console.warn('owner',e);}
 }
+
+// ── GM / GN ─────────────────────────────────────────────────────────
 async function doWithdraw(which){
   try{
     setSts('wd-sts','pnd','Fee cekiliyor...');
-    var abi=which==='gm'?GM_ABI:GN_ABI;
-    var addr=which==='gm'?CFG.GM:CFG.GN;
-    var c=new ethers.Contract(addr,abi,sgn);
-    var tx=await c.withdraw();await tx.wait();
-    setSts('wd-sts','ok','Bakiye cekildi!');
-    await checkOwner();
+    var abi=which==='gm'?GM_ABI:GN_ABI,addr=which==='gm'?CFG.GM:CFG.GN;
+    var c=new ethers.Contract(addr,abi,sgn),tx=await c.withdraw();await tx.wait();
+    setSts('wd-sts','ok','Bakiye cekildi!');await checkOwner();
   }catch(e){setSts('wd-sts','err','Hata: '+(e.reason||e.message||'').slice(0,100));}
 }
 async function sendGM(){
@@ -576,12 +451,11 @@ async function sendGM(){
   var msg=document.getElementById('gm-msg').value.trim();
   var btn=document.getElementById('gm-btn');btn.disabled=true;
   try{
-    setSts('gm-sts','pnd','Imzalaniyor... (0.00001 ETH)');
-    var c=new ethers.Contract(CFG.GM,GM_ABI,sgn);
-    var tx=await c.gm(msg,{value:GM_FEE});
+    setSts('gm-sts','pnd','Imzalaniyor...');
+    var c=new ethers.Contract(CFG.GM,GM_ABI,sgn),tx=await c.gm(msg,{value:GM_FEE});
     setSts('gm-sts','pnd','Onay bekleniyor...<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">'+shH(tx.hash)+'</a>');
     await tx.wait();
-    setSts('gm-sts','ok','GM gonderildi!<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');
+    setSts('gm-sts','ok','GM gonderildi! <a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');
     await loadStats();
   }catch(e){setSts('gm-sts','err','Hata: '+(e.reason||e.message||'').slice(0,120));}
   btn.disabled=false;
@@ -591,34 +465,34 @@ async function sendGN(){
   var msg=document.getElementById('gn-msg').value.trim();
   var btn=document.getElementById('gn-btn');btn.disabled=true;
   try{
-    setSts('gn-sts','pnd','Imzalaniyor... (0.00001 ETH)');
-    var c=new ethers.Contract(CFG.GN,GN_ABI,sgn);
-    var tx=await c.gn(msg,{value:GM_FEE});
+    setSts('gn-sts','pnd','Imzalaniyor...');
+    var c=new ethers.Contract(CFG.GN,GN_ABI,sgn),tx=await c.gn(msg,{value:GM_FEE});
     setSts('gn-sts','pnd','Onay bekleniyor...<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">'+shH(tx.hash)+'</a>');
     await tx.wait();
-    setSts('gn-sts','ok','GN gonderildi!<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');
+    setSts('gn-sts','ok','GN gonderildi! <a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');
     await loadStats();
   }catch(e){setSts('gn-sts','err','Hata: '+(e.reason||e.message||'').slice(0,120));}
   btn.disabled=false;
 }
+
+// ── DEPLOY ──────────────────────────────────────────────────────────
 async function deployTemplate(){
   if(!requireWlt('dep-sts'))return;
   if(!selTplKey){setSts('dep-sts','err','Once bir sablon secin!');return;}
   var name=document.getElementById('dep-name').value.trim()||TPLS[selTplKey].label;
-  var tpl=TPLS[selTplKey];
-  var btn=document.getElementById('dep-btn');btn.disabled=true;
+  var tpl=TPLS[selTplKey],btn=document.getElementById('dep-btn');btn.disabled=true;
   try{
-    setSts('dep-sts','pnd','Adim 1/2: Deploy fee gonderiliyor (0.0001 ETH)...');
+    setSts('dep-sts','pnd','1/2: Deploy fee gonderiliyor...');
     var feeTx=await sgn.sendTransaction({to:CFG.FEE_TO,value:DP_FEE});
     setSts('dep-sts','pnd','Fee onaylaniyor...');await feeTx.wait();
-    setSts('dep-sts','pnd','Adim 2/2: Kontrat deploy ediliyor...');
+    setSts('dep-sts','pnd','2/2: Kontrat deploy ediliyor...');
     var factory=new ethers.ContractFactory(tpl.abi,tpl.bytecode,sgn);
     var contract=await factory.deploy();
     var depTx=contract.deploymentTransaction();
     setSts('dep-sts','pnd','Onay bekleniyor...<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+depTx.hash+'">'+shH(depTx.hash)+'</a>');
     await contract.waitForDeployment();
     var addr=await contract.getAddress();
-    setSts('dep-sts','ok','Deploy basarili!<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/address/'+addr+'">Basescan</a>');
+    setSts('dep-sts','ok','Deploy basarili! <a class="txs" target="_blank" href="'+CFG.EXPLORER+'/address/'+addr+'">Basescan</a>');
     document.getElementById('res-name').textContent=name;
     document.getElementById('res-addr').textContent=addr;
     var tl=document.getElementById('res-tx');tl.textContent=shH(depTx.hash);tl.href=CFG.EXPLORER+'/tx/'+depTx.hash;
@@ -627,121 +501,171 @@ async function deployTemplate(){
   btn.disabled=false;
 }
 
-// ── DICE ────────────────────────────────────────────────────────────
-var PIP_POS={
-  1:[[30,30]],
-  2:[[15,15],[45,45]],
-  3:[[15,15],[30,30],[45,45]],
-  4:[[15,15],[45,15],[15,45],[45,45]],
-  5:[[15,15],[45,15],[30,30],[15,45],[45,45]],
-  6:[[15,12],[45,12],[15,30],[45,30],[15,48],[45,48]]
-};
-function drawDice(svgId, boxId, val, hl){
-  var svg=document.getElementById(svgId);
-  var box=document.getElementById(boxId);
+// ── ZAR OYUNU ───────────────────────────────────────────────────────
+var PIP_POS={1:[[30,30]],2:[[15,15],[45,45]],3:[[15,15],[30,30],[45,45]],4:[[15,15],[45,15],[15,45],[45,45]],5:[[15,15],[45,15],[30,30],[15,45],[45,45]],6:[[15,12],[45,12],[15,30],[45,30],[15,48],[45,48]]};
+
+function drawDice(svgId,boxId,val,hl){
+  var svg=document.getElementById(svgId),box=document.getElementById(boxId);
   if(!svg||!box)return;
   var color=hl?'#7c3aed':'#1e293b';
-  var pts=PIP_POS[val]||PIP_POS[1];
-  svg.innerHTML=pts.map(function(p){return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="6" fill="'+color+'"/>';}).join('');
+  svg.innerHTML=(PIP_POS[val]||PIP_POS[1]).map(function(p){return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="6" fill="'+color+'"/>';}).join('');
   box.style.background=hl?'#ede9fe':'#ffffff';
   box.style.border=hl?'2px solid #7c3aed':'none';
 }
 function resetDice(){
-  ['d1-svg','d2-svg'].forEach(function(id){
-    var svg=document.getElementById(id);
-    if(svg)svg.innerHTML='<text x="30" y="38" text-anchor="middle" font-size="28" fill="#9ca3af">?</text>';
-  });
-  ['d1-box','d2-box'].forEach(function(id){
-    var box=document.getElementById(id);
-    if(box){box.style.background='#ffffff';box.style.border='none';}
-  });
+  ['d1-svg','d2-svg'].forEach(function(id){var s=document.getElementById(id);if(s)s.innerHTML='<text x="30" y="38" text-anchor="middle" font-size="28" fill="#9ca3af">?</text>';});
+  ['d1-box','d2-box'].forEach(function(id){var b=document.getElementById(id);if(b){b.style.background='#ffffff';b.style.border='none';}});
 }
+
 function getLevel(xp){
   if(xp>=50000)return{name:'👑 Elmas',color:'#06b6d4'};
   if(xp>=10000)return{name:'💎 Platin',color:'#8b5cf6'};
-  if(xp>=5000) return{name:'🥇 Altin',color:'#f59e0b'};
-  if(xp>=1000) return{name:'🥈 Gumus',color:'#94a3b8'};
+  if(xp>=5000)return{name:'🥇 Altin',color:'#f59e0b'};
+  if(xp>=1000)return{name:'🥈 Gumus',color:'#94a3b8'};
   return{name:'🥉 Bronz',color:'#b45309'};
 }
+
 async function loadDiceStats(){
   if(!acct)return;
-  var addr=document.getElementById('dice-addr');
-  if(addr)addr.textContent=DICE_CONTRACT.slice(0,6)+'...'+DICE_CONTRACT.slice(-4);
+  var da=document.getElementById('dice-addr');if(da)da.textContent=DICE_CONTRACT.slice(0,6)+'...'+DICE_CONTRACT.slice(-4);
   try{
     var ro=new ethers.JsonRpcProvider(CFG.RPC);
     var dc=new ethers.Contract(DICE_CONTRACT,DICE_ABI,ro);
     var s=await dc.getPlayerStats(acct);
-    var xp=Number(s[0]),rolls=Number(s[1]),doubles=Number(s[2]);
-    var lvl=getLevel(xp);
-    var xt=document.getElementById('xp-total');var xl=document.getElementById('xp-level');
-    var dr=document.getElementById('dice-rolls');var dd=document.getElementById('dice-doubles');
+    var xp=Number(s[0]),rolls=Number(s[1]),doubles=Number(s[2]),lvl=getLevel(xp);
+    var xt=document.getElementById('xp-total'),xl=document.getElementById('xp-level');
+    var dr=document.getElementById('dice-rolls'),dd=document.getElementById('dice-doubles');
     if(xt){xt.textContent=xp.toLocaleString();xt.style.color=lvl.color;}
     if(xl){xl.textContent=lvl.name;xl.style.color=lvl.color;}
     if(dr)dr.textContent=rolls;
     if(dd)dd.textContent=doubles;
-    // Cark XP de guncelle
-    var wxt=document.getElementById('wheel-xp-total');
-    var wxl=document.getElementById('wheel-xp-level');
-    if(wxt){wxt.textContent=xp.toLocaleString();wxt.style.color=lvl.color;}
-    if(wxl){wxl.textContent=lvl.name;wxl.style.color=lvl.color;}
-  }catch(e){console.warn('dice stats err',e);}
+  }catch(e){console.warn('diceStats',e);}
 }
+
 async function rollDice(){
   if(!requireWlt('roll-sts'))return;
-  var btn=document.getElementById('roll-btn');
-  btn.disabled=true;
-  var resEl=document.getElementById('dice-result');
-  resEl.textContent='';
+  var btn=document.getElementById('roll-btn');btn.disabled=true;
+  var resEl=document.getElementById('dice-result');resEl.textContent='';
   resetDice();
   try{
     setSts('roll-sts','pnd','Imzalaniyor... (0.00005 ETH)');
     var c=new ethers.Contract(DICE_CONTRACT,DICE_ABI,sgn);
     var tx=await c.rollDice({value:DICE_FEE});
     setSts('roll-sts','pnd','Onaylanıyor...<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">'+shH(tx.hash)+'</a>');
-
-    // Animasyon
-    var faces=[1,2,3,4,5,6];
     var anim=setInterval(function(){
-      drawDice('d1-svg','d1-box',faces[Math.floor(Math.random()*6)],false);
-      drawDice('d2-svg','d2-box',faces[Math.floor(Math.random()*6)],false);
+      drawDice('d1-svg','d1-box',[1,2,3,4,5,6][Math.floor(Math.random()*6)],false);
+      drawDice('d2-svg','d2-box',[1,2,3,4,5,6][Math.floor(Math.random()*6)],false);
     },120);
-
     var receipt=await tx.wait();
     clearInterval(anim);
-
-    // Event oku
-    var iface=new ethers.Interface(DICE_ABI);
-    var dice1=1,dice2=1,isDouble=false,xpEarned=2;
+    var iface=new ethers.Interface(DICE_ABI),dice1=1,dice2=1,isDouble=false,xpEarned=2;
     for(var i=0;i<receipt.logs.length;i++){
-      try{
-        var parsed=iface.parseLog(receipt.logs[i]);
-        if(parsed&&parsed.name==='DiceRolled'){
-          dice1=Number(parsed.args[1]);dice2=Number(parsed.args[2]);
-          isDouble=Boolean(parsed.args[3]);xpEarned=isDouble?50:(dice1+dice2);
-          break;
-        }
-      }catch(e2){}
+      try{var parsed=iface.parseLog(receipt.logs[i]);if(parsed&&parsed.name==='DiceRolled'){dice1=Number(parsed.args[1]);dice2=Number(parsed.args[2]);isDouble=Boolean(parsed.args[3]);xpEarned=isDouble?50:(dice1+dice2);break;}}catch(e2){}
     }
-
     drawDice('d1-svg','d1-box',dice1,isDouble);
     drawDice('d2-svg','d2-box',dice2,isDouble);
-
-    if(isDouble){
-      resEl.style.color='#7c3aed';
-      resEl.textContent='🎊 ÇİFT! '+dice1+' + '+dice2+' = '+(dice1+dice2)+'  →  +50 XP!';
-      setSts('roll-sts','ok','🎊 Cift! +50 XP! <a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');
-    }else{
-      resEl.style.color='';
-      resEl.textContent=dice1+' + '+dice2+' = '+(dice1+dice2)+'  →  +'+xpEarned+' XP';
-      setSts('roll-sts','ok','+'+xpEarned+' XP! <a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');
-    }
+    if(isDouble){resEl.style.color='#7c3aed';resEl.textContent='🎊 ÇİFT! '+dice1+' + '+dice2+' = '+(dice1+dice2)+'  →  +50 XP!';setSts('roll-sts','ok','🎊 Cift! +50 XP! <a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');}
+    else{resEl.style.color='';resEl.textContent=dice1+' + '+dice2+' = '+(dice1+dice2)+'  →  +'+xpEarned+' XP';setSts('roll-sts','ok','+'+xpEarned+' XP! <a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');}
     await loadDiceStats();
-    await loadWheelStats();
-  }catch(e){
-    resetDice();
-    setSts('roll-sts','err','Hata: '+(e.reason||e.message||'').slice(0,120));
-  }
+  }catch(e){resetDice();setSts('roll-sts','err','Hata: '+(e.reason||e.message||'').slice(0,120));}
   btn.disabled=false;
+}
+
+// ── ÇARK OYUNU ──────────────────────────────────────────────────────
+var WHEEL_SEGS=[
+  {xp:10,color:'#6366f1'},{xp:25,color:'#0ea5e9'},{xp:50,color:'#10b981'},{xp:25,color:'#f59e0b'},
+  {xp:100,color:'#ef4444'},{xp:10,color:'#8b5cf6'},{xp:50,color:'#06b6d4'},{xp:200,color:'#f97316'},
+  {xp:25,color:'#6366f1'},{xp:10,color:'#0ea5e9'},{xp:50,color:'#10b981'},{xp:500,color:'#f59e0b'},
+  {xp:25,color:'#ef4444'},{xp:100,color:'#8b5cf6'},{xp:10,color:'#06b6d4'},{xp:50,color:'#f97316'}
+];
+var WANGLE=2*Math.PI/16,wheelAngle=0,wheelSpinning=false;
+
+function drawWheel(angle){
+  var cv=document.getElementById('wheel-canvas');if(!cv)return;
+  var ctx=cv.getContext('2d'),W=cv.width,cx=W/2,r=W/2-4;
+  ctx.clearRect(0,0,W,W);
+  for(var i=0;i<16;i++){
+    var s=angle+i*WANGLE,e=s+WANGLE,seg=WHEEL_SEGS[i];
+    ctx.beginPath();ctx.moveTo(cx,cx);ctx.arc(cx,cx,r,s,e);ctx.closePath();
+    ctx.fillStyle=seg.color;ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,0.25)';ctx.lineWidth=2;ctx.stroke();
+    ctx.save();ctx.translate(cx,cx);ctx.rotate(s+WANGLE/2);
+    ctx.textAlign='right';ctx.fillStyle='#fff';ctx.font='bold 11px DM Sans,sans-serif';
+    ctx.shadowColor='rgba(0,0,0,0.5)';ctx.shadowBlur=3;
+    ctx.fillText(seg.xp+' XP',r-8,4);ctx.restore();
+  }
+  ctx.beginPath();ctx.arc(cx,cx,20,0,2*Math.PI);ctx.fillStyle='#1e293b';ctx.fill();
+  ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.stroke();
+  ctx.font='14px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowBlur=0;ctx.fillText('🎡',cx,cx);
+}
+
+async function loadWheelStats(){
+  if(!acct)return;
+  var wa=document.getElementById('wheel-addr');
+  if(wa)wa.textContent=WHEEL_CONTRACT.slice(0,6)+'...'+WHEEL_CONTRACT.slice(-4);
+  try{
+    var ro=new ethers.JsonRpcProvider(CFG.RPC);
+    var wc=new ethers.Contract(WHEEL_CONTRACT,WHEEL_ABI,ro);
+    var s=await wc.getPlayerStats(acct);
+    var xp=Number(s[0]),spins=Number(s[1]),lvl=getLevel(xp);
+    var xt=document.getElementById('wheel-xp-total'),xl=document.getElementById('wheel-xp-level'),ws=document.getElementById('wheel-spin-count');
+    if(xt){xt.textContent=xp.toLocaleString();xt.style.color=lvl.color;}
+    if(xl){xl.textContent=lvl.name;xl.style.color=lvl.color;}
+    if(ws)ws.textContent=spins;
+  }catch(e){console.warn('wheelStats',e);}
+}
+
+async function spinWheel(){
+  if(!requireWlt('wheel-sts'))return;
+  if(wheelSpinning)return;
+  wheelSpinning=true;
+  var btn=document.getElementById('wheel-btn');btn.disabled=true;
+  document.getElementById('wheel-result').textContent='';
+  try{
+    setSts('wheel-sts','pnd','Imzalaniyor... (0.00005 ETH)');
+    var c=new ethers.Contract(WHEEL_CONTRACT,WHEEL_ABI,sgn);
+    var tx=await c.spin({value:WHEEL_FEE});
+    setSts('wheel-sts','pnd','Onaylanıyor...<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">'+shH(tx.hash)+'</a>');
+    var receipt=await tx.wait();
+    var iface2=new ethers.Interface(WHEEL_ABI),winIdx=0,xpWon=10;
+    for(var i=0;i<receipt.logs.length;i++){
+      try{var p2=iface2.parseLog(receipt.logs[i]);if(p2&&p2.name==='WheelSpun'){winIdx=Number(p2.args[1]);xpWon=Number(p2.args[2]);break;}}catch(e3){}
+    }
+    // Çarkı döndür — winner segmentine ulaş
+    var segMid=-winIdx*WANGLE-WANGLE/2-Math.PI/2;
+    var norm=((segMid%(2*Math.PI))+(2*Math.PI))%(2*Math.PI);
+    var curNorm=((wheelAngle%(2*Math.PI))+(2*Math.PI))%(2*Math.PI);
+    var diff=(norm-curNorm+2*Math.PI)%(2*Math.PI);
+    var extraSpins=(5+Math.floor(Math.random()*3))*2*Math.PI;
+    var finalAngle=wheelAngle+extraSpins+diff;
+    var startAngle=wheelAngle,duration=4000,startTime=null;
+    var winColor=xpWon>=500?'#f59e0b':xpWon>=200?'#7c3aed':xpWon>=100?'#10b981':'#0052FF';
+
+    function easeOut4(t){return 1-Math.pow(1-t,4);}
+
+    // animate — async/await kullanma, callback olarak yaz
+    function doAnimate(ts){
+      if(!startTime)startTime=ts;
+      var elapsed=ts-startTime,progress=Math.min(elapsed/duration,1);
+      wheelAngle=startAngle+(finalAngle-startAngle)*easeOut4(progress);
+      drawWheel(wheelAngle);
+      if(progress<1){requestAnimationFrame(doAnimate);}
+      else{
+        wheelAngle=finalAngle;drawWheel(wheelAngle);
+        var resEl=document.getElementById('wheel-result');
+        resEl.style.color=winColor;
+        resEl.textContent='🎉 Tebrikler! +'+xpWon+' XP kazandın!';
+        setSts('wheel-sts','ok','+'+xpWon+' XP! <a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');
+        // Blockchain'den güncelle (await kullanamayız, promise chain kullan)
+        loadWheelStats().catch(function(e){console.warn('wheel reload',e);});
+        wheelSpinning=false;btn.disabled=false;
+      }
+    }
+    requestAnimationFrame(doAnimate);
+  }catch(e){
+    setSts('wheel-sts','err','Hata: '+(e.reason||e.message||'').slice(0,120));
+    wheelSpinning=false;btn.disabled=false;
+  }
 }
 
 // ── UTILS ───────────────────────────────────────────────────────────
@@ -751,213 +675,9 @@ function clearSts(id){var el=document.getElementById(id);if(!el)return;el.classN
 function shA(a){return a.slice(0,6)+'...'+a.slice(-4);}
 function shH(h){return h.slice(0,10)+'...'+h.slice(-6);}
 
-// ── ÇARK OYUNU ─────────────────────────────────────────────────────
-var WHEEL_SEGMENTS = [
-  {label:'10 XP',  xp:10,  color:'#6366f1'},
-  {label:'25 XP',  xp:25,  color:'#0ea5e9'},
-  {label:'50 XP',  xp:50,  color:'#10b981'},
-  {label:'25 XP',  xp:25,  color:'#f59e0b'},
-  {label:'100 XP', xp:100, color:'#ef4444'},
-  {label:'10 XP',  xp:10,  color:'#8b5cf6'},
-  {label:'50 XP',  xp:50,  color:'#06b6d4'},
-  {label:'200 XP', xp:200, color:'#f97316'},
-  {label:'25 XP',  xp:25,  color:'#6366f1'},
-  {label:'10 XP',  xp:10,  color:'#0ea5e9'},
-  {label:'50 XP',  xp:50,  color:'#10b981'},
-  {label:'500 XP', xp:500, color:'#f59e0b'},
-  {label:'25 XP',  xp:25,  color:'#ef4444'},
-  {label:'100 XP', xp:100, color:'#8b5cf6'},
-  {label:'10 XP',  xp:10,  color:'#06b6d4'},
-  {label:'50 XP',  xp:50,  color:'#f97316'}
-];
-var N = WHEEL_SEGMENTS.length;
-var ANGLE = 2 * Math.PI / N;
-var wheelAngle = 0;
-var wheelSpinning = false;
-
-function drawWheel(angle) {
-  var cv = document.getElementById('wheel-canvas');
-  if (!cv) return;
-  var ctx = cv.getContext('2d');
-  var W = cv.width, H = cv.height;
-  var cx = W/2, cy = H/2, r = W/2 - 4;
-  ctx.clearRect(0, 0, W, H);
-
-  for (var i = 0; i < N; i++) {
-    var start = angle + i * ANGLE;
-    var end   = start + ANGLE;
-    var seg   = WHEEL_SEGMENTS[i];
-
-    // Dilim
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, r, start, end);
-    ctx.closePath();
-    ctx.fillStyle = seg.color;
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    // Yazı
-    ctx.save();
-    ctx.translate(cx, cy);
-    ctx.rotate(start + ANGLE/2);
-    ctx.textAlign = 'right';
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 11px DM Sans, sans-serif';
-    ctx.shadowColor = 'rgba(0,0,0,0.5)';
-    ctx.shadowBlur = 3;
-    ctx.fillText(seg.label, r - 8, 4);
-    ctx.restore();
-  }
-
-  // Merkez daire
-  ctx.beginPath();
-  ctx.arc(cx, cy, 22, 0, 2*Math.PI);
-  ctx.fillStyle = '#1e293b';
-  ctx.fill();
-  ctx.strokeStyle = '#fff';
-  ctx.lineWidth = 3;
-  ctx.stroke();
-
-  // Merkez emoji
-  ctx.font = '16px sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('🎡', cx, cy);
-}
-
-function getWinningSegment(finalAngle) {
-  // Ok yukarıda (angle=-PI/2), hangi dilim oraya geliyor?
-  var normalized = ((- finalAngle - Math.PI/2) % (2*Math.PI) + 2*Math.PI) % (2*Math.PI);
-  var idx = Math.floor(normalized / ANGLE) % N;
-  return WHEEL_SEGMENTS[idx];
-}
-
-async function loadWheelStats() {
-  if (!acct) return;
-  var waddr = document.getElementById('wheel-addr');
-  if (WHEEL_CONTRACT === '0x0000000000000000000000000000000000000000') {
-    if (waddr) waddr.textContent = 'Deploy gerekli';
-    return;
-  }
-  if (waddr) waddr.textContent = WHEEL_CONTRACT.slice(0,6)+'...'+WHEEL_CONTRACT.slice(-4);
-  try {
-    var ro  = new ethers.JsonRpcProvider(CFG.RPC);
-    var wc  = new ethers.Contract(WHEEL_CONTRACT, WHEEL_ABI, ro);
-    var s   = await wc.getPlayerStats(acct);
-    var xp  = Number(s[0]);
-    var spins = Number(s[1]);
-    var lvl = getLevel(xp);
-    var xt  = document.getElementById('wheel-xp-total');
-    var xl  = document.getElementById('wheel-xp-level');
-    var ws  = document.getElementById('wheel-spin-count');
-    if (xt) { xt.textContent = xp.toLocaleString(); xt.style.color = lvl.color; }
-    if (xl) { xl.textContent = lvl.name; xl.style.color = lvl.color; }
-    if (ws) ws.textContent = spins;
-  } catch(e) { console.warn('wheel stats err', e); }
-}
-
-
-async function spinWheel() {
-  if (!requireWlt('wheel-sts')) return;
-  if (wheelSpinning) return;
-  wheelSpinning = true;
-
-  var btn = document.getElementById('wheel-btn');
-  btn.disabled = true;
-  document.getElementById('wheel-result').textContent = '';
-
-  try {
-    setSts('wheel-sts', 'pnd', 'Imzalaniyor... (0.00005 ETH)');
-
-    if (WHEEL_CONTRACT === '0x0000000000000000000000000000000000000000') {
-      setSts('wheel-sts','err','WheelXP kontrati henuz deploy edilmedi!');
-      wheelSpinning=false; btn.disabled=false; return;
-    }
-    var c  = new ethers.Contract(WHEEL_CONTRACT, WHEEL_ABI, sgn);
-    var tx = await c.spin({ value: WHEEL_FEE });
-    setSts('wheel-sts', 'pnd', 'Onaylanıyor...<a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">'+shH(tx.hash)+'</a>');
-
-    var receipt = await tx.wait();
-
-    // Event'ten segment oku
-    var iface2  = new ethers.Interface(WHEEL_ABI);
-    var winIdx  = 0;
-    var xpWon   = 10;
-    for (var i=0; i<receipt.logs.length; i++) {
-      try {
-        var parsed2 = iface2.parseLog(receipt.logs[i]);
-        if (parsed2 && parsed2.name === 'WheelSpun') {
-          winIdx = Number(parsed2.args[1]);
-          xpWon  = Number(parsed2.args[2]);
-          break;
-        }
-      } catch(e3) {}
-    }
-    var winner = WHEEL_SEGMENTS[winIdx] || WHEEL_SEGMENTS[0];
-    winner = { xp: xpWon, label: xpWon + ' XP', color: WHEEL_SEGMENTS[winIdx] ? WHEEL_SEGMENTS[winIdx].color : '#0052FF' };
-
-    // Hedef açı — winner segmenti okun altına getir
-    var targetSegAngle = -winIdx * ANGLE - ANGLE/2 - Math.PI/2;
-    var extraSpins = (5 + Math.floor(Math.random() * 4)) * 2 * Math.PI;
-    var finalAngle = wheelAngle + extraSpins + (targetSegAngle - ((wheelAngle) % (2*Math.PI)));
-
-    // Animasyon
-    var startAngle = wheelAngle;
-    var duration   = 4000;
-    var startTime  = null;
-
-    function easeOut(t) {
-      return 1 - Math.pow(1 - t, 4);
-    }
-
-    function animate(ts) {
-      if (!startTime) startTime = ts;
-      var elapsed  = ts - startTime;
-      var progress = Math.min(elapsed / duration, 1);
-      var eased    = easeOut(progress);
-      wheelAngle   = startAngle + (finalAngle - startAngle) * eased;
-      drawWheel(wheelAngle);
-
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      } else {
-        wheelAngle = finalAngle;
-        drawWheel(wheelAngle);
-
-        // Sonuç
-        var resEl = document.getElementById('wheel-result');
-        var color = winner.xp >= 500 ? '#f59e0b' : winner.xp >= 200 ? '#7c3aed' : winner.xp >= 100 ? '#10b981' : '#0052FF';
-        resEl.style.color = color;
-        resEl.textContent = '🎉 Tebrikler! +' + winner.xp + ' XP kazandın!';
-        setSts('wheel-sts', 'ok', '+'+winner.xp+' XP! <a class="txs" target="_blank" href="'+CFG.EXPLORER+'/tx/'+tx.hash+'">Basescan</a>');
-
-        // Blockchain'den XP'yi oku
-        await loadWheelStats();
-
-        wheelSpinning = false;
-        btn.disabled = false;
-      }
-    }
-    requestAnimationFrame(animate);
-
-  } catch(e) {
-    setSts('wheel-sts', 'err', 'Hata: ' + (e.reason||e.message||'').slice(0,120));
-    wheelSpinning = false;
-    btn.disabled = false;
-  }
-}
-
-// Çark başlat
-setTimeout(function() {
-  drawWheel(0);
-}, 300);
-
-
 window.addEventListener('load',function(){
   setTimeout(function(){scanLegacy();},300);
+  setTimeout(function(){drawWheel(0);},400);
 });
 </script>
 </body>
